@@ -33,3 +33,13 @@ body {
 .breadcrumb a:hover {
   text-decoration: underline;
 }
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+header p {
+  color: var(--muted);
+  max-width: 700px;
+}
