@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
+  --card: #ffffff;
   --text: #0f172a;
   --muted: #64748b;
   --primary: #4f46e5;
@@ -34,6 +35,12 @@ body {
   text-decoration: underline;
 }
 
+header {
+  padding: 30px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
 header h1 {
   font-size: 2rem;
   margin-bottom: 8px;
@@ -42,4 +49,56 @@ header h1 {
 header p {
   color: var(--muted);
   max-width: 700px;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto 60px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 30px;
+}
+
+article {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  animation: fadeup 0.6s ease both;
+}
+
+article h2 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  border-left: 4px solid var(--primary);
+  padding-left: 12px;
+}
+
+article ol {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+article li {
+  margin-bottom: 8px;
+}
+
+.image-box {
+  margin: 1px 0;
+  background: #ffffff;
+  padding: 1px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  animation: fadeUp 0.6s ease both;
+}
+
+.image-box img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
 }
