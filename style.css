@@ -116,6 +116,13 @@ section h2 {
   color: var(--muted)
 }
 
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 @media (max-width: 930px) {
   header h1 img {
   display: none;
