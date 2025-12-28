@@ -139,13 +139,6 @@ aside a:hover {
   animation: fadeUp 0.6s ease both;
 }
 
-footer {
-  text-align: center;
-  padding: 30px 20px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
 .image-box img {
   width: 100%;
   max-width: 100%;
@@ -153,6 +146,67 @@ footer {
   display: block;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
+}
+
+.table-title {
+  text-align: center;
+}
+
+.table-box {
+  margin: 30px 0;
+  background: #ffffff;
+  padding: 0px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  animation: fadeUp 0.6s ease both;
+}
+
+.table-box table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table-box thead {
+  background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+}
+
+.table-box th {
+  color: #ffffff;
+  font-weight: 600;
+  text-align: left;
+  padding: 9px 20px;
+  font-size: 0.95rem;
+}
+
+.table-box td {
+  padding: 9px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.table-box tbody tr:hover {
+  background: #e0e7ff;
+  transition: background 0.2s ease;
+}
+
+.table-box tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.highlight-text {
+  background-color: rgba(245, 158, 11, 0.3);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 @keyframes fadeUp {
