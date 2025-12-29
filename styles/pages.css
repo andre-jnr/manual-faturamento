@@ -54,6 +54,10 @@ header p {
   max-width: 700px;
 }
 
+p {
+  margin-bottom: 10px;
+}
+
 main {
   max-width: 1100px;
   margin: 0 auto 60px;

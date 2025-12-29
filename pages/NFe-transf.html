@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nota de transferência | Manual de Faturamento</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/pages.css">
+</head>
+<body>
+
+  <header>
+    <div class="breadcrumb">
+      <a href="../index.html">Início</a> › <a href="#">Faturamento (saídas)</a> › Nota de Transferência
+    </div>
+    <h1>Emissão de Nota Fiscal de Transferência</h1>
+    <p>Este artigo explica como emitir corretamente uma Nota Fiscal de Transferência.</p>
+  </header>
+
+  <main>
+
+    <article>
+
+      <p>
+        Notas fiscais de <span class="highlight-text">transferência</span> são documentos usados quando uma empresa <span class="highlight-text">move mercadorias de um estabelecimento para outro dela mesma</span> (de uma filial para outra).
+      </p>
+
+      <p>
+        Diferente de uma venda, não há receita envolvida, serve apenas para <span class="highlight-text">registrar a movimentação da mercadoria</span>, manter o controle de estoque e atender às <span class="highlight-text">obrigações fiscais</span>.
+      </p>
+
+      <p>
+        Agora veja como emitir uma nota de transferência.
+      </p>
+
+      <ol>
+        <li>Acesse o módulo fiscal</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image01.png">
+        </div>
+
+        <li>Acesse Nota Fiscal</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image02.png">
+        </div>
+
+        <li>Clique em Emitir Nota Fiscal</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image03.png">
+        </div>
+
+        <li>Em Tipo da nota, altere para Transferência</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image04.png">
+        </div>
+
+        <li>altere o CFOP.</li>
+
+        <p>Com os produtos em mãos, verifique qual CFOP você vai predominantemente utilizar na nota.</p>
+
+        <div class="table-box" id="tabela-CFOP">
+          <table>
+            <thead>
+              <tr>
+                <th>CFOP</th>
+                <th>Descrição</th>
+                <th>Exemplos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>5152</td>
+                <td>Transferência de produtos isentos</td>
+                <td>Carnes bovinas, cesta básica, hortifruti, [..]</td>
+              </tr>
+              <tr>
+                <td>5409</td>
+                <td>Transferência de substituição tributária</td>
+                <td>Bebidas, [...]</td>
+              </tr>
+
+              <tr>
+                <td>5552</td>
+                <td>Transferência de uso e consumo</td>
+                <td>Embalagens, luvas, bobinas, produtos do Gouveia, [...]</td>
+              </tr>
+              <tr>
+                <td>5557</td>
+                <td>Transferência de imobilizados (bens e patrimônio)</td>
+                <td>Compressor, armário, mesa, notebook, micro-ondas, [...]</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <li>Clique em nome / Razão social, em seguida clique em F2, Pesquise pelo destinatário</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image05.png">
+        </div>
+
+        <li><strong>Em tipo de operação</strong>: marque não se aplica.</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image06.png">
+        </div>
+
+        <li>Role a tela até encontrar o campo de <strong>Frete por conta</strong>. Loggo em seguida marque a opção <span class="highlight-text">9 - Sem Frete</span>.</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image07.png">
+        </div>
+
+        <li><strong>Em depósito:</strong> Marque a opção do depósito (estoque) que você está retirando os itens. Geralmente é padrão</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image08.png">
+        </div>
+
+        <li><strong>Em estoque</strong>: marque remover (Se o produto tiver entrada).</li>
+
+        <li><strong>Adicionar produtos(clique F6):</strong> com todas essas opções preenchidas, clique em F6 para adicionar produtos a nota fiscal.</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image10.png">
+        </div>
+
+        <p><strong>Em produto</strong>: pesquise (F2) ou digite o código do produto.</p>
+        <p><strong>Unidade</strong>: verifique se está correta.</p>
+        <p><strong>Quantidade</strong>: a quantidade que estamos enviando para outra loja.</p>
+        <p><strong>Unitário</strong>: valor de custo (sistema parametrizado: puxa automático)</p>
+        <p><strong>CFOP</strong>: verifique se o CFOP está correto <a href="#tabela-CFOP">(VERIFIQUE TABELA DO PASSO 5)</a>.</p>
+        <p><strong>CST</strong>: verifique se o CST está correto.</p>
+
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>CST</th>
+                <th>CFOPs compatíveis</th>
+                <th>Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>000</td>
+                <td>5152</td>
+                <td>Mercadoria de origem nacional e tributada integralmente</td>
+              </tr>
+              <tr>
+                <td>020</td>
+                <td>5152, 5409</td>
+                <td>É utilizado para indicar produções com tributação reduzida</td>
+              </tr>
+
+              <tr>
+                <td>040</td>
+                <td>5152</td>
+                <td>A operação é isenta de ICMS</td>
+              </tr>
+              <tr>
+                <td>060</td>
+                <td>5409</td>
+                <td>tributado e sujeito a substituição tributária</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        Fonte: <a href="https://www.portalcontnews.com.br/codigos-cst-e-cfop-para-classificacao-de-operacoes-e-tributacoes/#:~:text=Por%20exemplo%2C%20os%20CSTs%2000,industrializa%C3%A7%C3%A3o%20efetuada%20por%20outra%20empresa." target="_blank">Artigo sobre CST do Portal CondNews</a>.
+
+        <div class="alert">
+          ⚠️ Se o produto for isento (CST 040), o produto não pode conter CEST.
+        </div>
+
+        <li>Depois de tudo preenchido e verificado, clique em <strong>adicionar</strong>.</li>
+
+        <li>Depois de todos os itens adicionados, clique em OK (botão inferior esquerdo).</li>
+
+        <li>Clique em gravar para salvar a nota.</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image11.png">
+        </div>
+
+        <li>Vai aparecer uma aviso informando que você gravou a nota, agora clique em OK!</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image12.png">
+        </div>
+
+        <li>Para faturar a nota (enviar para SEFAZ), clique em transmitir.</li>
+
+        <div class="image-box">
+          <img src="../imgs/pages/NFe-Transf/image13.png">
+        </div>
+
+
+      </ol>
+
+      
+    </article>
+
+  </main>
+
+  <footer>
+    Manual de Faturamento • Uso interno • ©André Júnior • Frigorífico Amazonas
+  </footer>
+
+</body>
+</html>
