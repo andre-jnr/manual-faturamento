@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles/pages.css">
+  <link rel="shortcut icon" href="../../imgs/favicon.ico" type="image/x-icon">
+  <title>Lançamento de nota de uso e consumo | Manual de Faturamento</title>
+</head>
+<body>
+  
+  <header>
+    <div class="breadcrumb">
+      <a href="../../">Início</a> › <a href="#">Faturamento (entradas)</a> › Lançamento de nota de uso e consumo
+    </div>
+    <h1>Lançamento de Nota Fiscal de uso ou consumo</h1>
+    <p>Este artigo explica como dar entrada corretamente em um Nota Fiscal de uso e consumo</p>
+  </header>
+
+  <main>
+
+    <article>
+
+      <p>Se você já está familiarizado com a entrada de compras, os passos são bem parecidos.</p>
+
+      <h2>Para quem já manja</h2>
+
+      <p>
+        Caso você ainda precise revisar o passo a passo. Pule essa parte e vá para <a href="#passo1">baixar XML</a>.
+      </p>
+
+      <p>caso você já saiba dar entrada em compras, apenas altere os passos a seguir.</p>
+      <p>Logo depois de importar o XML.</p>
+
+      <ol>
+
+        <li>
+          Selecione o deposito adequado, no exemplo foi utilizado o deposito <strong>USO E CONSUMO.</strong>
+        </li>
+        <li>
+          Marque o tipo como <strong>uso e consumo</strong>.
+        </li>
+        <li>
+          Marque o <strong>CFOP</strong> de todos os produtos de uso e consumo em <span class="highlight-text">1556</span>.
+        </li>
+        <li>
+          Se for <span class="highlight-text">simples nacional</span>, marque o <strong>CST</strong> como <span class="highlight-text">090</span>, senão marque como <span class="highlight-text">041</span>.
+        </li>
+
+      </ol>
+
+      <h2 id="passo1">1. Baixe o XML da nota</h2>
+
+      <ol>
+        <li>Acesse o portal de nota fiscal eletrônico da Receita Federal</li>
+
+        <ol type="a">
+          <li>
+            Pesquise no Google: portal da nota fiscal.
+          </li>
+          <li>
+            Acesse o link: <a href="http://127.0.0.1:5500/pages/entradas/entrada-em-NFe.html">Portal da NF-e</a>
+          </li>
+        </ol>
+
+        <li>
+          Clique em <a href="https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&tipoConteudo=7PhJ+gAVw2g=">consultar NF-e</a>
+
+          <div class="image-box">
+            <img
+              src="../../imgs/pages/entradas/nf-uso-consumo/image01.png"
+              alt="Consulta de Nota Fiscal no Portal da NF-e"
+              >
+          </div>
+          <div id="image-modal" class="image-modal">
+            <span class="close-modal">&times;</span>
+            <img id="modal-img" alt="Imagem ampliada">
+          </div>
+          <script src="../../scripts/modal.js"></script>
+
+        </li>
+
+        <li>
+          Marque <strong>Sou Humano</strong> e preencha o campo <strong>Chave de Acesso da NF-e</strong>.
+          <div class="image-box">
+            <img
+              src="https://andre-jnr.github.io/manual-faturamento/imgs/pages/entrada-em-NFe/image04.png"
+              alt="Consulta de Nota Fiscal no Portal da NF-e"
+              >
+          </div>
+        </li>
+
+        <li>
+          Clique em continuar
+          <div class="image-box">
+            <img
+              src="../../imgs/pages/entradas/nf-uso-consumo/image03.png"
+              alt="Consulta de Nota Fiscal no Portal da NF-e"
+              >
+          </div>
+        </li>
+
+        <li>
+          Confira os dados da nota e clique em <strong>Download do documento</strong>.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image04.png">
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert">
+        📌 Pronto, Agora você baixou o XML necessário para dar entrada na nota fiscal. (o arquivo geralmente fica salvo na pasta Downloads)
+      </div>
+
+      <h2>2. Acesse o compras (moura)</h2>
+
+      <ol>
+        <li>Acesse o módulo Compras do sistema</li>
+        <li>Compras</li>
+        <li>Entrada de produto</li>
+        <li>Cadastrado de entrada de produto</li>
+        <li>
+          Importar NF-e
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image05.png">
+          </div>
+        </li>
+        <li>
+          Clique nos 3 pontinhos
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image06.png">
+          </div>
+        </li>
+        <li>
+          Localize o XML e der um duplo clique
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image07.png">
+          </div>
+          <div class="alert">
+            Dica: Se estiver em ordem de data de modificação, o XML é o mais acima.
+          </div>
+        </li>
+        <li>
+          Clique em carregar
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image08.png">
+          </div>
+        </li>
+        <li>
+          Se o produto estiver vinculado corretamente, preencha a quantidade que vem na caixa
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image09.png">
+          </div>
+          <ul>
+            <li>Para cadastrar
+              <div class="image-box">
+                <img src="../../imgs/pages/entradas/nf-uso-consumo/image10.png">
+              </div>
+            </li>
+            <li>
+              Se já existe o código do produto (ou ele está vinculado a mais de 1, caso esteja em azul), der 2 cliques no campo Código.
+              <div class="image-box">
+                <img src="../../imgs/pages/entradas/nf-uso-consumo/image11.png">
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li>
+          Depois de tudo vinculado e preenchido, clique em OK
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image12.png">
+          </div>
+        </li>
+        <li>
+          Selecione o <span class="highlight-text">deposito adequado</span>, no caso dessa unidade, seria o deposito <strong>USO E CONSUMO</strong>.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image13.png">
+          </div>
+        </li>
+        <li>
+          Alimente com a data que a mercadoria chegou
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image14.png">
+          </div>
+        </li>
+        <li>
+          Marque o <strong>Tipo de entrada</strong> como <span class="highlight-text">Compra para consumo</span>
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image15.png">
+          </div>
+        </li>
+        <li>
+          Marque o <strong>CFOP</strong> de todos os produtos de uso e consumo em <span class="highlight-text">1556</span>.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image16.png">
+          </div>
+        </li>
+        <li>
+          Se for <span class="highlight-text">simples nacional</span>, marque o <strong>CST</strong> como <span class="highligh-text">090</span>, <span class="highlight-text">senão</span> marque como <span class="highligh-text">041</span>.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image17.png">
+          </div>
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image18.png">
+          </div>
+        </li>
+        <li>
+          Depois de tudo alimentado corretamente, clique em <strong>gravar</strong>.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image19.png">
+          </div>
+        </li>
+        <li>
+          Feche o aviso de inconsistência de estoque.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image20.png">
+          </div>
+        </li>
+      </ol>
+
+      <h2>Financeiro</h2>
+
+      <ol>
+        <li>
+          Preencha corretamente os campos.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image21.png">
+          </div>
+          <p>
+            <hr>
+            <strong>Conta corrente:</strong> 45730 (banco do Brasil), pois é a conta onde pagamos os fornecedores. <br>
+            <hr>
+            <strong>Forma de pagamento:</strong> Dinheiro <br>
+            <hr>
+            <strong>Conta Contábil:</strong> A que se adequa mais aos produtos. Por favor, <span class="highlight-text">evitar</span> usar contas genéricas como <span class="highlight-text">uso e consumo</span>. <br>
+            <hr>
+            <strong>Data da emissão:</strong> puxa automático da nota fiscal. <br>
+            <hr>
+            <strong>Nº de documento:</strong> O número da nota fiscal. <br>
+            <hr>
+            <strong>Doc. Mercantil:</strong> Nota fiscal (o sistema puxa automaticamente). <br>
+            <hr>
+            <strong>Parcelas:</strong> quantidade das parcelas. <br>
+            <hr>
+            <strong>Dias para vencimento:</strong> a diferença da data da emissão para o primeiro vencimento (preenchido automaticamente se o Vencimento inicial for preenchido). <br>
+            <hr>
+            <strong>Vencimento Inicial:</strong> data do primeiro vencimento. <br>
+            <hr>
+            <strong>Dias:</strong> quantidade de intervalo de dias de um vencimento para outro. <br>
+            <hr>
+          </p>
+        </li>
+        <li>
+          Depois de tudo alimentado corretamente, clique em gerar.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image22.png">
+          </div>
+        </li>
+        <li>
+          Verifique se os campos de Data Venc. e Valor estão corretos (batendo com os boletos físicos).
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image23.png">
+          </div>
+        </li>
+        <ul>
+          <li>Escreva algumas observações se necessário</li>
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image24.png">
+          </div>
+        </ul>
+        <li>
+          Depois de tudo correto, clique em Ok.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image25.png">
+          </div>
+        </li>
+        <li>
+          Anote os números gerados nos boletos físicos com sua assinatura.
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image26.png">
+          </div>
+        </li>
+      </ol>
+
+      <h2>Precificação</h2>
+
+      <ol>
+        <li>
+          Como são produtos que serão utilizados para uso e consumo, não precisamos precificar com margem. Mas é importante corrigir para os valores de custo fiquem atualizados no sistema
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image27.png">
+          </div>
+        </li>
+        <li>
+          Marque tudo e corrija
+          <div class="image-box">
+            <img src="../../imgs/pages/entradas/nf-uso-consumo/image28.png">
+          </div>
+        </li>
+        <li>Clique em OK!</li>
+        <div class="image-box">
+          <img src="../../imgs/pages/entradas/nf-uso-consumo/image29.png">
+        </div>
+      </ol>
+
+      <p>
+        Pronto você deu entrada numa nota de uso e consumo.
+      </p>
+
+    </article>
+  </main>
+
+  <footer>
+    Manual de Faturamento • Uso interno • ©André Júnior • Frigorífico Amazonas
+  </footer>
+
+</body>
+</html>
