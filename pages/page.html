@@ -10,8 +10,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/pages.css">
   <link rel="shortcut icon" href="../imgs/favicon.ico" type="image/x-icon">
+
+  <!-- Aplicado antes do render para evitar flash de tema errado -->
+  <script src="../scripts/theme.js"></script>
 </head>
 <body>
+
+  <!-- Toggle claro/escuro -->
+  <div class="theme-toggle-wrapper">
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+      <span class="icon" id="themeIcon">🌙</span>
+      <span id="themeLabel">Escuro</span>
+    </button>
+  </div>
 
   <header>
     <div class="breadcrumb">
@@ -50,17 +61,13 @@
       </div>
 
       <div class="image-box">
-        <img
-          src=""
-        >
+        <img src="" alt="Imagem do processo">
       </div>
 
       <div id="image-modal" class="image-modal">
         <span class="close-modal">&times;</span>
         <img id="modal-img" alt="Imagem ampliada">
       </div>
-
-      <script src="../scripts/modal.js"></script>
 
       <h2>❌ Erros comuns</h2>
       <ul>
@@ -87,6 +94,8 @@
   <footer>
     Manual de Faturamento • Uso interno • ©André Júnior • Frigorífico Amazonas
   </footer>
+
+  <script src="../scripts/modal.js"></script>
 
 </body>
 </html>

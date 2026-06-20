@@ -1,9 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
+  --bg-gradient-start: #f8fafc;
+  --bg-gradient-end: #eef2ff;
   --text: #0f172a;
   --muted: #64748b;
   --card: #ffffff;
+  --card-shadow: rgba(0, 0, 0, 0.08);
+  --card-shadow-hover: rgba(0, 0, 0, 0.12);
+  --header-border: rgba(15, 23, 42, 0.06);
+  --section-title: #0f172a;
+  --toggle-bg: #e2e8f0;
+  --toggle-thumb: #ffffff;
+  --toggle-icon-color: #64748b;
+  --footer-color: #64748b;
+}
+
+[data-theme="dark"] {
+  --bg-gradient-start: #0f1117;
+  --bg-gradient-end: #131929;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --card: #1e2535;
+  --card-shadow: rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: rgba(0, 0, 0, 0.55);
+  --header-border: rgba(255, 255, 255, 0.06);
+  --section-title: #e2e8f0;
+  --toggle-bg: #334155;
+  --toggle-thumb: #e2e8f0;
+  --toggle-icon-color: #94a3b8;
+  --footer-color: #94a3b8;
 }
 
 * {
@@ -20,16 +46,57 @@ a:active {
   color: inherit;
 }
 
-
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(180deg, #f8fafc, #eef2ff);
+  background: linear-gradient(180deg, var(--bg-gradient-start), var(--bg-gradient-end));
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ── Theme toggle ── */
+.theme-toggle-wrapper {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--header-border);
+  border-radius: 99px;
+  padding: 6px 14px 6px 10px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  box-shadow: 0 2px 12px var(--card-shadow);
+  transition: background 0.3s ease, box-shadow 0.3s ease, color 0.2s ease;
+  user-select: none;
+}
+
+.theme-toggle:hover {
+  box-shadow: 0 4px 20px var(--card-shadow-hover);
   color: var(--text);
 }
 
+.theme-toggle .icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ── Header ── */
 header {
-  padding: 30px 20px;
+  padding: 48px 20px 32px;
   text-align: center;
+  border-bottom: 1px solid var(--header-border);
+  margin-bottom: 8px;
 }
 
 header h1 {
@@ -38,7 +105,8 @@ header h1 {
   justify-content: center;
   gap: 0.5em;
   font-size: 2.2rem;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  color: var(--text);
 }
 
 header h1 img {
@@ -51,12 +119,15 @@ header p {
   color: var(--muted);
   max-width: 600px;
   margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
+/* ── Main ── */
 main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 32px 20px;
 }
 
 section {
@@ -64,13 +135,18 @@ section {
 }
 
 section h2 {
-  font-size: 1.6rem;
-  margin-bottom: 20px;
+  font-size: 1.4rem;
+  margin-bottom: 22px;
   display: flex;
   align-items: center;
   gap: 10px;
+  color: var(--section-title);
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--header-border);
 }
 
+/* ── Grid & Cards ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 300px));
@@ -82,18 +158,19 @@ section h2 {
   background: var(--card);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 25px var(--card-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   cursor: pointer;
   animation: fadeUp 0.6s ease both;
   max-width: 300px;
   width: 100%;
   aspect-ratio: 1 / 1;
+  border: 1px solid var(--header-border);
 }
 
 .card:hover {
   transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12)v;
+  box-shadow: 0 20px 40px var(--card-shadow-hover);
 }
 
 .card img {
@@ -108,24 +185,64 @@ section h2 {
 }
 
 .card-content h3 {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   margin-bottom: 6px;
+  color: var(--text);
 }
 
-.card.content p {
-  font-size: 0.9rem;
+.card-content p {
+  font-size: 0.88rem;
   color: var(--muted);
+  line-height: 1.5;
 }
 
+/* ── Footer ── */
 footer {
   text-align: center;
   padding: 30px 20px;
-  color: var(--muted);
-  font-size: 0.9rem;
+  color: var(--footer-color);
+  font-size: 0.875rem;
+  border-top: 1px solid var(--header-border);
 }
 
+/* ── Animations ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive ── */
 @media (max-width: 930px) {
   header h1 img {
-  display: none;
+    display: none;
+  }
 }
+
+@media (max-width: 600px) {
+  header {
+    padding: 60px 16px 24px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    max-width: 100%;
+    aspect-ratio: unset;
+  }
+
+  .card img {
+    height: 160px;
+  }
 }
