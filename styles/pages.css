@@ -203,6 +203,9 @@ article li {
 
 /* ── Aside ── */
 aside {
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
   background: var(--card);
   border-radius: 16px;
   padding: 24px;
