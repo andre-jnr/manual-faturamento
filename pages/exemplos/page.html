@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exemplo de página | Manual de Faturamento</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles/pages.css">
+  <link rel="shortcut icon" href="../../imgs/favicon.ico" type="image/x-icon">
+
+  <!-- Aplicado antes do render para evitar flash de tema errado -->
+  <script src="../../scripts/theme.js"></script>
+</head>
+<body>
+
+  <!-- Toggle claro/escuro -->
+  <div class="theme-toggle-wrapper">
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+      <span class="icon" id="themeIcon">🌙</span>
+      <span id="themeLabel">Escuro</span>
+    </button>
+  </div>
+
+  <header>
+    <div class="breadcrumb">
+        <a href="../../">Início</a> › Manual › Componentes
+    </div>
+
+    <h1>Guia de Componentes</h1>
+
+    <p>
+        Esta página demonstra todos os componentes disponíveis no
+        <strong>pages.css</strong> para facilitar a criação de novos artigos.
+    </p>
+</header>
+
+<main>
+
+    <article>
+
+      <h2 id="texto">Texto</h2>
+
+      <p>
+          Este é um parágrafo comum com um
+          <span class="highlight-text">trecho destacado</span>
+          para chamar atenção do leitor.
+      </p>
+
+      <p>
+          Também é possível adicionar
+          <a href="#">links internos</a>
+          normalmente.
+      </p>
+
+      <hr>
+
+      <h2 id="listas">Listas</h2>
+
+      <h3>Lista não ordenada</h3>
+
+      <ul>
+          <li>Primeiro item</li>
+          <li>Segundo item</li>
+          <li>Terceiro item</li>
+      </ul>
+
+      <h3>Lista ordenada</h3>
+
+      <ol>
+          <li>Abrir o sistema</li>
+          <li>Selecionar a empresa</li>
+          <li>Emitir a nota</li>
+          <li>Conferir os impostos</li>
+      </ol>
+
+      <hr>
+
+      <h2 id="alerta">Caixa de alerta</h2>
+
+      <div class="alert">
+          ⚠️ <strong>Atenção:</strong>
+          Sempre confira os dados antes de confirmar a emissão da nota fiscal.
+      </div>
+
+      <hr>
+
+      <h2 id="copiar">Caixa para copiar</h2>
+
+      <div class="copy-box">
+
+          <div class="copy-text">
+              CFOP 5.102
+          </div>
+
+          <button class="copy-button">
+              Copiar
+          </button>
+
+      </div>
+
+      <hr>
+
+      <h2 id="codigo">Bloco de código</h2>
+
+      <pre><code>SELECT *
+      FROM Fiscal_NF
+      WHERE Empresa = 1;</code></pre>
+
+      <hr>
+
+      <h2 id="tabela">Tabela</h2>
+
+      <h3 class="table-title">
+      Exemplo de Produtos
+      </h3>
+
+      <div class="table-box">
+
+      <table>
+
+      <thead>
+      <tr>
+      <th>Código</th>
+      <th>Produto</th>
+      <th>Quantidade</th>
+      <th>Valor</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+      <tr>
+      <td>1001</td>
+      <td>Picanha</td>
+      <td>5</td>
+      <td>R$ 320,00</td>
+      </tr>
+
+      <tr>
+      <td>1002</td>
+      <td>Fraldinha</td>
+      <td>12</td>
+      <td>R$ 98,00</td>
+      </tr>
+
+      <tr>
+      <td>1003</td>
+      <td>Costela</td>
+      <td>8</td>
+      <td>R$ 145,00</td>
+      </tr>
+
+      </tbody>
+
+      </table>
+
+      </div>
+
+      <hr>
+
+      <h2 id="imagem">Imagem</h2>
+
+      <div class="image-box">
+          <img src="../../imgs/exemplo.png"
+              alt="Tela do sistema">
+      </div>
+
+      <div id="image-modal" class="image-modal">
+          <span class="close-modal">&times;</span>
+          <img id="modal-img" alt="">
+      </div>
+
+      <hr>
+
+      <h2 id="observacoes">Boas práticas</h2>
+
+      <ul>
+          <li>Utilize títulos em ordem hierárquica.</li>
+          <li>Prefira listas para procedimentos.</li>
+          <li>Destaque informações importantes.</li>
+          <li>Inclua imagens sempre que possível.</li>
+          <li>Use tabelas para dados estruturados.</li>
+      </ul>
+
+      <blockquote>
+        Esta funcionalidade está disponível apenas para usuários com permissão de faturamento.
+      </blockquote>
+
+      <p>
+        Pressione <kbd>Ctrl</kbd> + <kbd>F</kbd> para pesquisar na página.
+      </p>
+
+    </article>
+
+    <aside>
+
+    <h3>Sumário</h3>
+
+    <ul>
+        <li><a href="#texto">Texto</a></li>
+        <li><a href="#listas">Listas</a></li>
+        <li><a href="#alerta">Alerta</a></li>
+        <li><a href="#copiar">Caixa de cópia</a></li>
+        <li><a href="#codigo">Código</a></li>
+        <li><a href="#tabela">Tabela</a></li>
+        <li><a href="#imagem">Imagem</a></li>
+        <li><a href="#observacoes">Boas práticas</a></li>
+    </ul>
+
+    </aside>
+
+  </main>
+
+  <footer>
+    Manual de Faturamento • Guia de Componentes • © André Júnior
+  </footer>
+
+  <script src="../../scripts/modal.js"></script>
+
+</body>
+</html>
