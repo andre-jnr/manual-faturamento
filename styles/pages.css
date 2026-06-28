@@ -386,7 +386,25 @@ footer {
 /* ── Responsive ── */
 @media (max-width: 900px) {
   main {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  aside {
+    order: -1;
+    position: static;
+
+    width: 100%;
+    max-width: 100%;
+    align-self: stretch;
+
+    margin-bottom: 0;
+    box-sizing: border-box;
+  }
+
+  article {
+    max-width: 100%;
   }
 }
 
@@ -413,5 +431,45 @@ footer {
     margin: 10px 0;
     padding: 6px;
     width: 80vw;
+  }
+}
+
+@media print {
+
+  body {
+    background: white;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  aside {
+    order: -1;
+    position: static;
+    box-shadow: none;
+
+    align-self: stretch;
+
+    border: 1px solid #ccc;
+    box-shadow: none;
+    margin-bottom: 0;
+    box-sizing: border-box;
+
+    page-break-inside: avoid;
+  }
+
+  article {
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+
+  .theme-toggle-wrapper,
+  .image-modal {
+    display: none;
   }
 }
