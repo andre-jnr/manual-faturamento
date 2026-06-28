@@ -354,6 +354,39 @@ aside a:hover {
   border-bottom: none;
 }
 
+/* ── Code Block ── */
+
+pre {
+  background: var(--bg-gradient-end);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+
+  border-radius: 10px;
+
+  padding: 18px;
+
+  margin: 18px 0;
+
+  overflow-x: auto;
+
+  white-space: pre;
+
+  font-family:
+    Consolas,
+    Monaco,
+    monospace;
+
+  font-size: .95rem;
+
+  line-height: 1.6;
+}
+
+pre code {
+  background: transparent;
+  color: var(--text);
+  padding: 0;
+}
+
 /* ── Highlight ── */
 .highlight-text {
   background-color: var(--highlight-bg);

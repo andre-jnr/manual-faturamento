@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Porcentagem | Manual de Faturamento</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles/pages.css">
+  <link rel="shortcut icon" href="../../imgs/favicon.ico" type="image/x-icon">
+
+  <script src="../../scripts/theme.js"></script>
+</head>
+<body>
+
+  <div class="theme-toggle-wrapper">
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+      <span class="icon" id="themeIcon">🌙</span>
+      <span id="themeLabel">Escuro</span>
+    </button>
+  </div>
+
+  <header>
+    <div class="breadcrumb">
+      <a href="../../">Início</a> › <a href="#">Integração Matemática</a> › Porcentagem
+    </div>
+
+    <h1>Porcentagem</h1>
+
+    <p>
+      Esse artigo explica o conceito de porcentagem e como aplicá-lo em cálculos do dia a dia, especialmente no contexto de faturamento, descontos, impostos e reajustes de preço.
+    </p>
+
+
+  </header>
+
+  <main>
+
+    <article>
+
+      <p>
+        A porcentagem está presente em praticamente todas as rotinas de faturamento:
+        descontos, impostos, reajustes de preço, comissões e cálculos de margem.
+        Depois que você entende o conceito, praticamente todos os cálculos seguem o
+        mesmo padrão.
+      </p>
+
+      <h2 id="o-que-e">📌 O que é porcentagem?</h2>
+
+      <p>
+        A palavra <strong>porcentagem</strong> significa literalmente:
+      </p>
+
+      <blockquote>
+        <strong>"Por cem"</strong>
+      </blockquote>
+
+      <p>
+        O símbolo <strong>%</strong> representa essa ideia.
+      </p>
+
+
+      <div class="table-box">
+        <table>
+          <thead>
+            <tr>
+              <th>Forma</th>
+              <th>Exemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Percentual</td>
+              <td><strong>25%</strong></td>
+            </tr>
+            <tr>
+              <td>Fracionária</td>
+              <td>25/100</td>
+            </tr>
+            <tr>
+              <td>Unitária (decimal)</td>
+              <td>0,25</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        As três formas representam exatamente o mesmo valor.
+      </p>
+
+      <div class="table-box">
+        <table>
+          <thead>
+            <tr>
+              <th>Percentual</th>
+              <th>Fração</th>
+              <th>Decimal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>5%</td>
+              <td>5/100</td>
+              <td>0,05</td>
+            </tr>
+            <tr>
+              <td>10%</td>
+              <td>10/100</td>
+              <td>0,10</td>
+            </tr>
+            <tr>
+              <td>25%</td>
+              <td>25/100</td>
+              <td>0,25</td>
+            </tr>
+            <tr>
+              <td>50%</td>
+              <td>50/100</td>
+              <td>0,50</td>
+            </tr>
+            <tr>
+              <td>75%</td>
+              <td>75/100</td>
+              <td>0,75</td>
+            </tr>
+            <tr>
+              <td>100%</td>
+              <td>100/100</td>
+              <td>1,00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="conversoes">🔄 Convertendo entre as formas</h2>
+
+      <h3>De porcentagem para decimal</h3>
+
+      <p>Basta dividir por <strong>100</strong>.</p>
+
+<pre><code>35%
+
+35 ÷ 100
+
+= 0,35</code></pre>
+
+      <h3>De decimal para porcentagem</h3>
+
+      <p>Multiplique por <strong>100</strong>.</p>
+
+<pre><code>0,18
+
+0,18 × 100
+
+= 18%</code></pre>
+
+      <h3>De fração para porcentagem</h3>
+
+      <p>
+        Divida o numerador pelo denominador e multiplique o resultado por 100.
+      </p>
+
+<pre><code>3/4
+
+3 ÷ 4 = 0,75
+
+0,75 × 100
+
+= 75%</code></pre>
+
+      <div class="alert">
+        💡 <strong>Dica:</strong> Sempre transforme a porcentagem em número decimal
+        antes de multiplicar por qualquer valor.
+      </div>
+
+      <h2 id="calcular">🧮 Como calcular uma porcentagem de um valor</h2>
+
+      <p>A fórmula é:</p>
+
+<pre><code>Valor × Taxa</code></pre>
+
+      <p>Lembre-se de converter a taxa para decimal.</p>
+
+      <h3>Exemplo</h3>
+
+      <p><strong>Quanto é 30% de R$ 80,00?</strong></p>
+
+<pre><code>30% = 0,30
+
+80 × 0,30
+
+= 24</code></pre>
+
+      <p>
+        <strong>Resposta:</strong> 30% de R$ 80,00 é <strong>R$ 24,00</strong>.
+      </p>
+
+      <h3>Outro exemplo</h3>
+
+      <p><strong>Quanto é 5% de R$ 2.400,00?</strong></p>
+
+<pre><code>5% = 0,05
+
+2.400 × 0,05
+
+= 120</code></pre>
+
+      <p>
+        Logo, <strong>5% de R$ 2.400,00 = R$ 120,00.</strong>
+      </p>
+
+      <h2 id="descobrir">📊 Descobrindo qual porcentagem um valor representa</h2>
+
+      <p>
+        Às vezes já conhecemos os valores e queremos descobrir a taxa.
+      </p>
+
+<pre><code>(Parte ÷ Total) × 100</code></pre>
+
+      <h3>Exemplo</h3>
+
+      <p><strong>24 representa quantos por cento de 150?</strong></p>
+
+<pre><code>24 ÷ 150
+
+= 0,16
+
+0,16 × 100
+
+= 16%</code></pre>
+
+      <p><strong>Resposta:</strong> 24 representa 16% de 150.</p>
+
+      <h3>Outro exemplo</h3>
+
+      <p>
+        Uma mercadoria custa <strong>R$ 80,00</strong> e recebeu um desconto de
+        <strong>R$ 12,00</strong>.
+      </p>
+
+<pre><code>12 ÷ 80
+
+= 0,15
+
+0,15 × 100
+
+= 15%</code></pre>
+
+      <p>O desconto aplicado foi de <strong>15%</strong>.</p>
+
+      <h2 id="aumentar">📈 Aumentando um valor em uma porcentagem</h2>
+
+      <ol>
+        <li>Calcule a porcentagem.</li>
+        <li>Some ao valor original.</li>
+      </ol>
+
+      <h3>Exemplo</h3>
+
+      <p>Aumentar <strong>22%</strong> em um produto de <strong>R$ 250,00</strong>.</p>
+
+<pre><code>250 × 0,22
+
+= 55
+
+250 + 55
+
+= 305</code></pre>
+
+      <p><strong>Novo preço: R$ 305,00.</strong></p>
+
+      <h3>Método rápido</h3>
+
+<pre><code>250 × 1,22
+
+= 305</code></pre>
+
+      <h2 id="reduzir">📉 Diminuindo um valor em uma porcentagem</h2>
+
+      <p>O processo é semelhante.</p>
+
+      <h3>Exemplo</h3>
+
+      <p>Reduzir <strong>40%</strong> de um produto de <strong>R$ 500,00</strong>.</p>
+
+<pre><code>500 × 0,40
+
+= 200
+
+500 − 200
+
+= 300</code></pre>
+
+      <p><strong>Novo valor: R$ 300,00.</strong></p>
+
+      <h3>Método rápido</h3>
+
+<pre><code>500 × 0,60
+
+= 300</code></pre>
+
+      <h2 id="suframa">🏭 Exemplo do faturamento: desconto da SUFRAMA</h2>
+
+      <p>Imagine uma nota fiscal contendo:</p>
+
+      <ul>
+        <li>Total dos produtos: <strong>R$ 10.000,00</strong></li>
+        <li>Valor da nota: <strong>R$ 9.300,00</strong></li>
+      </ul>
+
+      <p>Primeiro encontramos o valor descontado.</p>
+
+<pre><code>10.000 − 9.300
+
+= 700</code></pre>
+
+      <p>Agora descobrimos qual porcentagem esse desconto representa.</p>
+
+<pre><code>700 ÷ 10.000
+
+= 0,07
+
+0,07 × 100
+
+= 7%</code></pre>
+
+      <p>
+        Portanto, o desconto aplicado foi de <strong>7%</strong>.
+      </p>
+
+      <h2 id="icms">🧾 Exemplo do ICMS</h2>
+
+      <p>Uma mercadoria possui:</p>
+
+      <ul>
+        <li>Valor de custo: <strong>R$ 1.800,00</strong></li>
+        <li>Alíquota de ICMS: <strong>5%</strong></li>
+      </ul>
+
+<pre><code>1.800 × 0,05
+
+= 90</code></pre>
+
+      <p>
+        O valor do ICMS é de <strong>R$ 90,00</strong>.
+      </p>
+
+      <h2 id="dicas">✅ Dicas para nunca errar</h2>
+
+      <ul>
+        <li>
+          <strong>Encontrar uma porcentagem de um valor</strong>
+
+<pre><code>Valor × Taxa</code></pre>
+
+        </li>
+
+        <li>
+          <strong>Descobrir uma porcentagem</strong>
+
+<pre><code>(Parte ÷ Total) × 100</code></pre>
+
+        </li>
+
+        <li>
+          <strong>Aumentar um valor</strong>
+
+<pre><code>Valor × (1 + taxa)</code></pre>
+
+        </li>
+
+        <li>
+          <strong>Reduzir um valor</strong>
+
+<pre><code>Valor × (1 − taxa)</code></pre>
+
+        </li>
+      </ul>
+
+      <h2 id="resumo">📝 Resumo</h2>
+
+      <p>
+        A porcentagem faz parte da rotina diária do faturamento, sendo utilizada
+        para calcular impostos, descontos, reajustes e diversos indicadores
+        financeiros.
+      </p>
+
+      <p>Sempre lembre destas três equivalências:</p>
+
+<pre><code>25%
+
+25/100
+
+0,25</code></pre>
+
+      <p>Depois disso, basta identificar se o problema pede:</p>
+
+      <ul>
+        <li>Calcular uma porcentagem;</li>
+        <li>Descobrir uma taxa;</li>
+        <li>Aumentar um valor;</li>
+        <li>Reduzir um valor.</li>
+      </ul>
+
+      <p>
+        Com essas quatro operações você resolverá praticamente todos os cálculos
+        de porcentagem encontrados na rotina de faturamento.
+      </p>
+
+    </article>
+
+    <aside>
+      <h3>📚 Sumário</h3>
+
+      <ul>
+        <li><a href="#o-que-e">O que é porcentagem?</a></li>
+        <li><a href="#conversoes">Convertendo entre as formas</a></li>
+        <li><a href="#calcular">Calcular uma porcentagem</a></li>
+        <li><a href="#descobrir">Descobrir uma porcentagem</a></li>
+        <li><a href="#aumentar">Aumentar um valor</a></li>
+        <li><a href="#reduzir">Reduzir um valor</a></li>
+        <li><a href="#suframa">Exemplo da SUFRAMA</a></li>
+        <li><a href="#icms">Exemplo do ICMS</a></li>
+        <li><a href="#dicas">Dicas</a></li>
+        <li><a href="#resumo">Resumo</a></li>
+      </ul>
+    </aside>
+
+  </main>
+
+  <footer>
+    Manual de Faturamento • Uso interno • © André Júnior • Frigorífico Amazonas
+  </footer>
+
+  <script src="../../scripts/modal.js"></script>
+
+</body>
+</html>
