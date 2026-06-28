@@ -27,3 +27,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function copiarTexto(botao) {
+
+    const texto = botao
+        .parentElement
+        .querySelector(".copy-text")
+        .textContent
+        .trim();
+
+    navigator.clipboard.writeText(texto);
+
+    const original = botao.innerHTML;
+
+    botao.innerHTML = "✅ Copiado!";
+
+    setTimeout(() => {
+        botao.innerHTML = original;
+    }, 1800);
+}

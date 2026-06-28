@@ -387,6 +387,70 @@ pre code {
   padding: 0;
 }
 
+/* Caixa para copiar */
+
+.copy-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    margin: 20px 0;
+    padding: 14px 16px;
+
+    background: var(--bg-gradient-end);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    transition: .2s;
+}
+
+.copy-box:hover {
+    border-color: var(--primary);
+}
+
+.copy-text {
+    flex: 1;
+
+    font-family: Consolas, Monaco, monospace;
+    font-size: .95rem;
+    color: var(--text);
+
+    word-break: break-word;
+}
+
+.copy-button {
+    flex-shrink: 0;
+
+    padding: 8px 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: var(--primary);
+    color: white;
+
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: .2s;
+}
+
+.copy-button:hover {
+    filter: brightness(1.08);
+}
+
+.copy-button:active {
+    transform: scale(.98);
+}
+
+.copy-placeholder {
+    color: var(--primary);
+    font-weight: 600;
+}
+
 /* ── Highlight ── */
 .highlight-text {
   background-color: var(--highlight-bg);
@@ -465,6 +529,17 @@ footer {
     padding: 6px;
     width: 80vw;
   }
+}
+
+@media (max-width: 600px) {
+    .copy-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .copy-button {
+        width: 100%;
+    }
 }
 
 @media print {

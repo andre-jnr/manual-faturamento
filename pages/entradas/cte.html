@@ -229,7 +229,19 @@
         <li>
           Em observação coloque a nota de origem seguindo esse padrão:
           <br><br>
-          <strong>Referente a NF [Coloque o número] ([Nome fantasia do fornecedor])</strong>
+          
+          <div class="copy-box" id="copyBox">
+            <span class="copy-text">
+                Referente a NF
+                <span class="copy-placeholder">[Coloque o número]</span>
+                (<span class="copy-placeholder">[Nome fantasia do fornecedor]</span>)
+            </span>
+
+            <button class="copy-button" onclick="copiarTexto(this)">
+                📋 Copiar
+            </button>
+          </div>
+
         </li>
       </ol>
 
@@ -270,7 +282,7 @@
         <img id="modal-img" alt="Imagem ampliada">
       </div>
 
-      <script src="../scripts/modal.js"></script>
+      <script src="../../scripts/modal.js"></script>
 
     </article>
 
@@ -278,8 +290,9 @@
       <h3>📚 Sumário</h3>
       <ul>
         <li><a href="#cte">O que é um CT-e?</a></li>
-        <li><a href="#lancamento-fiscal">🧾 1. Lançamento fiscal</a></li>
-        <li><a href="#lancamento-financeiro">💰 2. Lançamento do financeiro</a></li>
+        <li><a href="#lancamento-fiscal">Lançamento fiscal</a></li>
+        <li><a href="#lancamento-financeiro">Lançamento do financeiro</a></li>
+        <li><a href="#copyBox">Texto para copiar nas observações financeiras</a></li>
       </ul>
     </aside>
 
