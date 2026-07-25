@@ -22,12 +22,16 @@
   </head>
   <body>
     <div class="theme-toggle-wrapper">
-      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
-        <span class="icon" id="themeIcon">🌙</span>
-        <span id="themeLabel">Escuro</span>
-      </button>
-    </div>
-
+      <div class="actions-bar">
+        <button id="presentBtn" aria-label="Iniciar modo apresentação">
+          <span class="icon">🖥️</span> Modo Apresentação
+        </button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+          <span class="icon" id="themeIcon">🌙</span>
+          <span id="themeLabel">Escuro</span>
+        </button>
+      </div>
+  </div>
     <header>
       <div class="breadcrumb">
         <a href="../../">Início</a> › Manual › Matemática › Margem e Markup
@@ -274,6 +278,28 @@
     </main>
 
     <footer>Manual de Faturamento • Margem x Markup • © André Júnior</footer>
+
+    <!-- ====================== MODO APRESENTAÇÃO ====================== -->
+  <div id="presentationOverlay" aria-hidden="true">
+    <div class="pres-progressbar">
+      <div class="pres-progressbar-fill" id="presProgressFill"></div>
+    </div>
+
+    <div class="pres-topbar">
+      <span class="pres-brand">Manual de Faturamento · Margem X Markup</span>
+      <span class="pres-counter" id="presCounter">Slide 1 de 1</span>
+      <button class="pres-exit" id="presExitBtn">✕ Sair da apresentação</button>
+    </div>
+
+    <div class="pres-stage" id="presStage">
+      <div class="pres-slide" id="presSlideContent"></div>
+    </div>
+
+    <div class="pres-bottombar">
+      <button class="pres-nav-btn" id="presPrevBtn">← <span class="label">Anterior</span></button>
+      <div class="pres-dots" id="presDots"></div>
+      <button class="pres-nav-btn primary" id="presNextBtn"><span class="label">Próximo</span> →</button>
+    </div>
 
     <script src="../../scripts/modal.js"></script>
   </body>

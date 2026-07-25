@@ -1,159 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles/style.css">
-  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-  <title>Manual de faturamento</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
+    <title>Manual de faturamento</title>
+  </head>
+  <body>
+    <!-- Toggle claro/escuro -->
+    <div class="theme-toggle-wrapper">
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <span class="icon" id="themeIcon">🌙</span>
+        <span id="themeLabel">Escuro</span>
+      </button>
+    </div>
 
-  <!-- Toggle claro/escuro -->
-  <div class="theme-toggle-wrapper">
-    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
-      <span class="icon" id="themeIcon">🌙</span>
-      <span id="themeLabel">Escuro</span>
-    </button>
-  </div>
+    <header>
+      <h1>
+        <img src="imgs/icon-NFC-e.png" alt="icon-nota-fiscal" />
+        Manual de faturamento - Frigorífico Amazonas
+      </h1>
+      <p>
+        Guia prático para entender entradas, saídas e situações fiscais no
+        faturamento da empresa.
+      </p>
+    </header>
 
-  <header>
-    <h1>
-      <img src="imgs/icon-NFC-e.png" alt="icon-nota-fiscal">
-      Manual de faturamento - Frigorífico Amazonas
-    </h1>
-    <p>Guia prático para entender entradas, saídas e situações fiscais no faturamento da empresa.</p>
-  </header>
+    <main>
+      <section>
+        <h2>🧮 Integração matemática</h2>
 
-  <main>
+        <div class="grid">
+          <a href="pages/matematica/porcentagem.html" class="card">
+            <img
+              src="imgs/banners/matematica/porcentagem.png"
+              alt="porcentagem"
+            />
+            <div class="card-content">
+              <h3>Porcentagem</h3>
+              <p>
+                O que é porcentagem e como aplicá-la em cálculos do dia a dia.
+              </p>
+            </div>
+          </a>
 
-    <section>
-      <h2>🧮 Integração matemática</h2>
-      <div class="grid">
-        <a href="pages/matematica/porcentagem.html" class="card">
-          <img src="imgs/banners/matematica/porcentagem.png" alt="porcentagem">
-          <div class="card-content">
-            <h3>Porcentagem</h3>
-            <p>O que é porcentagem e como aplicá-la em cálculos do dia a dia.</p>
-          </div>
-        </a>
-      </div>
-    </section>
+          <a href="pages/matematica/margem_markup.html" class="card">
+            <img
+              src="imgs/banners/matematica/margem_markup.png"
+              alt="margem x markup"
+            />
+            <div class="card-content">
+              <h3>Margem X Markup</h3>
+              <p>Saiba o que é e a diferença entre margem e markup.</p>
+            </div>
+          </a>
+        </div>
+      </section>
 
-    <section>
-      <h2>⚖️ Integração fiscal</h2>
-      <div class="grid">
-        <a href="pages/fiscal/desagreagação.html" class="card">
-          <img src="imgs/banners/desagregação.png" alt="desagregação">
-          <div class="card-content">
-            <h3>Desagregação</h3>
-            <p>O que é desagregação: transformando matéria-prima em produto para venda.</p>
-          </div>
-        </a>
-      </div>
-    </section>
+      <section>
+        <h2>⚖️ Integração fiscal</h2>
+        <div class="grid">
+          <a href="pages/fiscal/desagreagação.html" class="card">
+            <img src="imgs/banners/desagregação.png" alt="desagregação" />
+            <div class="card-content">
+              <h3>Desagregação</h3>
+              <p>
+                O que é desagregação: transformando matéria-prima em produto
+                para venda.
+              </p>
+            </div>
+          </a>
+        </div>
+      </section>
 
-    <section>
-      <h2>📄🏃‍♀️ Faturamento (entradas)</h2>
-      <div class="grid">
-        <a href="pages/entradas/entrada-em-NFe.html" class="card">
-          <img src="imgs/banners/nota-fiscal.png" alt="Nota de compra">
-          <div class="card-content">
-            <h3>Lançamento de Nota de Compra</h3>
-            <p>Passo a passo para lançar notas fiscais de entradas</p>
-          </div>
-        </a>
+      <section>
+        <h2>📄🏃‍♀️ Faturamento (entradas)</h2>
+        <div class="grid">
+          <a href="pages/entradas/entrada-em-NFe.html" class="card">
+            <img src="imgs/banners/nota-fiscal.png" alt="Nota de compra" />
+            <div class="card-content">
+              <h3>Lançamento de Nota de Compra</h3>
+              <p>Passo a passo para lançar notas fiscais de entradas</p>
+            </div>
+          </a>
 
-        <a href="pages/entradas/NFe-uso-consumo.html" class="card">
-          <img src="imgs/banners/entradas/uso-ou-consumo.png" alt="Nota de uso ou consumo">
-          <div class="card-content">
-            <h3>Lançamento de Nota de uso ou consumo</h3>
-            <p>Passo a passo para lançar notas fiscais de entradas de mercadoria de uso ou consumo</p>
-          </div>
-        </a>
+          <a href="pages/entradas/NFe-uso-consumo.html" class="card">
+            <img
+              src="imgs/banners/entradas/uso-ou-consumo.png"
+              alt="Nota de uso ou consumo"
+            />
+            <div class="card-content">
+              <h3>Lançamento de Nota de uso ou consumo</h3>
+              <p>
+                Passo a passo para lançar notas fiscais de entradas de
+                mercadoria de uso ou consumo
+              </p>
+            </div>
+          </a>
 
-        <a href="pages/entradas/energia.html" class="card">
-          <img src="imgs/banners/entradas/energia.png" alt="Nota de energia elétrica">
-          <div class="card-content">
-            <h3>Lançamento de Nota de energia elétrica</h3>
-            <p>Passo a passo para lançar notas fiscais de energia elétrica</p>
-          </div>
-        </a>
+          <a href="pages/entradas/energia.html" class="card">
+            <img
+              src="imgs/banners/entradas/energia.png"
+              alt="Nota de energia elétrica"
+            />
+            <div class="card-content">
+              <h3>Lançamento de Nota de energia elétrica</h3>
+              <p>Passo a passo para lançar notas fiscais de energia elétrica</p>
+            </div>
+          </a>
 
-        <a href="pages/entradas/cte.html" class="card">
-          <img src="imgs/banners/entradas/cte.png" alt="lançamento de CT-e">
-          <div class="card-content">
-            <h3>Lançamento de CT-e (frete)</h3>
-            <p>Passo a passo para lançar frete</p>
-          </div>
-        </a>
-      </div>
-    </section>
+          <a href="pages/entradas/cte.html" class="card">
+            <img src="imgs/banners/entradas/cte.png" alt="lançamento de CT-e" />
+            <div class="card-content">
+              <h3>Lançamento de CT-e (frete)</h3>
+              <p>Passo a passo para lançar frete</p>
+            </div>
+          </a>
+        </div>
+      </section>
 
-    <section>
-      <h2>📄🏃‍♀️‍➡️ Faturamento (saídas)</h2>
-      <div class="grid">
-        <a href="pages/saidas/NFe-transf.html" class="card">
-          <img src="imgs/banners/nota-transf.png" alt="Nota de transferência">
-          <div class="card-content">
-            <h3>Nota de transferência</h3>
-            <p>Passo a passo para transmitir uma nota de transferência para outra loja</p>
-          </div>
-        </a>
-      </div>
-    </section>
+      <section>
+        <h2>📄🏃‍♀️‍➡️ Faturamento (saídas)</h2>
+        <div class="grid">
+          <a href="pages/saidas/NFe-transf.html" class="card">
+            <img
+              src="imgs/banners/nota-transf.png"
+              alt="Nota de transferência"
+            />
+            <div class="card-content">
+              <h3>Nota de transferência</h3>
+              <p>
+                Passo a passo para transmitir uma nota de transferência para
+                outra loja
+              </p>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
 
-  </main>
+    <footer>
+      Manual de Faturamento • Uso interno • ©André Júnior • Frigorífico Amazonas
+    </footer>
 
-  <footer>
-    Manual de Faturamento • Uso interno • ©André Júnior • Frigorífico Amazonas
-  </footer>
+    <script>
+      ;(function () {
+        const STORAGE_KEY = 'manual-faturamento-theme'
+        const html = document.documentElement
+        const toggle = document.getElementById('themeToggle')
+        const icon = document.getElementById('themeIcon')
+        const label = document.getElementById('themeLabel')
 
-  <script>
-    (function () {
-      const STORAGE_KEY = 'manual-faturamento-theme';
-      const html = document.documentElement;
-      const toggle = document.getElementById('themeToggle');
-      const icon = document.getElementById('themeIcon');
-      const label = document.getElementById('themeLabel');
-
-      // Detecta preferência salva ou do sistema
-      function getInitialTheme() {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return saved;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-
-      function applyTheme(theme) {
-        if (theme === 'dark') {
-          html.setAttribute('data-theme', 'dark');
-          icon.textContent = '☀️';
-          label.textContent = 'Claro';
-        } else {
-          html.removeAttribute('data-theme');
-          icon.textContent = '🌙';
-          label.textContent = 'Escuro';
+        // Detecta preferência salva ou do sistema
+        function getInitialTheme() {
+          const saved = localStorage.getItem(STORAGE_KEY)
+          if (saved) return saved
+          return window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
         }
-      }
 
-      let current = getInitialTheme();
-      applyTheme(current);
-
-      toggle.addEventListener('click', function () {
-        current = current === 'dark' ? 'light' : 'dark';
-        applyTheme(current);
-        localStorage.setItem(STORAGE_KEY, current);
-      });
-
-      // Sincroniza se o usuário mudar o tema do sistema enquanto a página está aberta
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-        if (!localStorage.getItem(STORAGE_KEY)) {
-          current = e.matches ? 'dark' : 'light';
-          applyTheme(current);
+        function applyTheme(theme) {
+          if (theme === 'dark') {
+            html.setAttribute('data-theme', 'dark')
+            icon.textContent = '☀️'
+            label.textContent = 'Claro'
+          } else {
+            html.removeAttribute('data-theme')
+            icon.textContent = '🌙'
+            label.textContent = 'Escuro'
+          }
         }
-      });
-    })();
-  </script>
 
-</body>
+        let current = getInitialTheme()
+        applyTheme(current)
+
+        toggle.addEventListener('click', function () {
+          current = current === 'dark' ? 'light' : 'dark'
+          applyTheme(current)
+          localStorage.setItem(STORAGE_KEY, current)
+        })
+
+        // Sincroniza se o usuário mudar o tema do sistema enquanto a página está aberta
+        window
+          .matchMedia('(prefers-color-scheme: dark)')
+          .addEventListener('change', function (e) {
+            if (!localStorage.getItem(STORAGE_KEY)) {
+              current = e.matches ? 'dark' : 'light'
+              applyTheme(current)
+            }
+          })
+      })()
+    </script>
+  </body>
 </html>
