@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Margem x Markup | Manual de Faturamento</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/pages.css" />
+    <link
+      rel="shortcut icon"
+      href="../../imgs/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <script src="../../scripts/theme.js"></script>
+  </head>
+  <body>
+    <div class="theme-toggle-wrapper">
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <span class="icon" id="themeIcon">🌙</span>
+        <span id="themeLabel">Escuro</span>
+      </button>
+    </div>
+
+    <header>
+      <div class="breadcrumb">
+        <a href="../../">Início</a> › Manual › Matemática › Margem e Markup
+      </div>
+
+      <h1>Margem x Markup: qual é a diferença?</h1>
+
+      <p>
+        Esse artigo explica o que é margem e markup e a diferença entre eles.
+      </p>
+    </header>
+
+    <main>
+      <article>
+        <p>
+          Muitas pessoas utilizam <strong>margem</strong> e
+          <strong>markup</strong> como se fossem a mesma coisa. Embora ambos
+          estejam relacionados ao preço de venda, eles representam conceitos
+          completamente diferentes. Entender essa diferença evita erros na
+          precificação e na análise dos resultados da empresa.
+        </p>
+        <h2 id="conceitos">O que é Margem?</h2>
+
+        <p>
+          A <span class="highlight-text">margem</span> representa quanto do
+          preço de venda realmente ficou como lucro. Ela sempre é calculada
+          sobre o <strong>preço de venda</strong>.
+        </p>
+
+        <p>Em outras palavras, a margem responde à pergunta:</p>
+
+        <blockquote>
+          Quanto do valor que o cliente pagou ficou para a empresa depois de
+          descontar o custo?
+        </blockquote>
+
+        <p>Exemplo:</p>
+
+        <ul>
+          <li>Custo do produto: R$ 80,00</li>
+          <li>Preço de venda: R$ 100,00</li>
+          <li>Lucro: R$ 20,00</li>
+        </ul>
+
+        <p>
+          Como o lucro foi de R$ 20,00 sobre uma venda de R$ 100,00, a margem é:
+        </p>
+
+        <pre><code>Margem = Lucro ÷ Preço de Venda
+
+    Margem = 20 ÷ 100
+
+    Margem = 20%</code></pre>
+
+        <hr />
+
+        <h2 id="markup">O que é Markup?</h2>
+
+        <p>
+          O <span class="highlight-text">markup</span> é um multiplicador
+          aplicado sobre o custo para definir o preço de venda. Ele sempre parte
+          do <strong>custo do produto</strong>.
+        </p>
+
+        <p>Em outras palavras, responde à pergunta:</p>
+
+        <blockquote>
+          Por quanto devo multiplicar o custo para chegar ao preço de venda?
+        </blockquote>
+
+        <p>Usando o mesmo exemplo:</p>
+
+        <ul>
+          <li>Custo: R$ 80,00</li>
+          <li>Preço de venda: R$ 100,00</li>
+        </ul>
+
+        <pre><code>Markup = Preço de Venda ÷ Custo
+
+    Markup = 100 ÷ 80
+
+    Markup = 1,25</code></pre>
+
+        <p>
+          Isso significa que o preço de venda é <strong>1,25 vezes</strong> o
+          custo do produto.
+        </p>
+
+        <hr />
+
+        <h2 id="diferenca">A diferença de forma intuitiva</h2>
+
+        <p>
+          Imagine que você comprou um produto por <strong>R$ 80,00</strong> e
+          vendeu por <strong>R$ 100,00</strong>.
+        </p>
+
+        <ul>
+          <li>
+            <strong>O markup olha para trás:</strong> ele compara o preço com o
+            custo.
+          </li>
+          <li>
+            <strong>A margem olha para frente:</strong> ela compara o lucro com
+            a venda.
+          </li>
+        </ul>
+
+        <div class="alert">
+          💡 <strong>Dica:</strong> Markup serve para
+          <strong>formar o preço de venda</strong>. Já a margem serve para
+          <strong>analisar o resultado da venda</strong>.
+        </div>
+
+        <hr />
+
+        <h2 id="comparacao">Exemplo lado a lado</h2>
+
+        <h3 class="table-title">Comparação entre Margem e Markup</h3>
+
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Margem</th>
+                <th>Markup</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Base do cálculo</td>
+                <td>Preço de venda</td>
+                <td>Custo</td>
+              </tr>
+
+              <tr>
+                <td>Objetivo</td>
+                <td>Medir o lucro obtido</td>
+                <td>Definir o preço de venda</td>
+              </tr>
+
+              <tr>
+                <td>Fórmula</td>
+                <td>Lucro ÷ Venda</td>
+                <td>Venda ÷ Custo</td>
+              </tr>
+
+              <tr>
+                <td>Resultado do exemplo</td>
+                <td>20%</td>
+                <td>1,25</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr />
+
+        <h2 id="erro">O erro mais comum</h2>
+
+        <p>
+          Um dos erros mais frequentes é acreditar que um markup de
+          <strong>20%</strong> gera uma margem de <strong>20%</strong>. Isso
+          está incorreto.
+        </p>
+
+        <p>
+          Se um produto custa R$ 100,00 e você acrescenta 20%, o preço passa a
+          ser R$ 120,00.
+        </p>
+
+        <p>Nesse caso:</p>
+
+        <ul>
+          <li>Markup = 1,20</li>
+          <li>Lucro = R$ 20,00</li>
+          <li>Margem = 20 ÷ 120 = 16,67%</li>
+        </ul>
+
+        <div class="alert">
+          ⚠️ <strong>Atenção:</strong> Markup e margem nunca possuem o mesmo
+          valor percentual porque utilizam bases de cálculo diferentes.
+        </div>
+
+        <hr />
+
+        <h2 id="converter">Como converter Margem em Markup</h2>
+
+        <p>
+          Se você conhece a margem desejada, pode calcular o markup necessário
+          utilizando a fórmula abaixo.
+        </p>
+
+        <pre><code>Markup = 1 ÷ (1 − Margem)</code></pre>
+
+        <p>Exemplo para uma margem de 30%:</p>
+
+        <pre><code>Markup = 1 ÷ (1 − 0,30)
+
+    Markup = 1 ÷ 0,70
+
+    Markup = 1,4286</code></pre>
+
+        <p>
+          Ou seja, basta multiplicar o custo por aproximadamente
+          <strong>1,43</strong> para obter uma margem de 30%.
+        </p>
+
+        <hr />
+
+        <h2 id="resumo">Resumo</h2>
+
+        <ul>
+          <li>✔ Margem mede quanto do preço vendido virou lucro.</li>
+          <li>✔ Markup define quanto o custo deve ser multiplicado.</li>
+          <li>✔ Margem usa o preço de venda como base.</li>
+          <li>✔ Markup usa o custo como base.</li>
+          <li>
+            ✔ Ambos são importantes, mas servem para finalidades diferentes.
+          </li>
+        </ul>
+
+        <blockquote>
+          Lembre-se: <strong>Markup é utilizado para precificar.</strong>
+          <strong>Margem é utilizada para analisar a rentabilidade.</strong>
+        </blockquote>
+      </article>
+
+      <aside>
+        <h3>Sumário</h3>
+
+        <ul>
+          <li><a href="#conceitos">O que é Margem?</a></li>
+          <li><a href="#markup">O que é Markup?</a></li>
+          <li><a href="#diferenca">Diferença intuitiva</a></li>
+          <li><a href="#comparacao">Comparação</a></li>
+          <li><a href="#erro">Erro mais comum</a></li>
+          <li><a href="#converter">Conversão</a></li>
+          <li><a href="#resumo">Resumo</a></li>
+        </ul>
+      </aside>
+    </main>
+
+    <footer>Manual de Faturamento • Margem x Markup • © André Júnior</footer>
+
+    <script src="../../scripts/modal.js"></script>
+  </body>
+</html>
