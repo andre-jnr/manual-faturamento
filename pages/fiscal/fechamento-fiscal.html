@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatório Fiscal | Manual de Faturamento</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/pages.css" />
+    <link
+      rel="shortcut icon"
+      href="../../imgs/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <!-- Aplicado antes do render para evitar flash de tema errado -->
+    <script src="../../scripts/theme.js"></script>
+  </head>
+  <body>
+    <!-- Toggle claro/escuro -->
+    <div class="theme-toggle-wrapper">
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <span class="icon" id="themeIcon">🌙</span>
+        <span id="themeLabel">Escuro</span>
+      </button>
+    </div>
+
+    <header>
+      <div class="breadcrumb">
+        <a href="../../">Início</a> › Integração fiscal › Relatório Fiscal
+      </div>
+
+      <h1>Relatório Fiscal</h1>
+
+      <p>
+        Esse artigo tem como objetivo ensinar o que é o fechamento fiscal e como
+        utilizar a plataforma web para conciliação entre notas emitidas para
+        nosso CNPJ e notas recebidas.
+      </p>
+    </header>
+
+    <main>
+      <article>
+        <p>
+          Acesse o plataforma web de conciliação fiscal:
+          <a
+            href="https://andre-jnr.github.io/fechamento-fiscal/conciliacao.html"
+            >clicando aqui</a
+          >.
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/tela-inicial-relatorio-fiscal.png"
+            alt="Tela inicial da plataforma de conciliação fiscal"
+          />
+        </div>
+
+        <p>
+          A cada fechamento de mês, devemos conferir se todas as notas fiscais
+          emitidas para o nosso CNPJ estão lançadas no sistema.
+        </p>
+
+        <p>
+          Verifique se o pedido foi realmente realizado e se houve algum
+          problema relacionado à operação, como
+          <strong
+            >falha na entrega, emissão incorreta da nota fiscal, perda do prazo
+            para cancelamento, divergências comerciais ou outros motivos</strong
+          >.
+        </p>
+
+        <p>
+          Caso seja confirmado que a nota
+          <strong
+            >não foi solicitada, o pedido não foi realizado ou a mercadoria não
+            foi recebida pela loja</strong
+          >, a nota fiscal deverá ser <strong>marcada para rejeição</strong>.
+        </p>
+
+        <p>
+          A plataforma faz a conciliação semiautomática entre as notas fiscais
+          lançadas no Moura e as notas emitidas contra o CNPJ consultadas na
+          SEFAZ, facilitando a identificação de: notas faltantes, devoluções,
+          notas para rejeitar e possíveis erros de lançamento.
+        </p>
+
+        <h2 id="como-utilizar">Como utilizar</h2>
+
+        <h3 id="csv-de-notas-emitidas-da-sefaz">
+          CSV de notas emitidas da SEFAZ
+        </h3>
+
+        <ol>
+          <li>Acesse a <a href="https://www.sefaz.am.gov.br/">SEFAZ AM</a></li>
+          <li>
+            Acesse o DT-e.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/DT-e_SEFAZ.png"
+                alt="Acessandos o DT-e no site da SEFAZ"
+              />
+            </div>
+          </li>
+          <li>
+            Acesse o DT-e (novamente 🙄)
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/acesse_dt-e.png"
+                alt="Acessando novamente o DT-e"
+              />
+            </div>
+          </li>
+          <li>
+            Acesse o CNPJ da sua loja
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/cnpj-sefaz.png"
+                alt="Seleção do CNPJ da loja"
+              />
+            </div>
+          </li>
+          <li>
+            Fecho os avisos (caso apareça algum)
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/aviso-sefaz.png"
+                alt="Fechando avisos do sistema da SEFAZ"
+              />
+            </div>
+          </li>
+          <li>
+            Clique em NF-e
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/nf-e-sefaz.png"
+                alt="Opção NF-e no menu da SEFAZ"
+              />
+            </div>
+          </li>
+          <li>
+            Clique em NF-e Download de Arquivos XML(NF-e, NFC-e, CT-e)
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/nf-e-download-de-arquivo-xml.png"
+                alt="Opção de download de arquivos XML de NF-e"
+              />
+            </div>
+          </li>
+          <li>
+            Em Consulta de arquivo XML, preencha os dados corretamente.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/formulario-sefaz.png"
+                alt="Formulário de consulta de arquivo XML na SEFAZ"
+              />
+            </div>
+            <ul>
+              <li><strong>Modelo:</strong> <code>NF-e</code></li>
+              <li>
+                <strong>Emitidos no período de:</strong>
+                <code>inicio do periodo verificado (dia primeiro)</code>
+              </li>
+              <li>
+                <strong>Até:</strong>
+                <code>Final do periodo (final do mês fechado)</code>
+              </li>
+              <li>
+                <strong>Origem dos documentos Fiscais:</strong>
+                <code>Documentos fiscais recebidos</code>
+              </li>
+            </ul>
+            <blockquote>
+              A <strong>Situação dos documentos Fiscais</strong> deve está como
+              <code>todas</code> para verificar se houver nota cancelada lançada
+              no sistema.
+            </blockquote>
+          </li>
+          <li>
+            Clique em solicitar
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/solicitar-csv.png"
+                alt="Botão solicitar consulta"
+              />
+            </div>
+          </li>
+          <li>
+            Clique em <code>Exportar para CSV</code>
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/exportar-para-csv.png"
+                alt="Botão exportar para CSV"
+              />
+            </div>
+          </li>
+        </ol>
+
+        <p>
+          Agora você tem o arquivo da sefaz com todos as notas emitidas contra o
+          CNPJ selecionado.
+        </p>
+
+        <h3 id="compras-no-periodo">Compras no Período</h3>
+
+        <p>Agora precisamos do arquivo que contém todas as notas lançadas.</p>
+
+        <p>Acesse o sistema da sua loja:</p>
+        <ul>
+          <li><a href="http://serverprq10/Moura/Login">Parque Dez</a></li>
+          <li><a href="http://server_pn/Moura/Principal">Ponta Negra</a></li>
+          <li><a href="http://serverad/Moura/Login">Morada do Sol</a></li>
+          <li>
+            <a href="http://186.233.224.137/Moura_Monte">Monte das Oliveiras</a>
+          </li>
+        </ul>
+
+        <div class="alert">⚠️ <strong>Atenção:</strong> Use o sistema Web!</div>
+
+        <p>Aqui está no jeito mais rápido: pesquisando.</p>
+        <p>Mas você pode conferir esse mesmo relatório em:</p>
+        <ol>
+          <li>Compras</li>
+          <li>Compras</li>
+          <li>Entrada de produto</li>
+          <li>Relação de compras no período</li>
+        </ol>
+
+        <h4 id="passo-a-passo-para-gerar-o-relatorio-de-compras">
+          Passo a passo para gerar o relatório de compras
+        </h4>
+
+        <blockquote>
+          Pule o passo 1, caso já tenha seguido os passos acima para acessar a
+          <code>Relação de compras no período</code>
+        </blockquote>
+
+        <ol>
+          <li>
+            Clique no botão de pesquisa e digite:
+            <code>relação de compras no período</code>
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/bota-pesquisar.png"
+                alt="Botão de pesquisa do sistema"
+              />
+            </div>
+          </li>
+          <li>
+            Coloque o período desejado.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-periodo.png"
+                alt="Campo de seleção do período de compras"
+              />
+            </div>
+            <blockquote>
+              <strong>Dica:</strong> Ao realizar o fechamento de um determinado
+              mês, considere também os primeiros dias do mês seguinte.
+              <br /><br />
+              Por exemplo, se o fechamento for referente a
+              <strong>julho</strong> e estiver sendo realizado no dia
+              <strong>05/08/2026</strong>, utilize o período de
+              <strong>01/07/2026 a 05/08/2026</strong>. Isso é importante porque
+              podem ter sido lançadas, nos primeiros dias de agosto,
+              <strong>notas fiscais referentes ao mês de julho</strong>.
+            </blockquote>
+          </li>
+          <li>
+            Marque o depósito como <code>--Todos--</code>.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-deposito-todos.png"
+                alt="Seleção de depósito como Todos"
+              />
+            </div>
+          </li>
+          <li>
+            Role a tela para baixo e clique em <code>Resumida</code>.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-resumida.png"
+                alt="Opção de relatório Resumida"
+              />
+            </div>
+          </li>
+          <li>
+            Clique em gerar
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-gerar.png"
+                alt="Botão gerar relatório"
+              />
+            </div>
+          </li>
+          <li>
+            Gere o arquivo em Excel.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-excel.png"
+                alt="Opção de gerar arquivo em Excel"
+              />
+            </div>
+          </li>
+        </ol>
+
+        <blockquote>
+          Caso o navegador pause o Download, clique em <code>manter</code>.
+        </blockquote>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/compras-manter.png"
+            alt="Botão manter download pausado pelo navegador"
+          />
+        </div>
+
+        <h2 id="elaboracao-do-relatorio">Elaboração do relatório</h2>
+
+        <p>
+          Agora com os arquivos da <strong>SEFAZ</strong> e do
+          <strong>SISTEMA</strong> podemos elaborar o relatório.
+        </p>
+
+        <ol>
+          <li>
+            Acesse:
+            <a
+              href="https://andre-jnr.github.io/fechamento-fiscal/conciliacao.html"
+              >https://andre-jnr.github.io/fechamento-fiscal/conciliacao.html</a
+            >
+          </li>
+          <li>
+            Jogue o arquivo da <strong>SEFAZ</strong> aqui (ou clique e
+            selecione a pasta do arquivo).
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-sefaz.png"
+                alt="Área para soltar o arquivo da SEFAZ"
+              />
+            </div>
+          </li>
+          <li>
+            Jogue o arquivo do <strong>SISTEMA</strong> aqui (ou clique e
+            selecione a pasta do arquivo).
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-sistema.png"
+                alt="Área para soltar o arquivo do SISTEMA"
+              />
+            </div>
+          </li>
+          <li>
+            Digite o seu nome aqui.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-nome.png"
+                alt="Campo para digitar o nome do responsável"
+              />
+            </div>
+          </li>
+          <li>
+            Clique em <code>conciliar notas</code>.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-conciliar-nf.png"
+                alt="Botão conciliar notas"
+              />
+            </div>
+          </li>
+        </ol>
+
+        <p>
+          No campo superior haverá uma estatística das notas que foram
+          transmitidas para sefaz casadas com o sistema.
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-estatisticas.png"
+            alt="Estatísticas de conciliação de notas"
+          />
+        </div>
+
+        <p>É importantes que você entenda cada <code>status</code> desse.</p>
+
+        <div class="table-box" id="significados-de-status">
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Significado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Recebida</td>
+                <td>
+                  Notas transmitidas para SEFAZ que constam no nosso sistema
+                </td>
+              </tr>
+              <tr>
+                <td>Não lançada</td>
+                <td>Notas a serem justificadas</td>
+              </tr>
+              <tr>
+                <td>Cancelada</td>
+                <td>Notas canceladas que não foram lançadas no sistema</td>
+              </tr>
+              <tr>
+                <td>Devolução</td>
+                <td>Notas que o fornecedor emitiu nota de devolução</td>
+              </tr>
+              <tr>
+                <td>Em transporte</td>
+                <td>Notas de fora do estado que não foram lançadas</td>
+              </tr>
+              <tr>
+                <td>Desagregações</td>
+                <td>Notas de desagregação emitidas</td>
+              </tr>
+              <tr>
+                <td>Descarte</td>
+                <td>Notas de descarte de produtos avariados da loja</td>
+              </tr>
+              <tr>
+                <td>Rejeitada</td>
+                <td>Notas que já foram rejeitadas</td>
+              </tr>
+              <tr>
+                <td>Para rejeitar</td>
+                <td>Notas não recebidas que serão rejeitadas</td>
+              </tr>
+              <tr>
+                <td>Falta chegar</td>
+                <td>Notas de dentro do estado que ainda não saiu para rota</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          No campo de cima, há filtro, caso você queira analisar situações
+          específicas.
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-filtro.png"
+            alt="Filtro de situações do relatório fiscal"
+          />
+        </div>
+
+        <p>
+          No campo pesquisar, você pode ir atrás de um número de NF, fornecedor
+          ou CNPJ.
+        </p>
+
+        <p>
+          Seu trabalho no fechamento fiscal seria analisar as
+          <code>notas não lançadas</code>.
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-nao-lancada.png"
+            alt="Filtro de notas não lançadas"
+          />
+        </div>
+
+        <div class="alert">
+          ⚠️ <strong>Atenção:</strong> Caso a conferência seja realizada entre
+          os dias <strong>01 e 02 do mês</strong>, filtre também pelos registros
+          classificados como <code>Falta Chegar</code>. <br /><br />
+          Isso porque o fornecedor pode ter emitido a nota fiscal de forma
+          incorreta e, devido ao
+          <strong>prazo padrão de entrega de 2 dias</strong>, o relatório pode
+          classificá-la automaticamente como <code>Falta Chegar</code>, mesmo
+          que exista alguma divergência que precise ser verificada. <br /><br />
+          Mesma lógica se aplica as notas classificadas como
+          <code>Em transporte</code>.
+        </div>
+
+        <p>Depois de verificada, justifique o porquê a nota não foi lançada.</p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-justificativa.png"
+            alt="Campo de justificativa da nota"
+          />
+        </div>
+
+        <ul>
+          <li>
+            <code>Falta chegar</code>: Pedido realizado, apenas em atraso de
+            entrega.
+          </li>
+          <li>
+            <code>Recebida</code>: lançada após a conferência no relatório.
+          </li>
+          <li><code>Para rejeitar</code>: nota verificada e errada.</li>
+          <li>
+            <code>Rejeitada</code>: nota rejeitada após a conferência do
+            relatório (apenas André e Janaina)
+          </li>
+        </ul>
+
+        <h3 id="salvando-o-arquivo-em-excel">Salvando o arquivo em Excel</h3>
+
+        <p>
+          Você pode gerar o relatório direto para Excel e trabalhar por lá
+          também.
+        </p>
+
+        <blockquote>
+          Esse relatório fica salvo em localStorage no navegador, caso os dados
+          ou cache do navegador seja reiniciado você pode perder as suas
+          informações.
+        </blockquote>
+
+        <p>
+          Você pode salvar em Excel puro e formatar do jeito que você precise.
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-exportar-excel.png"
+            alt="Botão exportar relatório para Excel"
+          />
+        </div>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-excel-puro.png"
+            alt="Relatório exportado em Excel puro"
+          />
+        </div>
+
+        <p>
+          Mas para entregar o relatório para controladoria, você precisa gerar o
+          relatório formatado e enviar para nosso e-mail.
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-gerar-relatorio-formatado.png"
+            alt="Botão gerar relatório formatado"
+          />
+        </div>
+
+        <p>Será gerado um relatório seguindo nossos padrões de formatação.</p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/relatorio-fiscal-excel-fort.png"
+            alt="Relatório final formatado seguindo o padrão"
+          />
+        </div>
+
+        <p>
+          A planilha automaticamente já identificará o período e unidade que
+          você está trabalhando.
+        </p>
+
+        <div class="alert">
+          ⚠️ <strong>Atenção:</strong> Confira se os dados da plataforma web
+          foram passados para o relatório (caso você tenha realizado a
+          conferência na plataforma web.
+        </div>
+
+        <p>
+          Esse relatório será o que você entregaram fechando seus mês para
+          controladoria.
+        </p>
+
+        <div class="copy-box" id="copyBox">
+          <span class="copy-text">
+            controladoria@frigorificoamazonas.com.br
+          </span>
+          <button class="copy-button" onclick="copiarTexto(this)">
+            📋 Copiar
+          </button>
+        </div>
+
+        <p>Envie pelo e-mail e para o WhatsApp para Janaina e André.</p>
+      </article>
+
+      <aside>
+        <h3>Sumário</h3>
+
+        <ul>
+          <li><a href="#como-utilizar">Como utilizar</a></li>
+          <li>
+            <a href="#csv-de-notas-emitidas-da-sefaz">CSV SEFAZ</a>
+          </li>
+          <li>
+            <a href="#compras-no-periodo">Compras no período</a>
+          </li>
+          <li>
+            <a href="#elaboracao-do-relatorio">Elaboração do relatório</a>
+          </li>
+          <li>
+            <a href="#significados-de-status">Significados de status</a>
+          </li>
+          <li>
+            <a href="#salvando-o-arquivo-em-excel">Salvando arquivo em Excel</a>
+          </li>
+        </ul>
+      </aside>
+    </main>
+
+    <footer>Manual de Faturamento • Relatório Fiscal • © André Júnior</footer>
+
+    <div id="image-modal" class="image-modal">
+      <span class="close-modal">&times;</span>
+      <img id="modal-img" alt="" />
+    </div>
+
+    <script src="../../scripts/modal.js"></script>
+  </body>
+</html>
