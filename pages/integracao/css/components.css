@@ -1,0 +1,372 @@
+/* ============ Navegação da apresentação ============ */
+
+.nav-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  z-index: 20;
+}
+
+.nav-progress__bar {
+  height: 100%;
+  width: 0%;
+  background: var(--grad-gold);
+  transition: width var(--dur-fast) var(--ease-soft);
+}
+
+.nav-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  z-index: 20;
+}
+
+.nav-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: rgba(20, 17, 13, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream-100);
+  transition: background var(--dur-fast) var(--ease-soft), border-color var(--dur-fast), transform var(--dur-fast);
+}
+
+.nav-btn:hover {
+  background: var(--gold-500);
+  border-color: var(--gold-500);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.nav-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.nav-meta__count {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.nav-meta__count b {
+  color: var(--gold-400);
+}
+
+.nav-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.nav-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  transition: background var(--dur-fast), width var(--dur-fast);
+}
+
+.nav-dots i.is-active {
+  background: var(--gold-500);
+  width: 16px;
+  border-radius: 3px;
+}
+
+.nav-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14%;
+  z-index: 15;
+  cursor: pointer;
+}
+.nav-zone--prev {
+  left: 0;
+}
+.nav-zone--next {
+  right: 0;
+}
+
+.nav-hint {
+  position: absolute;
+  bottom: 40px;
+  right: 130px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  z-index: 20;
+  opacity: 0.8;
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 5px;
+  border: 1px solid var(--border-strong);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ============ Cards ============ */
+
+.card {
+  position: relative;
+  background: linear-gradient(165deg, var(--surface) 0%, var(--charcoal-800) 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-card);
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out), border-color 0.3s;
+}
+
+.is-active .card.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+}
+
+.card--gold-top::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--space-3);
+  right: var(--space-3);
+  height: 2px;
+  background: var(--grad-gold);
+  border-radius: 2px;
+}
+
+/* Pessoa */
+.person {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.person__name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card--gold-top .person__name {
+  color: var(--gold-300);
+}
+
+.person__role {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.person__tag {
+  align-self: flex-start;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  color: var(--gold-300);
+  border: 1px solid var(--border-strong);
+}
+
+/* Área */
+.area-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.area-card__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(201, 162, 75, 0.1);
+  border: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-400);
+}
+
+.area-card__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.area-card__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Regra / política */
+.rule-card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: var(--space-3);
+}
+
+.rule-card__num {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--gold-500);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.rule-card__text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Valor (missão/visão) */
+.value-card {
+  padding: var(--space-4) var(--space-3);
+}
+
+.value-card__title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--gold-300);
+  margin-bottom: 10px;
+}
+
+.value-card__text {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* ============ Badge / pill ============ */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pill--gold {
+  background: rgba(201, 162, 75, 0.14);
+  color: var(--gold-300);
+  border: 1px solid rgba(201, 162, 75, 0.35);
+}
+
+.pill--green {
+  background: rgba(30, 107, 69, 0.22);
+  color: #7fd3a6;
+  border: 1px solid rgba(79, 176, 128, 0.35);
+}
+
+.pill--sold {
+  background: rgba(139, 129, 112, 0.16);
+  color: var(--sold-400);
+  border: 1px solid rgba(139, 129, 112, 0.35);
+}
+
+/* ============ Info key/value (endereços, cnpj) ============ */
+
+.kv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kv-list__item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.kv-list__item:last-child {
+  border-bottom: none;
+}
+
+.kv-list__key {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.kv-list__value {
+  font-size: 17px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* ============ Botão genérico (usado em pouquíssimos lugares) ======= */
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 40px;
+  border: 1px solid var(--border-strong);
+  color: var(--cream-100);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: background var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast);
+}
+
+.btn-ghost:hover {
+  background: var(--gold-500);
+  color: var(--ink);
+  border-color: var(--gold-500);
+  transform: translateY(-2px);
+}

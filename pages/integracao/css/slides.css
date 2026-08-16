@@ -1,0 +1,727 @@
+/* Estilos específicos de slides individuais — tudo que não é genérico o
+   bastante para entrar em components.css vive aqui. */
+
+/* ---------- Abertura ---------- */
+
+.slide--abertura {
+  background: var(--grad-hero);
+}
+
+.abertura-bg {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.22;
+  filter: grayscale(0.4) brightness(0.75);
+}
+
+.abertura-veil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 60% at 50% 42%, rgba(20, 17, 13, 0.35) 0%, rgba(15, 13, 10, 0.94) 78%), linear-gradient(180deg, rgba(15, 13, 10, 0.5), rgba(15, 13, 10, 0.96));
+}
+
+.abertura-logo {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  margin: 0 auto;
+}
+
+.abertura-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 40px rgba(201, 162, 75, 0.25));
+}
+
+.abertura-kicker {
+  position: relative;
+  font-size: 14px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-400);
+  margin-top: 30px;
+}
+
+.abertura-title {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 132px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin-top: 18px;
+}
+
+.abertura-sub {
+  position: relative;
+  font-size: 24px;
+  color: var(--text-secondary);
+  margin-top: 26px;
+  font-weight: 400;
+}
+
+.abertura-hint {
+  position: relative;
+  margin-top: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.abertura-hint svg {
+  width: 16px;
+  height: 16px;
+  animation: floatSlow 2.2s ease-in-out infinite;
+}
+
+/* ---------- Nossa Diretoria ---------- */
+
+.diretoria-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.diretoria-row .person__name {
+  font-size: 18px;
+}
+
+/* ---------- Hero de unidade (foto + info) ---------- */
+
+.hero-photo {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-photo__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 13, 10, 0) 40%, rgba(15, 13, 10, 0.55) 100%), linear-gradient(90deg, rgba(15, 13, 10, 0.25), transparent 40%);
+}
+
+/* ---------- Organogramas: variações ---------- */
+
+.orgchart--compact .org-node {
+  width: 176px;
+}
+
+.faturamento-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.faturamento-body .orgchart {
+  flex: 1;
+  min-height: 460px;
+}
+
+.indirect-box {
+  border-top: 1px dashed var(--border-strong);
+  padding-top: var(--space-2);
+  flex-shrink: 0;
+}
+
+.indirect-box__label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.indirect-box__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 260px));
+  gap: var(--space-2);
+}
+
+.indirect-box__row .card {
+  padding: 10px 12px;
+}
+
+.indirect-box__row .person {
+  gap: 3px;
+}
+
+.indirect-box__row .person__name {
+  font-size: 13px;
+}
+
+.indirect-box__row .person__role {
+  font-size: 11px;
+}
+
+.indirect-box__legenda {
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: var(--gold-300);
+  line-height: 1.3;
+}
+
+/* ---------- Áreas e lideranças da Matriz ---------- */
+
+.lideranca-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.producao-card {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.producao-card__media {
+  position: relative;
+  height: 220px;
+}
+
+.producao-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.producao-card__body {
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.producao-card__sub {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-soft);
+}
+
+.producao-card__sub .mono-tag {
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ---------- Slides de unidade (detalhe) ---------- */
+
+.unidade-info {
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+.unidade-team__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-2);
+  margin-top: 10px;
+}
+
+.unidade-team__row .card {
+  padding: var(--space-2);
+}
+
+.unidade-team__row .person__name {
+  font-size: 15px;
+}
+
+.unidade-team__row .person__role {
+  font-size: 12.5px;
+}
+
+.area-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.area-tag {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 5px 13px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ---------- Monte das Oliveiras (hero visual) ---------- */
+
+.mo-hero {
+  position: relative;
+  justify-content: flex-end;
+}
+
+.mo-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+}
+
+.mo-hero__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(15, 13, 10, 0.94) 0%, rgba(15, 13, 10, 0.75) 42%, rgba(15, 13, 10, 0.25) 75%, rgba(15, 13, 10, 0.05) 100%);
+}
+
+.mo-hero__panel {
+  position: relative;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: auto 0;
+}
+
+.mo-hero__panel .kv-list {
+  background: rgba(20, 17, 13, 0.5);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- Função do CD (fluxo) ---------- */
+
+.cd-flow {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2);
+  width: 100%;
+  justify-content: center;
+}
+
+.cd-flow__step {
+  flex: 1;
+  max-width: 240px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.cd-flow__index {
+  font-family: var(--font-display);
+  color: var(--gold-500);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.cd-flow__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cd-flow__connector {
+  display: flex;
+  align-items: center;
+  color: var(--gold-500);
+  flex: 0 0 34px;
+}
+
+.cd-flow__connector svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cd-areas {
+  margin-top: var(--space-5);
+  text-align: center;
+}
+
+.cd-areas .area-tags {
+  justify-content: center;
+}
+
+/* ---------- Organograma geral ---------- */
+
+.organograma-geral-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+/* Cadeia executiva do topo: cards estáticos, sem linha de conexão,
+   apenas espaçamento curto entre um nível e outro. */
+.exec-chain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.exec-chain__row {
+  display: flex;
+  gap: 16px;
+}
+
+.org-node--static {
+  position: static;
+  transform: none;
+  width: 190px;
+}
+
+.org-blocks {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.org-block {
+  padding: var(--space-2) var(--space-3);
+}
+
+.org-block__title {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.org-block--chart .orgchart--mini {
+  height: 230px;
+  min-height: 0;
+}
+
+.orgchart--mini .org-node {
+  width: 148px;
+  padding: 10px 12px 11px;
+}
+
+.orgchart--mini .org-node__name {
+  font-size: 13px;
+}
+
+.orgchart--mini .org-node__role {
+  font-size: 10.5px;
+}
+
+.orgchart--mini .org-node__unit {
+  font-size: 9.5px;
+  margin-top: 7px;
+  padding-top: 7px;
+}
+
+/* ---------- 5S ---------- */
+
+.cinco-s-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.cinco-s__card {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-3) var(--space-2);
+}
+
+.cinco-s__letter {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--gold-500);
+  line-height: 1;
+}
+
+.cinco-s__termo {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cinco-s__nome {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.cinco-s__texto {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ---------- Segurança do trabalho ---------- */
+
+.seguranca-badges {
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  position: relative;
+}
+
+.seguranca-badge {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--charcoal-800);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.seguranca-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: grayscale(1) brightness(1.15) contrast(1.05) sepia(0.25) saturate(1.4) hue-rotate(-10deg);
+}
+
+.seguranca-badge--sm {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: -10px;
+  bottom: -10px;
+  padding: 16px;
+}
+
+/* ---------- EPIs ---------- */
+
+.epi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.fonte-credito {
+  margin-top: var(--space-4);
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---------- Certo x Errado ---------- */
+
+.ce-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+.ce-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ce-col__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 8px 22px;
+  border-radius: 30px;
+}
+
+.ce-col__tag--certo {
+  color: var(--green-300);
+  background: rgba(30, 107, 69, 0.16);
+  border: 1px solid rgba(79, 176, 128, 0.4);
+}
+
+.ce-col__tag--errado {
+  color: #d98a7a;
+  background: rgba(140, 60, 45, 0.16);
+  border: 1px solid rgba(196, 100, 80, 0.4);
+}
+
+.ce-col__images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.ce-img {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  aspect-ratio: 4 / 3;
+}
+
+.ce-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ce-img__badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ce-img__badge--certo {
+  background: var(--green-500);
+  color: var(--cream-100);
+}
+
+.ce-img__badge--errado {
+  background: #a5432f;
+  color: var(--cream-100);
+}
+
+.ce-img__legenda {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  color: var(--cream-100);
+  background: linear-gradient(0deg, rgba(15, 13, 10, 0.88), transparent);
+}
+
+/* ---------- Higiene pessoal ---------- */
+
+.higiene-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 1200px;
+}
+
+.higiene-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.higiene-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+/* ---------- Normas e políticas ---------- */
+
+.normas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 1450px;
+}
+
+/* ---------- Missão, Visão e Valores ---------- */
+
+.valores-focus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin-bottom: var(--space-4);
+}
+
+.valores-word {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 96px;
+  letter-spacing: 0.02em;
+}
+
+.valores-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ---------- Encerramento ---------- */
+
+.slide--encerramento {
+  background: var(--grad-hero);
+}
+
+.encerramento-title {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 1.15;
+  max-width: 15ch;
+  margin-top: 34px;
+}
+
+.encerramento-lines {
+  position: relative;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.encerramento-lines p {
+  font-size: 22px;
+  color: var(--text-secondary);
+}
+
+.encerramento-final {
+  position: relative;
+  margin-top: 34px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--gold-300);
+  font-weight: 600;
+}
+
+/* ---------- Grid de áreas ---------- */
+
+.areas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}

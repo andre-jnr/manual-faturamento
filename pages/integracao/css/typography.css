@@ -1,0 +1,105 @@
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-400);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1.5px;
+  background: var(--gold-500);
+  display: inline-block;
+}
+
+.title-xl {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-display);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.title-lg {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.title-md {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+
+.title-sm {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-weight: 400;
+  max-width: 46ch;
+}
+
+.gold-text {
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+  line-height: 1.45;
+  color: var(--cream-200);
+  max-width: 56ch;
+}
+
+.quote::before {
+  content: "\201C";
+  color: var(--gold-500);
+  margin-right: 0.15em;
+}
+
+.quote::after {
+  content: "\201D";
+  color: var(--gold-500);
+  margin-left: 0.1em;
+}
+
+.label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.mono-tag {
+  font-family: "Inter", monospace;
+  font-size: var(--fs-small);
+  letter-spacing: 0.03em;
+  color: var(--gold-300);
+}

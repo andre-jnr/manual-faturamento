@@ -1,0 +1,44 @@
+/*
+  O palco (1920x1080) é escalado uniformemente para caber na janela
+  (ver engine.js), então o layout interno não precisa de breakpoints —
+  isso garante consistência visual em qualquer resolução. Aqui tratamos
+  apenas o entorno da tela (barras de letterbox) e ajustes de toque.
+*/
+
+.stage-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .nav-btn {
+    width: 58px;
+    height: 58px;
+  }
+  .nav-zone {
+    width: 20%;
+  }
+}
+
+.loading-veil {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s var(--ease-out);
+}
+
+.loading-veil img {
+  width: 84px;
+  opacity: 0.9;
+  animation: floatSlow 3s ease-in-out infinite;
+}
+
+.loading-veil.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}

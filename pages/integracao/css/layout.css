@@ -1,0 +1,242 @@
+/*
+  Palco fixo em 1920x1080, centralizado e escalado via transform
+  (definido em engine.js) para caber em qualquer resolução mantendo
+  proporções e tipografia perfeitamente previsíveis.
+*/
+
+.stage-wrap {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  overflow: hidden;
+}
+
+.stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: top left;
+  background: var(--bg);
+}
+
+/* ---------- Ambiente persistente (atravessa os slides) ---------- */
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ambient__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.ambient__watermark {
+  position: absolute;
+  right: -120px;
+  bottom: -160px;
+  width: 720px;
+  height: 720px;
+  opacity: 0.05;
+  background: url("../images/logo-frigorifico-amazonas.png") center / contain no-repeat;
+  filter: grayscale(1) brightness(1.8);
+  transition: transform 1.4s var(--ease-out);
+}
+
+.ambient__line {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  height: 1px;
+  width: 100%;
+  top: 128px;
+  opacity: 0.5;
+}
+
+.ambient__particles {
+  position: absolute;
+  inset: 0;
+}
+
+.ambient__particles i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  opacity: 0;
+  animation: drift 14s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  15% {
+    opacity: 0.5;
+  }
+  85% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-160px);
+  }
+}
+
+/* ---------- Slides ---------- */
+
+.deck {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(26px) scale(0.99);
+  transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out), visibility 0s linear var(--dur-med);
+}
+
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out), visibility 0s;
+  z-index: 3;
+}
+
+.slide.is-prev {
+  transform: translateY(-18px) scale(1.01);
+}
+
+.slide__inner {
+  position: relative;
+  flex: 1;
+  padding: 96px 130px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.slide__inner--tight {
+  padding: 80px 110px;
+}
+
+.slide__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  flex-shrink: 0;
+}
+
+.slide__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide__logo-mark {
+  position: absolute;
+  top: 56px;
+  left: 130px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 4;
+  opacity: 0.85;
+}
+
+.slide__logo-mark img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.slide__logo-mark span {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.slide__index {
+  position: absolute;
+  top: 58px;
+  right: 130px;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  z-index: 4;
+}
+
+.slide__index b {
+  color: var(--gold-400);
+  font-weight: 700;
+}
+
+/* Container utilitário centralizado para slides do tipo "ato" (abertura/fechamento) */
+.slide--center .slide__inner {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  flex: 1;
+  min-height: 0;
+}
+
+.grid-2--asym {
+  grid-template-columns: 1.05fr 0.95fr;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.col-center {
+  justify-content: center;
+}
+
+/* Estados cinematográficos: abertura e encerramento escondem o chrome de
+   navegação visível (a navegação por teclado/zonas de clique continua ativa). */
+.stage[data-current="abertura"] .slide__logo-mark,
+.stage[data-current="abertura"] .slide__index,
+.stage[data-current="abertura"] .nav-controls,
+.stage[data-current="encerramento"] .slide__logo-mark,
+.stage[data-current="encerramento"] .slide__index,
+.stage[data-current="encerramento"] .nav-controls {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-soft);
+}
+
+.slide__logo-mark,
+.slide__index,
+.nav-controls {
+  transition: opacity 0.5s var(--ease-soft);
+}
