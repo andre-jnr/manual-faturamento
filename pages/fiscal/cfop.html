@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CFOP — O Código Que Conta a História da Operação</title>
+    <style>
+      :root {
+        --bg: #0b0e11;
+        --bg-alt: #10151b;
+        --fg: #f2ede4;
+        --accent: #d9a441;
+        --muted: #8b9099;
+        --line: rgba(255, 255, 255, 0.1);
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --serif:
+          Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman',
+          serif;
+        --sans:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+          Arial, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      main {
+        overflow: hidden;
+      }
+      section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        padding: 7vh 8vw;
+        overflow: hidden;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 700;
+      }
+      h1 {
+        font-size: clamp(3rem, 8vw, 7.2rem);
+        line-height: 0.94;
+        letter-spacing: -0.035em;
+      }
+      h2 {
+        font-size: clamp(2rem, 4.6vw, 4rem);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+      }
+      h3 {
+        font-size: clamp(1.15rem, 2vw, 1.55rem);
+      }
+      p {
+        font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .eyebrow {
+        display: inline-block;
+        color: var(--accent);
+        font-size: 0.76rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .highlight {
+        color: var(--accent);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(35px);
+        transition:
+          opacity 0.9s var(--ease),
+          transform 0.9s var(--ease);
+        transition-delay: var(--d, 0s);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .split-word {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        margin-right: 0.25em;
+      }
+      .split-word .inner {
+        display: inline-block;
+        transform: translateY(115%);
+        opacity: 0;
+        transition:
+          transform 0.8s var(--ease),
+          opacity 0.8s var(--ease);
+        transition-delay: calc(var(--i, 0) * 0.055s);
+      }
+      .split-text.visible .split-word .inner {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .hairline {
+        position: absolute;
+        left: 8vw;
+        right: 8vw;
+        bottom: 0;
+        height: 1px;
+        background: var(--line);
+      }
+      .bg-code {
+        position: absolute;
+        right: -3vw;
+        bottom: -5vh;
+        font: 700 clamp(10rem, 31vw, 27rem)/0.8 var(--serif);
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.055);
+        pointer-events: none;
+        user-select: none;
+      }
+      .glow {
+        position: absolute;
+        width: 650px;
+        height: 650px;
+        border-radius: 50%;
+        right: -260px;
+        top: -270px;
+        background: radial-gradient(
+          circle,
+          rgba(217, 164, 65, 0.14),
+          transparent 68%
+        );
+        animation: float 9s ease-in-out infinite;
+      }
+      .grid-bg {
+        position: absolute;
+        inset: 0;
+        opacity: 0.28;
+        pointer-events: none;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 75px 75px;
+        mask-image: linear-gradient(
+          to bottom,
+          transparent,
+          black 22%,
+          black 78%,
+          transparent
+        );
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 1100px;
+      }
+      .hero-copy {
+        max-width: 760px;
+        margin-top: 1.5rem;
+      }
+      .hero-meta {
+        display: flex;
+        gap: 3rem;
+        flex-wrap: wrap;
+        margin-top: 3rem;
+      }
+      .hero-meta div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .label {
+        color: var(--muted);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .value {
+        font: 600 1.15rem var(--serif);
+      }
+      .scroll-cue {
+        position: absolute;
+        left: 8vw;
+        bottom: 4vh;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .scroll-cue .line {
+        width: 40px;
+        height: 1px;
+        background: var(--muted);
+      }
+
+      /* definição */
+      .definition-wrap {
+        max-width: 1120px;
+      }
+      .definition-wrap h2 {
+        max-width: 1050px;
+      }
+      .definition-wrap p {
+        max-width: 750px;
+        margin-top: 2rem;
+      }
+
+      /* código */
+      .code-layout {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 5vw;
+        align-items: center;
+        margin-top: 3.5rem;
+      }
+      .code-visual {
+        position: relative;
+        min-height: 310px;
+        display: flex;
+        align-items: center;
+      }
+      .code-number {
+        font: 700 clamp(8rem, 17vw, 14rem)/0.8 var(--serif);
+        color: var(--accent);
+        letter-spacing: -0.06em;
+      }
+      .code-breakdown {
+        position: absolute;
+        left: 18%;
+        right: 0;
+        bottom: 12%;
+        display: flex;
+        border-top: 1px solid var(--line);
+        padding-top: 1rem;
+      }
+      .digit {
+        flex: 1;
+        padding-right: 1rem;
+      }
+      .digit b {
+        display: block;
+        font: 700 2rem var(--serif);
+        color: var(--fg);
+        margin-bottom: 0.3rem;
+      }
+      .digit span {
+        font-size: 0.72rem;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+      .rule {
+        border-left: 1px solid var(--line);
+        padding-left: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      .rule:last-child {
+        margin-bottom: 0;
+      }
+      .rule strong {
+        display: block;
+        font: 600 1.3rem var(--serif);
+        margin-bottom: 0.35rem;
+      }
+      .rule p {
+        font-size: 0.92rem;
+      }
+
+      /* famílias */
+      .family-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0;
+        margin-top: 3rem;
+        border-top: 1px solid var(--line);
+      }
+      .family {
+        padding: 1.7rem 2rem 1.7rem 0;
+        border-bottom: 1px solid var(--line);
+        min-height: 150px;
+      }
+      .family:nth-child(even) {
+        padding-left: 2rem;
+        border-left: 1px solid var(--line);
+      }
+      .family .tag {
+        font: 700 1.7rem var(--serif);
+        color: var(--accent);
+        display: block;
+        margin-bottom: 0.45rem;
+      }
+      .family h3 {
+        margin-bottom: 0.45rem;
+      }
+      .family p {
+        font-size: 0.9rem;
+      }
+
+      /* fluxo */
+      .flow {
+        margin-top: 3rem;
+        border-top: 1px solid var(--line);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .flow-step {
+        padding: 1.7rem 1.5rem 1.5rem 0;
+        border-bottom: 1px solid var(--line);
+        position: relative;
+      }
+      .flow-step:not(:last-child) {
+        margin-right: 1.5rem;
+      }
+      .flow-step .num {
+        display: block;
+        font: 700 2.3rem var(--serif);
+        color: transparent;
+        -webkit-text-stroke: 1px var(--accent);
+        margin-bottom: 0.8rem;
+      }
+      .flow-step h3 {
+        margin-bottom: 0.45rem;
+      }
+      .flow-step p {
+        font-size: 0.9rem;
+      }
+      .flow-arrow {
+        position: absolute;
+        right: 0.5rem;
+        top: 2rem;
+        color: var(--accent);
+        font-size: 1.25rem;
+      }
+      .flow-step:last-child .flow-arrow {
+        display: none;
+      }
+
+      /* importância */
+      .importance-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.8rem 4rem;
+        margin-top: 3rem;
+      }
+      .importance-card .idx {
+        color: var(--accent);
+        font: 700 1rem var(--serif);
+        display: block;
+        margin-bottom: 0.7rem;
+      }
+      .importance-card h3 {
+        margin-bottom: 0.45rem;
+      }
+      .importance-card p {
+        font-size: 0.93rem;
+      }
+
+      /* exemplo */
+      .example {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 5vw;
+        align-items: center;
+        margin-top: 3rem;
+      }
+      .example-box {
+        border: 1px solid var(--line);
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.025);
+      }
+      .example-box .mini {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--muted);
+      }
+      .example-box .operation {
+        font: 600 clamp(1.4rem, 2.5vw, 2.1rem) var(--serif);
+        margin: 0.8rem 0 1.5rem;
+      }
+      .example-code {
+        font: 700 clamp(4rem, 8vw, 7rem) var(--serif);
+        color: var(--accent);
+        line-height: 0.8;
+      }
+      .example-list {
+        border-left: 1px solid var(--line);
+        padding-left: 2rem;
+      }
+      .example-list div {
+        margin-bottom: 1.5rem;
+      }
+      .example-list strong {
+        display: block;
+        font: 600 1.2rem var(--serif);
+        margin-bottom: 0.3rem;
+      }
+      .example-list p {
+        font-size: 0.9rem;
+      }
+
+      /* encerramento */
+      .final {
+        text-align: center;
+        align-items: center;
+      }
+      .final .big {
+        max-width: 1000px;
+      }
+      .final p {
+        max-width: 720px;
+        text-align: center;
+        margin: 1.5rem auto 0;
+      }
+      .final .quote {
+        margin-top: 2.5rem;
+        color: var(--fg);
+        font: 600 clamp(1.2rem, 2.2vw, 1.7rem) var(--serif);
+      }
+      .magnetic-btn {
+        margin-top: 2rem;
+        border: 1px solid var(--fg);
+        background: transparent;
+        color: var(--fg);
+        padding: 1rem 2.3rem;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: 0.3s var(--ease);
+      }
+      .magnetic-btn:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--bg);
+      }
+
+      .cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: var(--accent);
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transform: translate(-100px, -100px);
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(-25px, 25px);
+        }
+      }
+
+      @media (max-width: 900px) {
+        section {
+          padding: 7vh 7vw;
+        }
+        .code-layout,
+        .example {
+          grid-template-columns: 1fr;
+        }
+        .flow {
+          grid-template-columns: 1fr 1fr;
+        }
+        .flow-step:not(:last-child) {
+          margin-right: 0;
+        }
+        .family-grid {
+          grid-template-columns: 1fr;
+        }
+        .family:nth-child(even) {
+          padding-left: 0;
+          border-left: 0;
+        }
+        .importance-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-meta {
+          gap: 1.7rem;
+        }
+      }
+      @media (max-width: 600px) {
+        .flow {
+          grid-template-columns: 1fr;
+        }
+        .code-breakdown {
+          position: relative;
+          left: 0;
+          bottom: auto;
+          margin-top: 1rem;
+        }
+        .code-visual {
+          min-height: 240px;
+        }
+        .bg-code {
+          font-size: 45vw;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+        .reveal,
+        .split-word .inner {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <main>
+      <!-- HERO -->
+      <section id="hero">
+        <div class="grid-bg"></div>
+        <div class="glow"></div>
+        <div class="bg-code">CFOP</div>
+
+        <div class="hero-content">
+          <span class="eyebrow reveal"
+            >Código Fiscal de Operações e Prestações</span
+          >
+
+          <h1 class="split-text" data-split>
+            CFOP: o código que
+            <span class="highlight">conta a história</span> da operação.
+          </h1>
+
+          <p class="hero-copy reveal" style="--d: 0.2s">
+            Toda movimentação de mercadoria precisa dizer ao Fisco
+            <strong>o que aconteceu</strong>. O CFOP é uma das principais
+            informações utilizadas para identificar a natureza dessa operação.
+          </p>
+
+          <div class="hero-meta reveal" style="--d: 0.35s">
+            <div>
+              <span class="label">Significado</span>
+              <span class="value">Código Fiscal de Operações e Prestações</span>
+            </div>
+            <div>
+              <span class="label">Formato</span>
+              <span class="value">4 dígitos</span>
+            </div>
+            <div>
+              <span class="label">Função</span>
+              <span class="value">Identificar a operação fiscal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-cue">
+          <div class="line"></div>
+          Role para entender
+        </div>
+      </section>
+
+      <!-- O QUE É -->
+      <section style="background: var(--bg-alt)">
+        <div class="definition-wrap">
+          <span class="eyebrow reveal">01 · O conceito</span>
+          <h2 class="reveal">
+            O CFOP responde a uma pergunta simples:
+            <span class="highlight"
+              >“Que tipo de operação estamos realizando?”</span
+            >
+          </h2>
+          <p class="reveal" style="--d: 0.15s">
+            Ele classifica fiscalmente a operação realizada pela empresa: como
+            uma compra, venda, devolução, transferência, remessa ou retorno.
+            Essa classificação influencia a escrituração e o tratamento fiscal
+            da operação.
+          </p>
+        </div>
+        <div class="hairline"></div>
+      </section>
+
+      <!-- COMO LER -->
+      <section>
+        <span class="eyebrow reveal">02 · Como ler</span>
+        <h2 class="reveal">Os 4 dígitos não estão ali por acaso.</h2>
+
+        <div class="code-layout">
+          <div class="code-visual reveal">
+            <div class="code-number">5.102</div>
+            <div class="code-breakdown">
+              <div class="digit">
+                <b>5</b>
+                <span>Primeiro dígito<br />grupo da operação</span>
+              </div>
+              <div class="digit">
+                <b>102</b>
+                <span>Classificação específica<br />da operação</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="rule reveal" style="--d: 0.1s">
+              <strong>O primeiro dígito</strong>
+              <p>
+                Indica o grupo da operação: entrada ou saída e, principalmente,
+                se ocorre dentro ou fora do estado.
+              </p>
+            </div>
+            <div class="rule reveal" style="--d: 0.18s">
+              <strong>Os três seguintes</strong>
+              <p>Detalham a natureza da operação dentro daquele grupo.</p>
+            </div>
+            <div class="rule reveal" style="--d: 0.26s">
+              <strong>Exemplo: 5.102</strong>
+              <p>
+                Venda de mercadoria adquirida ou recebida de terceiros,
+                destinada a consumidor final, dentro do mesmo estado, conforme a
+                classificação aplicável.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAMÍLIAS -->
+      <section style="background: var(--bg-alt)">
+        <span class="eyebrow reveal">03 · As famílias do CFOP</span>
+        <h2 class="reveal">O primeiro número já dá uma pista.</h2>
+
+        <div class="family-grid">
+          <div class="family reveal">
+            <span class="tag">1.xxx</span>
+            <h3>Entrada dentro do estado</h3>
+            <p>
+              Operações de entrada de mercadorias e documentos dentro da mesma
+              UF.
+            </p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.08s">
+            <span class="tag">2.xxx</span>
+            <h3>Entrada de outro estado</h3>
+            <p>Entradas originadas de outra unidade da Federação.</p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.16s">
+            <span class="tag">3.xxx</span>
+            <h3>Entrada do exterior</h3>
+            <p>Operações de entrada cuja origem está fora do país.</p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.24s">
+            <span class="tag">5.xxx</span>
+            <h3>Saída dentro do estado</h3>
+            <p>Saídas destinadas a destinatários localizados na mesma UF.</p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.32s">
+            <span class="tag">6.xxx</span>
+            <h3>Saída para outro estado</h3>
+            <p>Saídas destinadas a outra unidade da Federação.</p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.4s">
+            <span class="tag">7.xxx</span>
+            <h3>Saída para o exterior</h3>
+            <p>Operações de saída destinadas ao exterior.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- NA PRÁTICA -->
+      <section>
+        <span class="eyebrow reveal">04 · Na prática</span>
+        <h2 class="reveal">O CFOP acompanha a operação.</h2>
+
+        <div class="flow">
+          <div class="flow-step reveal">
+            <span class="num">01</span>
+            <h3>Compra</h3>
+            <p>
+              A mercadoria entra na empresa e precisa ser classificada de acordo
+              com a natureza da entrada.
+            </p>
+            <span class="flow-arrow">→</span>
+          </div>
+
+          <div class="flow-step reveal" style="--d: 0.1s">
+            <span class="num">02</span>
+            <h3>Estoque</h3>
+            <p>
+              A operação fiscal conversa com o registro da mercadoria e seus
+              impactos no sistema.
+            </p>
+            <span class="flow-arrow">→</span>
+          </div>
+
+          <div class="flow-step reveal" style="--d: 0.2s">
+            <span class="num">03</span>
+            <h3>Venda</h3>
+            <p>
+              Na saída, outro CFOP identifica a natureza da operação realizada
+              com o cliente.
+            </p>
+            <span class="flow-arrow">→</span>
+          </div>
+
+          <div class="flow-step reveal" style="--d: 0.3s">
+            <span class="num">04</span>
+            <h3>Escrituração</h3>
+            <p>
+              A classificação compõe as informações fiscais utilizadas na
+              escrituração da empresa.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMPORTÂNCIA -->
+      <section style="background: var(--bg-alt)">
+        <span class="eyebrow reveal">05 · Por que isso importa?</span>
+        <h2 class="reveal">Um código pequeno. Um impacto grande.</h2>
+
+        <div class="importance-grid">
+          <div class="importance-card reveal">
+            <span class="idx">01</span>
+            <h3>Define a natureza da operação</h3>
+            <p>
+              Ajuda a identificar se estamos diante de uma compra, venda,
+              devolução, transferência, remessa ou outra operação.
+            </p>
+          </div>
+
+          <div class="importance-card reveal" style="--d: 0.1s">
+            <span class="idx">02</span>
+            <h3>Afeta o tratamento fiscal</h3>
+            <p>
+              O CFOP trabalha em conjunto com outras informações fiscais, como
+              CST, CSOSN e tributação aplicável.
+            </p>
+          </div>
+
+          <div class="importance-card reveal" style="--d: 0.2s">
+            <span class="idx">03</span>
+            <h3>Impacta a escrituração</h3>
+            <p>
+              Uma classificação incorreta pode gerar inconsistências entre a
+              nota, os registros fiscais e a operação efetivamente realizada.
+            </p>
+          </div>
+
+          <div class="importance-card reveal" style="--d: 0.3s">
+            <span class="idx">04</span>
+            <h3>Exige atenção do faturamento</h3>
+            <p>
+              Não basta emitir a nota: é necessário que o código utilizado
+              corresponda à operação que realmente aconteceu.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXEMPLO -->
+      <section>
+        <span class="eyebrow reveal">06 · Um exemplo</span>
+        <h2 class="reveal">Antes de escolher o CFOP, entenda a operação.</h2>
+
+        <div class="example">
+          <div class="example-box reveal">
+            <span class="mini">Exemplo ilustrativo</span>
+            <div class="operation">Venda de mercadoria dentro do estado</div>
+            <div class="example-code">5.xxx</div>
+          </div>
+
+          <div class="example-list">
+            <div class="reveal" style="--d: 0.1s">
+              <strong>Primeiro: origem e destino</strong>
+              <p>É uma operação interna? Interestadual? Com o exterior?</p>
+            </div>
+            <div class="reveal" style="--d: 0.18s">
+              <strong>Depois: natureza</strong>
+              <p>
+                É venda, compra, devolução, transferência, remessa ou retorno?
+              </p>
+            </div>
+            <div class="reveal" style="--d: 0.26s">
+              <strong>Por fim: classificação correta</strong>
+              <p>
+                O CFOP deve refletir a operação real e ser analisado junto às
+                demais regras fiscais aplicáveis.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESUMO -->
+      <section class="final" style="background: var(--bg-alt)">
+        <div class="big">
+          <span class="eyebrow reveal">07 · Em resumo</span>
+          <h2 class="reveal split-text" data-split>
+            CFOP não é apenas um número na nota.
+          </h2>
+          <p class="reveal" style="--d: 0.18s">
+            É a classificação que ajuda a contar ao sistema e ao Fisco
+            <span class="highlight">qual operação aconteceu</span>. Por isso, no
+            faturamento, entender a operação vem antes de escolher o código.
+          </p>
+          <div class="quote reveal" style="--d: 0.3s">
+            “A nota registra. O CFOP explica.”
+          </div>
+          <button class="magnetic-btn reveal" style="--d: 0.4s" id="btn">
+            Entendi o CFOP
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      ;(function () {
+        'use strict'
+
+        document.querySelectorAll('[data-split]').forEach(function (el) {
+          const text = el.textContent.trim()
+          el.textContent = ''
+          text.split(' ').forEach(function (word, i) {
+            const wrap = document.createElement('span')
+            wrap.className = 'split-word'
+            const inner = document.createElement('span')
+            inner.className = 'inner'
+            inner.textContent = word
+            inner.style.setProperty('--i', i)
+            wrap.appendChild(inner)
+            el.appendChild(wrap)
+            el.appendChild(document.createTextNode(' '))
+          })
+        })
+
+        const targets = document.querySelectorAll('.reveal,.split-text')
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver(
+            entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('visible')
+                  io.unobserve(entry.target)
+                }
+              })
+            },
+            { threshold: 0.2 }
+          )
+          targets.forEach(el => io.observe(el))
+        } else {
+          targets.forEach(el => el.classList.add('visible'))
+        }
+
+        const cursor = document.getElementById('cursor')
+        const desktop = window.matchMedia(
+          '(hover:hover) and (pointer:fine)'
+        ).matches
+
+        if (desktop) {
+          let tx = -100,
+            ty = -100,
+            x = -100,
+            y = -100
+          window.addEventListener('pointermove', e => {
+            tx = e.clientX - 6
+            ty = e.clientY - 6
+          })
+          function animate() {
+            x += (tx - x) * 0.18
+            y += (ty - y) * 0.18
+            cursor.style.transform = `translate(${x}px,${y}px)`
+            requestAnimationFrame(animate)
+          }
+          animate()
+
+          document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('pointermove', e => {
+              const r = btn.getBoundingClientRect()
+              const rx = e.clientX - r.left - r.width / 2
+              const ry = e.clientY - r.top - r.height / 2
+              btn.style.transform = `translate(${rx * 0.25}px,${ry * 0.25}px)`
+            })
+            btn.addEventListener('pointerleave', () => {
+              btn.style.transform = 'translate(0,0)'
+            })
+          })
+        } else {
+          cursor.style.display = 'none'
+        }
+      })()
+    </script>
+  </body>
+</html>

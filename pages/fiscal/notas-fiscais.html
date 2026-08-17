@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nota Fiscal — A Prova do Que É Real</title>
+<style>
+  :root {
+    --bg: #0b0e11;
+    --bg-alt: #10151b;
+    --fg: #f2ede4;
+    --accent: #d9a441;
+    --muted: #8b9099;
+    --line: rgba(255,255,255,0.1);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  html, body { background: var(--bg); color: var(--fg); overflow-x: hidden; }
+
+  body { font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+
+  section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6vh 6vw;
+    position: relative;
+  }
+
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; }
+
+  h1 { font-size: clamp(2.4rem, 8.5vw, 7.2rem); line-height: 0.98; letter-spacing: -0.02em; }
+  h2 { font-size: clamp(1.9rem, 4.6vw, 3.8rem); line-height: 1.1; letter-spacing: -0.01em; font-weight: 600; }
+  h3 { font-size: clamp(1.2rem, 2vw, 1.7rem); font-weight: 600; }
+
+  p { font-size: clamp(1rem, 1.35vw, 1.2rem); color: var(--muted); max-width: 58ch; line-height: 1.6; }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.4rem;
+    display: inline-block;
+  }
+
+  .highlight { color: var(--accent); }
+
+  /* ===== reveal genérico (fade + sobe) ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    transition-delay: var(--d, 0s);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== split text (palavra por palavra) ===== */
+  .split-word { display: inline-block; overflow: hidden; vertical-align: top; margin-right: 0.28em; }
+  .split-word .inner {
+    display: inline-block;
+    transform: translateY(115%);
+    opacity: 0;
+    transition: transform 0.8s var(--ease), opacity 0.8s var(--ease);
+    transition-delay: calc(var(--i, 0) * 0.06s);
+  }
+  .split-text.visible .split-word .inner { transform: translateY(0); opacity: 1; }
+
+  /* ===== cursor customizado (desktop) ===== */
+  .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-100px,-100px);
+    will-change: transform;
+  }
+
+  /* ===== botão magnético ===== */
+  .magnetic-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 1.1rem 2.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--fg);
+    background: transparent;
+    color: var(--fg);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: transform 0.3s var(--ease), background 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  .magnetic-btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+  .hairline { position: absolute; left: 6vw; right: 6vw; bottom: 0; height: 1px; background: var(--line); }
+
+  /* ===== HERO ===== */
+  .hero-bg-num {
+    position: absolute;
+    right: -2vw;
+    bottom: -4vh;
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 32vw, 26rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line);
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+    will-change: transform;
+  }
+  .hero-content { position: relative; z-index: 1; opacity: 1; transition: opacity 0.3s linear; }
+  .hero-meta { display: flex; gap: 3rem; margin-top: 3.5rem; flex-wrap: wrap; }
+  .hero-meta div { display: flex; flex-direction: column; gap: 0.3rem; }
+  .hero-meta .label { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .hero-meta .value { font-family: var(--font-display); font-size: 1.3rem; color: var(--fg); }
+  .scroll-cue {
+    position: absolute; bottom: 4vh; left: 6vw;
+    display: flex; align-items: center; gap: 0.8rem;
+    color: var(--muted); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .scroll-cue .line { width: 40px; height: 1px; background: var(--muted); }
+
+  /* ===== DEFINITION ===== */
+  .definition-wrap { max-width: 1100px; }
+  .definition-wrap h2 { color: var(--fg); }
+
+  /* ===== TYPES ===== */
+  .types-grid { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 3rem; border-top: 1px solid var(--line); }
+  .type-row {
+    display: grid; grid-template-columns: 90px 1fr; gap: 1.5rem;
+    padding: 1.6rem 0; border-bottom: 1px solid var(--line); align-items: baseline;
+  }
+  .type-row .tag { font-family: var(--font-display); color: var(--accent); font-size: 1.6rem; font-weight: 700; }
+  .type-row .name { font-family: var(--font-display); font-size: clamp(1.2rem, 2.4vw, 1.9rem); color: var(--fg); margin-bottom: 0.35rem; font-weight: 700; }
+  .type-row p { margin: 0; max-width: 60ch; }
+
+  /* ===== LIFECYCLE ===== */
+  .lifecycle-progress { margin-top: 2rem; height: 2px; background: var(--line); position: relative; overflow: hidden; }
+  .lifecycle-progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.1s linear; }
+  .lifecycle-track { display: flex; gap: 0; margin-top: 3.5rem; }
+  .lifecycle-step { flex: 1; min-width: 0; padding-right: 2rem; }
+  .lifecycle-step .num {
+    font-family: var(--font-display); font-size: 2.4rem; font-weight: 700;
+    -webkit-text-stroke: 1px var(--accent); color: transparent; margin-bottom: 1rem; display: block;
+  }
+  .lifecycle-step h3 { color: var(--fg); margin-bottom: 0.6rem; }
+  .lifecycle-step p { font-size: 0.95rem; }
+  @media (max-width: 900px) {
+    .lifecycle-track { flex-direction: column; gap: 2.4rem; }
+    .lifecycle-step { padding-right: 0; }
+  }
+
+  /* ===== IMPORTANCE ===== */
+  .importance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem 3rem; margin-top: 3rem; }
+  @media (max-width: 760px) { .importance-grid { grid-template-columns: 1fr; } }
+  .importance-card h3 { color: var(--fg); margin-bottom: 0.6rem; }
+  .importance-card .idx { color: var(--accent); font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.8rem; display: block; font-weight: 700; }
+
+  /* ===== FUTURE / CTA ===== */
+  .future-section, .cta-section { align-items: center; text-align: center; }
+  .future-section .big, .cta-section h2 { max-width: 900px; margin: 0 auto; }
+  .future-section p { margin: 1.6rem auto 0; text-align: center; }
+
+  @media (hover: none), (pointer: coarse) {
+    .cursor-dot { display: none; }
+  }
+
+  @media (min-width: 1025px) { section { padding: 8vh 8vw; } }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+
+<main>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero" style="overflow:hidden;">
+    <div class="hero-bg-num" id="heroNum">NF</div>
+    <div class="hero-content" id="heroContent">
+      <span class="eyebrow">Documento fiscal · Brasil</span>
+      <h1 class="split-text" data-split>Nota Fiscal.</h1>
+      <p style="margin-top:1.6rem; font-size:clamp(1.05rem,1.6vw,1.35rem);">
+        Todo produto vendido, todo serviço prestado, cada real que circula na economia
+        deixa um rastro. Esse rastro tem nome, tem forma e tem lei.
+      </p>
+      <div class="hero-meta">
+        <div><span class="label">Natureza</span><span class="value">Documento fiscal eletrônico</span></div>
+        <div><span class="label">Emissão no Brasil</span><span class="value">Desde 2006 (NF-e)</span></div>
+        <div><span class="label">Órgão validador</span><span class="value">SEFAZ / Receita Federal</span></div>
+      </div>
+    </div>
+    <div class="scroll-cue"><div class="line"></div>Role para entender</div>
+  </section>
+
+  <!-- ===== DEFINITION ===== -->
+  <section style="background:var(--bg-alt);">
+    <div class="definition-wrap">
+      <span class="eyebrow reveal">O que é</span>
+      <h2 class="reveal">
+        Uma nota fiscal é o <span class="highlight">registro oficial</span> de uma
+        transação comercial — a prova, perante o Estado e o consumidor, de que uma
+        venda ou um serviço realmente <span class="highlight">aconteceu</span>.
+      </h2>
+      <p class="reveal" style="margin-top:2.2rem; --d:0.15s;">
+        Ela descreve o que foi vendido, por quanto, para quem, e quanto de imposto
+        incide sobre essa operação. Sem nota fiscal, a transação existe apenas entre
+        as partes; com ela, passa a existir também para o Fisco — e para a lei.
+      </p>
+    </div>
+    <div class="hairline"></div>
+  </section>
+
+  <!-- ===== TYPES ===== -->
+  <section>
+    <span class="eyebrow reveal">Famílias de documentos</span>
+    <h2 class="reveal">Nem toda nota fiscal é igual.</h2>
+    <div class="types-grid">
+      <div class="type-row reveal" style="--d:0s;">
+        <span class="tag">NF-e</span>
+        <div>
+          <div class="name">Nota Fiscal Eletrônica</div>
+          <p>Emitida por indústrias e no comércio atacadista para acobertar operações entre empresas — o documento fiscal mais comum do país.</p>
+        </div>
+      </div>
+      <div class="type-row reveal" style="--d:0.08s;">
+        <span class="tag">NFC-e</span>
+        <div>
+          <div class="name">Nota Fiscal de Consumidor Eletrônica</div>
+          <p>A versão para o varejo, entregue direto ao consumidor final no balcão — substituiu boa parte do antigo cupom fiscal.</p>
+        </div>
+      </div>
+      <div class="type-row reveal" style="--d:0.16s;">
+        <span class="tag">NFS-e</span>
+        <div>
+          <div class="name">Nota Fiscal de Serviços Eletrônica</div>
+          <p>Emitida por prestadores de serviço, regulada em nível municipal — arquitetos, consultores, oficinas, clínicas.</p>
+        </div>
+      </div>
+      <div class="type-row reveal" style="--d:0.24s;">
+        <span class="tag">CT-e</span>
+        <div>
+          <div class="name">Conhecimento de Transporte Eletrônico</div>
+          <p>Documenta o transporte de cargas entre origem e destino, ligando fisicamente a nota à mercadoria em trânsito.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIFECYCLE ===== -->
+  <section id="lifecycle">
+    <span class="eyebrow reveal">Como uma nota nasce</span>
+    <h2 class="reveal">Do clique à validade legal, em segundos.</h2>
+    <div class="lifecycle-progress"><div class="lifecycle-progress-fill" id="lifecycleFill"></div></div>
+    <div class="lifecycle-track">
+      <div class="lifecycle-step reveal" style="--d:0s;">
+        <span class="num">01</span>
+        <h3>Emissão</h3>
+        <p>O sistema do emissor gera o arquivo digital da nota, com todos os dados da operação.</p>
+      </div>
+      <div class="lifecycle-step reveal" style="--d:0.08s;">
+        <span class="num">02</span>
+        <h3>Assinatura</h3>
+        <p>Um certificado digital assina o documento, garantindo autoria e integridade.</p>
+      </div>
+      <div class="lifecycle-step reveal" style="--d:0.16s;">
+        <span class="num">03</span>
+        <h3>Transmissão</h3>
+        <p>O arquivo é enviado à SEFAZ do estado, que valida os dados em tempo real.</p>
+      </div>
+      <div class="lifecycle-step reveal" style="--d:0.24s;">
+        <span class="num">04</span>
+        <h3>Autorização</h3>
+        <p>Aprovada, a nota recebe uma chave de acesso única — só então pode circular.</p>
+      </div>
+      <div class="lifecycle-step reveal" style="--d:0.32s;">
+        <span class="num">05</span>
+        <h3>Arquivamento</h3>
+        <p>Emissor e destinatário guardam o documento; o Fisco mantém o registro por anos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== IMPORTANCE ===== -->
+  <section style="background:var(--bg-alt);">
+    <span class="eyebrow reveal">Por que importa</span>
+    <h2 class="reveal">Um papel pequeno, um efeito enorme.</h2>
+    <div class="importance-grid">
+      <div class="importance-card reveal" style="--d:0s;">
+        <span class="idx">01</span>
+        <h3>Direito do consumidor</h3>
+        <p>É a nota fiscal que garante trocas, garantias e o direito de reclamar de um produto ou serviço.</p>
+      </div>
+      <div class="importance-card reveal" style="--d:0.1s;">
+        <span class="idx">02</span>
+        <h3>Arrecadação pública</h3>
+        <p>Cada nota alimenta o cálculo de impostos como ICMS, ISS e PIS/COFINS — a base do financiamento do Estado.</p>
+      </div>
+      <div class="importance-card reveal" style="--d:0.2s;">
+        <span class="idx">03</span>
+        <h3>Concorrência leal</h3>
+        <p>Quem emite nota paga o imposto devido; isso nivela o jogo entre empresas formais e informais.</p>
+      </div>
+      <div class="importance-card reveal" style="--d:0.3s;">
+        <span class="idx">04</span>
+        <h3>Rastreabilidade</h3>
+        <p>Em cadeias longas de fornecimento, a nota conecta cada elo — da matéria-prima ao produto final na prateleira.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FUTURE ===== -->
+  <section class="future-section">
+    <div class="big">
+      <span class="eyebrow reveal">O caminho à frente</span>
+      <h2 class="reveal split-text" data-split>O papel já quase desapareceu.</h2>
+      <p class="reveal" style="--d:0.2s;">
+        O Brasil foi pioneiro mundial na nota fiscal eletrônica, e o próximo passo já
+        está em curso: sistemas cada vez mais automáticos, integrados a ERPs e ao
+        e-commerce, tornando a emissão instantânea e a fiscalização quase em tempo real.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section">
+    <span class="eyebrow reveal">Em resumo</span>
+    <h2 class="reveal split-text" data-split>Toda venda conta uma história. A nota fiscal é quem registra.</h2>
+    <div class="reveal" style="margin-top:2.4rem; --d:0.15s;">
+      <button class="magnetic-btn" id="ctaBtn">Entendi a nota fiscal</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  // ============================================================
+  // SPLIT TEXT — quebra em palavras com span.inner para stagger
+  // ============================================================
+  document.querySelectorAll("[data-split]").forEach(function (el) {
+    var text = el.textContent;
+    el.textContent = "";
+    text.split(" ").forEach(function (word, i) {
+      var wrap = document.createElement("span");
+      wrap.className = "split-word";
+      var inner = document.createElement("span");
+      inner.className = "inner";
+      inner.textContent = word;
+      inner.style.setProperty("--i", i);
+      wrap.appendChild(inner);
+      el.appendChild(wrap);
+      el.appendChild(document.createTextNode(" "));
+    });
+  });
+
+  // ============================================================
+  // REVEAL ON SCROLL — IntersectionObserver
+  // ============================================================
+  var revealTargets = document.querySelectorAll(".reveal, .split-text");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    revealTargets.forEach(function (el) { io.observe(el); });
+  } else {
+    revealTargets.forEach(function (el) { el.classList.add("visible"); });
+  }
+
+  // ============================================================
+  // HERO PARALLAX — número de fundo + fade do conteúdo no scroll
+  // ============================================================
+  var heroNum = document.getElementById("heroNum");
+  var heroContent = document.getElementById("heroContent");
+  var hero = document.getElementById("hero");
+  var ticking = false;
+
+  function updateHero() {
+    var heroHeight = hero.offsetHeight || window.innerHeight;
+    var scrollY = window.scrollY || window.pageYOffset;
+    var progress = Math.min(Math.max(scrollY / heroHeight, 0), 1);
+    heroNum.style.transform = "translateY(" + progress * 15 + "%)";
+    heroContent.style.opacity = String(1 - Math.min(progress / 0.8, 1));
+    ticking = false;
+  }
+
+  // ============================================================
+  // LIFECYCLE PROGRESS BAR
+  // ============================================================
+  var lifecycleSection = document.getElementById("lifecycle");
+  var lifecycleFill = document.getElementById("lifecycleFill");
+
+  function updateLifecycle() {
+    var rect = lifecycleSection.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var progress = (vh - rect.top) / (rect.height + vh);
+    progress = Math.min(Math.max(progress, 0), 1);
+    lifecycleFill.style.width = progress * 100 + "%";
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        updateHero();
+        updateLifecycle();
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  updateHero();
+  updateLifecycle();
+
+  // ============================================================
+  // CURSOR CUSTOMIZADO — só desktop com mouse fino
+  // ============================================================
+  var isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (isDesktop) {
+    var dot = document.getElementById("cursorDot");
+    var targetX = -100, targetY = -100, curX = -100, curY = -100;
+
+    window.addEventListener("pointermove", function (e) {
+      targetX = e.clientX - 7;
+      targetY = e.clientY - 7;
+    });
+
+    function animateCursor() {
+      curX += (targetX - curX) * 0.18;
+      curY += (targetY - curY) * 0.18;
+      dot.style.transform = "translate(" + curX + "px," + curY + "px)";
+      window.requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // ============================================================
+    // MAGNETIC BUTTON
+    // ============================================================
+    document.querySelectorAll(".magnetic-btn").forEach(function (btn) {
+      btn.addEventListener("pointermove", function (e) {
+        var rect = btn.getBoundingClientRect();
+        var relX = e.clientX - rect.left - rect.width / 2;
+        var relY = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = "translate(" + relX * 0.35 + "px," + relY * 0.35 + "px)";
+      });
+      btn.addEventListener("pointerleave", function () {
+        btn.style.transform = "translate(0,0)";
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
