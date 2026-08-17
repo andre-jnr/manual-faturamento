@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CST — O Código Que Explica a Tributação</title>
+    <style>
+      :root {
+        --bg: #0b0e11;
+        --bg-alt: #10151b;
+        --fg: #f2ede4;
+        --accent: #d9a441;
+        --muted: #8b9099;
+        --line: rgba(255, 255, 255, 0.1);
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --serif:
+          Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman',
+          serif;
+        --sans:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+          Arial, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      main {
+        overflow: hidden;
+      }
+      section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        padding: 7vh 8vw;
+        overflow: hidden;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 700;
+      }
+      h1 {
+        font-size: clamp(3rem, 8vw, 7.2rem);
+        line-height: 0.94;
+        letter-spacing: -0.035em;
+      }
+      h2 {
+        font-size: clamp(2rem, 4.6vw, 4rem);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+      }
+      h3 {
+        font-size: clamp(1.15rem, 2vw, 1.55rem);
+      }
+      p {
+        font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      #btn a {
+        all: unset;
+        display: block;
+        cursor: pointer;
+        color: inherit;
+        text-decoration: none;
+      }
+      .eyebrow {
+        display: inline-block;
+        color: var(--accent);
+        font-size: 0.76rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .highlight {
+        color: var(--accent);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(35px);
+        transition:
+          opacity 0.9s var(--ease),
+          transform 0.9s var(--ease);
+        transition-delay: var(--d, 0s);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .split-word {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        margin-right: 0.25em;
+      }
+      .split-word .inner {
+        display: inline-block;
+        transform: translateY(115%);
+        opacity: 0;
+        transition:
+          transform 0.8s var(--ease),
+          opacity 0.8s var(--ease);
+        transition-delay: calc(var(--i, 0) * 0.055s);
+      }
+      .split-text.visible .split-word .inner {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .hairline {
+        position: absolute;
+        left: 8vw;
+        right: 8vw;
+        bottom: 0;
+        height: 1px;
+        background: var(--line);
+      }
+      .bg-code {
+        position: absolute;
+        right: -3vw;
+        bottom: -5vh;
+        font: 700 clamp(10rem, 31vw, 27rem)/0.8 var(--serif);
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.055);
+        pointer-events: none;
+        user-select: none;
+      }
+      .glow {
+        position: absolute;
+        width: 650px;
+        height: 650px;
+        border-radius: 50%;
+        right: -260px;
+        top: -270px;
+        background: radial-gradient(
+          circle,
+          rgba(217, 164, 65, 0.14),
+          transparent 68%
+        );
+        animation: float 9s ease-in-out infinite;
+      }
+      .grid-bg {
+        position: absolute;
+        inset: 0;
+        opacity: 0.28;
+        pointer-events: none;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 75px 75px;
+        mask-image: linear-gradient(
+          to bottom,
+          transparent,
+          black 22%,
+          black 78%,
+          transparent
+        );
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 1100px;
+      }
+      .hero-copy {
+        max-width: 760px;
+        margin-top: 1.5rem;
+      }
+      .hero-meta {
+        display: flex;
+        gap: 3rem;
+        flex-wrap: wrap;
+        margin-top: 3rem;
+      }
+      .hero-meta div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .label {
+        color: var(--muted);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .value {
+        font: 600 1.15rem var(--serif);
+      }
+      .scroll-cue {
+        position: absolute;
+        left: 8vw;
+        bottom: 4vh;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .scroll-cue .line {
+        width: 40px;
+        height: 1px;
+        background: var(--muted);
+      }
+
+      .definition-wrap {
+        max-width: 1120px;
+      }
+      .definition-wrap h2 {
+        max-width: 1050px;
+      }
+      .definition-wrap p {
+        max-width: 780px;
+        margin-top: 2rem;
+      }
+
+      .code-layout {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 5vw;
+        align-items: center;
+        margin-top: 3.5rem;
+      }
+      .code-visual {
+        position: relative;
+        min-height: 310px;
+        display: flex;
+        align-items: center;
+      }
+      .code-number {
+        font: 700 clamp(8rem, 17vw, 14rem)/0.8 var(--serif);
+        color: var(--accent);
+        letter-spacing: -0.06em;
+      }
+      .code-breakdown {
+        position: absolute;
+        left: 18%;
+        right: 0;
+        bottom: 12%;
+        display: flex;
+        border-top: 1px solid var(--line);
+        padding-top: 1rem;
+      }
+      .digit {
+        flex: 1;
+        padding-right: 1rem;
+      }
+      .digit b {
+        display: block;
+        font: 700 2rem var(--serif);
+        color: var(--fg);
+        margin-bottom: 0.3rem;
+      }
+      .digit span {
+        font-size: 0.72rem;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+      .rule {
+        border-left: 1px solid var(--line);
+        padding-left: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      .rule:last-child {
+        margin-bottom: 0;
+      }
+      .rule strong {
+        display: block;
+        font: 600 1.3rem var(--serif);
+        margin-bottom: 0.35rem;
+      }
+      .rule p {
+        font-size: 0.92rem;
+      }
+
+      .family-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        margin-top: 3rem;
+        border-top: 1px solid var(--line);
+      }
+      .family {
+        padding: 1.7rem 2rem 1.7rem 0;
+        border-bottom: 1px solid var(--line);
+        min-height: 150px;
+      }
+      .family:not(:nth-child(3n + 1)) {
+        padding-left: 2rem;
+        border-left: 1px solid var(--line);
+      }
+      .family .tag {
+        font: 700 1.7rem var(--serif);
+        color: var(--accent);
+        display: block;
+        margin-bottom: 0.45rem;
+      }
+      .family h3 {
+        margin-bottom: 0.45rem;
+      }
+      .family p {
+        font-size: 0.9rem;
+      }
+
+      .flow {
+        margin-top: 3rem;
+        border-top: 1px solid var(--line);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .flow-step {
+        padding: 1.7rem 1.5rem 1.5rem 0;
+        border-bottom: 1px solid var(--line);
+        position: relative;
+      }
+      .flow-step:not(:last-child) {
+        margin-right: 1.5rem;
+      }
+      .flow-step .num {
+        display: block;
+        font: 700 2.3rem var(--serif);
+        color: transparent;
+        -webkit-text-stroke: 1px var(--accent);
+        margin-bottom: 0.8rem;
+      }
+      .flow-step h3 {
+        margin-bottom: 0.45rem;
+      }
+      .flow-step p {
+        font-size: 0.9rem;
+      }
+      .flow-arrow {
+        position: absolute;
+        right: 0.5rem;
+        top: 2rem;
+        color: var(--accent);
+        font-size: 1.25rem;
+      }
+      .flow-step:last-child .flow-arrow {
+        display: none;
+      }
+
+      .importance-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.8rem 4rem;
+        margin-top: 3rem;
+      }
+      .importance-card .idx {
+        color: var(--accent);
+        font: 700 1rem var(--serif);
+        display: block;
+        margin-bottom: 0.7rem;
+      }
+      .importance-card h3 {
+        margin-bottom: 0.45rem;
+      }
+      .importance-card p {
+        font-size: 0.93rem;
+      }
+
+      .example {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 5vw;
+        align-items: center;
+        margin-top: 3rem;
+      }
+      .example-box {
+        border: 1px solid var(--line);
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.025);
+      }
+      .example-box .mini {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--muted);
+      }
+      .example-box .operation {
+        font: 600 clamp(1.4rem, 2.5vw, 2.1rem) var(--serif);
+        margin: 0.8rem 0 1.5rem;
+      }
+      .example-code {
+        font: 700 clamp(4rem, 8vw, 7rem) var(--serif);
+        color: var(--accent);
+        line-height: 0.8;
+      }
+      .example-list {
+        border-left: 1px solid var(--line);
+        padding-left: 2rem;
+      }
+      .example-list div {
+        margin-bottom: 1.5rem;
+      }
+      .example-list strong {
+        display: block;
+        font: 600 1.2rem var(--serif);
+        margin-bottom: 0.3rem;
+      }
+      .example-list p {
+        font-size: 0.9rem;
+      }
+
+      .final {
+        text-align: center;
+        align-items: center;
+      }
+      .final .big {
+        max-width: 1000px;
+      }
+      .final p {
+        max-width: 720px;
+        text-align: center;
+        margin: 1.5rem auto 0;
+      }
+      .final .quote {
+        margin-top: 2.5rem;
+        color: var(--fg);
+        font: 600 clamp(1.2rem, 2.2vw, 1.7rem) var(--serif);
+      }
+      .magnetic-btn {
+        margin-top: 2rem;
+        border: 1px solid var(--fg);
+        background: transparent;
+        color: var(--fg);
+        padding: 1rem 2.3rem;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: 0.3s var(--ease);
+      }
+      .magnetic-btn:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--bg);
+      }
+
+      .cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: var(--accent);
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transform: translate(-100px, -100px);
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(-25px, 25px);
+        }
+      }
+
+      @media (max-width: 900px) {
+        section {
+          padding: 7vh 7vw;
+        }
+        .code-layout,
+        .example {
+          grid-template-columns: 1fr;
+        }
+        .code-breakdown {
+          left: 8%;
+          right: 0;
+        }
+        .flow {
+          grid-template-columns: 1fr 1fr;
+        }
+        .flow-step:not(:last-child) {
+          margin-right: 0;
+        }
+        .family-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .family:not(:nth-child(3n + 1)) {
+          padding-left: 0;
+          border-left: 0;
+        }
+        .family:nth-child(even) {
+          padding-left: 2rem;
+          border-left: 1px solid var(--line);
+        }
+        .importance-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-meta {
+          gap: 1.7rem;
+        }
+      }
+      @media (max-width: 600px) {
+        .flow {
+          grid-template-columns: 1fr;
+        }
+        .family-grid {
+          grid-template-columns: 1fr;
+        }
+        .family:nth-child(even) {
+          padding-left: 0;
+          border-left: 0;
+        }
+        .code-breakdown {
+          position: relative;
+          left: 0;
+          bottom: auto;
+          margin-top: 1rem;
+        }
+        .code-visual {
+          min-height: 240px;
+        }
+        .bg-code {
+          font-size: 45vw;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+        .reveal,
+        .split-word .inner {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <main>
+      <!-- HERO -->
+      <section id="hero">
+        <div class="grid-bg"></div>
+        <div class="glow"></div>
+        <div class="bg-code">CST</div>
+
+        <div class="hero-content">
+          <span class="eyebrow reveal">Código de Situação Tributária</span>
+
+          <h1 class="split-text" data-split>
+            CST: o código que
+            <span class="highlight">explica a tributação</span> da operação.
+          </h1>
+
+          <p class="hero-copy reveal" style="--d: 0.2s">
+            Se o CFOP conta <strong>qual operação aconteceu</strong>, o CST
+            ajuda a indicar
+            <strong>como essa operação é tratada tributariamente</strong>.
+          </p>
+
+          <div class="hero-meta reveal" style="--d: 0.35s">
+            <div>
+              <span class="label">Significado</span>
+              <span class="value">Código de Situação Tributária</span>
+            </div>
+            <div>
+              <span class="label">Uso</span>
+              <span class="value">Regime Normal</span>
+            </div>
+            <div>
+              <span class="label">Função</span>
+              <span class="value">Identificar a situação tributária</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-cue">
+          <div class="line"></div>
+          Role para entender
+        </div>
+      </section>
+
+      <!-- O QUE É -->
+      <section style="background: var(--bg-alt)">
+        <div class="definition-wrap">
+          <span class="eyebrow reveal">01 · O conceito</span>
+          <h2 class="reveal">
+            O CST responde a uma pergunta essencial:
+            <span class="highlight">“Como essa operação é tributada?”</span>
+          </h2>
+
+          <p class="reveal" style="--d: 0.15s">
+            O CST é utilizado para identificar a situação tributária de uma
+            operação em relação ao ICMS, indicando como a mercadoria ou operação
+            deve ser enquadrada para fins de tributação.
+          </p>
+        </div>
+        <div class="hairline"></div>
+      </section>
+
+      <!-- COMO LER -->
+      <section>
+        <span class="eyebrow reveal">02 · Como ler</span>
+        <h2 class="reveal">
+          Os dois dígitos carregam uma informação tributária.
+        </h2>
+
+        <div class="code-layout">
+          <div class="code-visual reveal">
+            <div class="code-number">00</div>
+            <div class="code-breakdown">
+              <div class="digit">
+                <b>0</b>
+                <span>Origem da mercadoria<br />Nacional</span>
+              </div>
+              <div class="digit">
+                <b>0</b>
+                <span>Situação tributária<br />Tributada integralmente</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="rule reveal" style="--d: 0.1s">
+              <strong>Primeiro dígito</strong>
+              <p>
+                Indica a origem da mercadoria ou produto, conforme a tabela de
+                origem.
+              </p>
+            </div>
+            <div class="rule reveal" style="--d: 0.18s">
+              <strong>Segundo e terceiro dígitos</strong>
+              <p>
+                Na codificação completa do CST de ICMS, identificam a situação
+                tributária.
+              </p>
+            </div>
+            <div class="rule reveal" style="--d: 0.26s">
+              <strong>Exemplo: CST 00</strong>
+              <p>
+                Mercadoria de origem nacional com tributação do ICMS
+                integralmente.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAMÍLIAS -->
+      <section style="background: var(--bg-alt)">
+        <span class="eyebrow reveal">03 · Situações tributárias</span>
+        <h2 class="reveal">O CST muda conforme o tratamento do ICMS.</h2>
+
+        <div class="family-grid">
+          <div class="family reveal">
+            <span class="tag">00</span>
+            <h3>Tributada integralmente</h3>
+            <p>Operação tributada integralmente pelo ICMS.</p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.08s">
+            <span class="tag">10</span>
+            <h3>Tributada com ST</h3>
+            <p>
+              Tributação própria e sujeição ao regime de substituição
+              tributária.
+            </p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.16s">
+            <span class="tag">20</span>
+            <h3>Com redução de base</h3>
+            <p>Tributada com redução da base de cálculo do ICMS.</p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.24s">
+            <span class="tag">40</span>
+            <h3>Isenta</h3>
+            <p>Operação ou prestação isenta de ICMS.</p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.32s">
+            <span class="tag">41</span>
+            <h3>Não tributada</h3>
+            <p>Operação ou prestação não tributada pelo ICMS.</p>
+          </div>
+
+          <div class="family reveal" style="--d: 0.4s">
+            <span class="tag">60</span>
+            <h3>ICMS-ST já retido</h3>
+            <p>ICMS cobrado anteriormente por substituição tributária.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- NA PRÁTICA -->
+      <section>
+        <span class="eyebrow reveal">04 · Na prática</span>
+        <h2 class="reveal">CFOP e CST trabalham juntos.</h2>
+
+        <div class="flow">
+          <div class="flow-step reveal">
+            <span class="num">01</span>
+            <h3>Operação</h3>
+            <p>
+              Primeiro entendemos o que realmente aconteceu: compra, venda,
+              devolução, transferência ou outra operação.
+            </p>
+            <span class="flow-arrow">→</span>
+          </div>
+
+          <div class="flow-step reveal" style="--d: 0.1s">
+            <span class="num">02</span>
+            <h3>CFOP</h3>
+            <p>
+              O CFOP classifica a natureza da operação e seu fluxo de entrada ou
+              saída.
+            </p>
+            <span class="flow-arrow">→</span>
+          </div>
+
+          <div class="flow-step reveal" style="--d: 0.2s">
+            <span class="num">03</span>
+            <h3>CST</h3>
+            <p>
+              O CST indica a situação tributária aplicável ao ICMS daquela
+              operação.
+            </p>
+            <span class="flow-arrow">→</span>
+          </div>
+
+          <div class="flow-step reveal" style="--d: 0.3s">
+            <span class="num">04</span>
+            <h3>NF-e</h3>
+            <p>
+              As informações fiscais precisam estar coerentes com a operação
+              efetivamente realizada.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMPORTÂNCIA -->
+      <section style="background: var(--bg-alt)">
+        <span class="eyebrow reveal">05 · Por que isso importa?</span>
+        <h2 class="reveal">Dois dígitos. Um impacto tributário.</h2>
+
+        <div class="importance-grid">
+          <div class="importance-card reveal">
+            <span class="idx">01</span>
+            <h3>Define o tratamento do ICMS</h3>
+            <p>
+              O CST ajuda a identificar se a operação é tributada, isenta, não
+              tributada, com redução ou sujeita a substituição tributária.
+            </p>
+          </div>
+
+          <div class="importance-card reveal" style="--d: 0.1s">
+            <span class="idx">02</span>
+            <h3>Interage com outros dados</h3>
+            <p>
+              O CST deve ser analisado em conjunto com CFOP, NCM, origem, base
+              de cálculo e demais regras fiscais aplicáveis.
+            </p>
+          </div>
+
+          <div class="importance-card reveal" style="--d: 0.2s">
+            <span class="idx">03</span>
+            <h3>Impacta a apuração</h3>
+            <p>
+              Uma classificação incorreta pode alterar a forma como a operação é
+              tratada na escrituração e na apuração dos tributos.
+            </p>
+          </div>
+
+          <div class="importance-card reveal" style="--d: 0.3s">
+            <span class="idx">04</span>
+            <h3>Exige atenção do faturamento</h3>
+            <p>
+              O código escolhido precisa representar corretamente a situação
+              tributária da mercadoria e da operação.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXEMPLO -->
+      <section>
+        <span class="eyebrow reveal">06 · Um exemplo</span>
+        <h2 class="reveal">
+          Antes de escolher o CST, entenda o tratamento tributário.
+        </h2>
+
+        <div class="example">
+          <div class="example-box reveal">
+            <span class="mini">Exemplo ilustrativo</span>
+            <div class="operation">
+              Mercadoria nacional, operação tributada integralmente
+            </div>
+            <div class="example-code">CST 00</div>
+          </div>
+
+          <div class="example-list">
+            <div class="reveal" style="--d: 0.1s">
+              <strong>Primeiro: origem</strong>
+              <p>
+                A mercadoria é nacional? O primeiro dígito deverá refletir sua
+                origem.
+              </p>
+            </div>
+            <div class="reveal" style="--d: 0.18s">
+              <strong>Depois: tributação</strong>
+              <p>
+                Verifique como o ICMS incide sobre aquela operação: integral,
+                reduzido, isento, ST etc.
+              </p>
+            </div>
+            <div class="reveal" style="--d: 0.26s">
+              <strong>Por fim: conferência</strong>
+              <p>
+                Valide o CST junto ao CFOP e às demais regras fiscais aplicáveis
+                ao produto e à operação.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ALERTA -->
+      <section style="background: var(--bg-alt)">
+        <span class="eyebrow reveal">07 · Atenção</span>
+        <h2 class="reveal">
+          <span class="highlight">CST não é CSOSN.</span>
+          O regime tributário importa.
+        </h2>
+
+        <div class="importance-grid">
+          <div class="importance-card reveal">
+            <span class="idx">CST</span>
+            <h3>Regime Normal</h3>
+            <p>
+              Utilizado para indicar a situação tributária do ICMS nas operações
+              de contribuintes enquadrados no regime normal.
+            </p>
+          </div>
+
+          <div class="importance-card reveal" style="--d: 0.1s">
+            <span class="idx">CSOSN</span>
+            <h3>Simples Nacional</h3>
+            <p>
+              Para empresas do Simples Nacional, a classificação do ICMS utiliza
+              códigos próprios do CSOSN.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESUMO -->
+      <section class="final">
+        <div class="big">
+          <span class="eyebrow reveal">08 · Em resumo</span>
+          <h2 class="reveal split-text" data-split>
+            CST não é apenas um código na nota.
+          </h2>
+
+          <p class="reveal" style="--d: 0.18s">
+            É uma informação que ajuda a explicar ao sistema e ao Fisco
+            <span class="highlight">como o ICMS deve ser tratado</span>. Por
+            isso, entender a operação e o regime tributário vem antes de
+            escolher o código.
+          </p>
+
+          <div class="quote reveal" style="--d: 0.3s">
+            “O CFOP explica a operação. O CST explica a tributação.”
+          </div>
+
+          <a
+            href="http://www.ccentral.com.br/web/documentos/CST-CSOSN.pdf"
+            target="_blank"
+          >
+            <button class="magnetic-btn reveal" style="--d: 0.4s" id="btn">
+              Tabela CST
+            </button>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      ;(function () {
+        'use strict'
+
+        document.querySelectorAll('[data-split]').forEach(function (el) {
+          const text = el.textContent.trim()
+          el.textContent = ''
+          text.split(' ').forEach(function (word, i) {
+            const wrap = document.createElement('span')
+            wrap.className = 'split-word'
+            const inner = document.createElement('span')
+            inner.className = 'inner'
+            inner.textContent = word
+            inner.style.setProperty('--i', i)
+            wrap.appendChild(inner)
+            el.appendChild(wrap)
+            el.appendChild(document.createTextNode(' '))
+          })
+        })
+
+        const targets = document.querySelectorAll('.reveal,.split-text')
+
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver(
+            entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('visible')
+                  io.unobserve(entry.target)
+                }
+              })
+            },
+            { threshold: 0.2 }
+          )
+
+          targets.forEach(el => io.observe(el))
+        } else {
+          targets.forEach(el => el.classList.add('visible'))
+        }
+
+        const cursor = document.getElementById('cursor')
+        const desktop = window.matchMedia(
+          '(hover:hover) and (pointer:fine)'
+        ).matches
+
+        if (desktop) {
+          let tx = -100,
+            ty = -100,
+            x = -100,
+            y = -100
+
+          window.addEventListener('pointermove', e => {
+            tx = e.clientX - 6
+            ty = e.clientY - 6
+          })
+
+          function animate() {
+            x += (tx - x) * 0.18
+            y += (ty - y) * 0.18
+            cursor.style.transform = `translate(${x}px,${y}px)`
+            requestAnimationFrame(animate)
+          }
+
+          animate()
+
+          document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('pointermove', e => {
+              const r = btn.getBoundingClientRect()
+              const rx = e.clientX - r.left - r.width / 2
+              const ry = e.clientY - r.top - r.height / 2
+              btn.style.transform = `translate(${rx * 0.25}px,${ry * 0.25}px)`
+            })
+
+            btn.addEventListener('pointerleave', () => {
+              btn.style.transform = 'translate(0,0)'
+            })
+          })
+        } else {
+          cursor.style.display = 'none'
+        }
+      })()
+    </script>
+  </body>
+</html>
