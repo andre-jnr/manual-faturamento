@@ -1,0 +1,1342 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DANFE — O Documento Auxiliar da Nota Fiscal Eletrônica</title>
+    <style>
+      /* ============================================================
+     DESIGN TOKENS — IDENTIDADE VISUAL FIXA DESTA SKILL
+     Mantenha estas 5 cores e as 2 famílias tipográficas como estão
+     em toda peça gerada — é a assinatura visual do formato. Só
+     altere se o usuário pedir explicitamente outra paleta/fonte.
+     Tudo no CSS abaixo consome estas variáveis — nunca hardcode
+     uma cor direto numa regra, sempre passe por aqui.
+     ============================================================ */
+      :root {
+        --bg: #0b0e11;
+        --bg-alt: #10151b;
+        --fg: #f2ede4;
+        --accent: #d9a441;
+        --muted: #8b9099;
+        --line: rgba(255, 255, 255, 0.1);
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --font-display:
+          Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman',
+          serif;
+        --font-body:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+          Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      html,
+      body {
+        background: var(--bg);
+        color: var(--fg);
+        overflow-x: hidden;
+      }
+      body {
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 6vh 6vw;
+        position: relative;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: var(--font-display);
+        font-weight: 700;
+      }
+      h1 {
+        font-size: clamp(2.4rem, 8.5vw, 7.2rem);
+        line-height: 0.98;
+        letter-spacing: -0.02em;
+      }
+      h2 {
+        font-size: clamp(1.9rem, 4.6vw, 3.8rem);
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        font-weight: 600;
+      }
+      h3 {
+        font-size: clamp(1.2rem, 2vw, 1.7rem);
+        font-weight: 600;
+      }
+      p {
+        font-size: clamp(1rem, 1.35vw, 1.2rem);
+        color: var(--muted);
+        max-width: 58ch;
+        line-height: 1.6;
+      }
+
+      .eyebrow {
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1.4rem;
+        display: inline-block;
+      }
+      .highlight {
+        color: var(--accent);
+      }
+
+      /* ===== reveal genérico (fade + sobe) ===== */
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.9s var(--ease),
+          transform 0.9s var(--ease);
+        transition-delay: var(--d, 0s);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ===== split text (palavra por palavra) ===== */
+      .split-word {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        margin-right: 0.28em;
+      }
+      .split-word .inner {
+        display: inline-block;
+        transform: translateY(115%);
+        opacity: 0;
+        transition:
+          transform 0.8s var(--ease),
+          opacity 0.8s var(--ease);
+        transition-delay: calc(var(--i, 0) * 0.06s);
+      }
+      .split-text.visible .split-word .inner {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* ===== cursor customizado (desktop) ===== */
+      .cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent);
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transform: translate(-100px, -100px);
+        will-change: transform;
+      }
+
+      /* ===== botão magnético ===== */
+      .magnetic-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 1.1rem 2.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--fg);
+        background: transparent;
+        color: var(--fg);
+        font-size: 1rem;
+        font-family: var(--font-body);
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+          transform 0.3s var(--ease),
+          background 0.3s var(--ease),
+          color 0.3s var(--ease);
+      }
+      .magnetic-btn:hover {
+        background: var(--accent);
+        color: var(--bg);
+        border-color: var(--accent);
+      }
+
+      .hairline {
+        position: absolute;
+        left: 6vw;
+        right: 6vw;
+        bottom: 0;
+        height: 1px;
+        background: var(--line);
+      }
+
+      /* ===== HERO ===== */
+      .hero-bg-num {
+        position: absolute;
+        right: -2vw;
+        bottom: -4vh;
+        font-family: var(--font-display);
+        font-size: clamp(6rem, 26vw, 22rem);
+        font-weight: 700;
+        color: transparent;
+        -webkit-text-stroke: 1px var(--line);
+        z-index: 0;
+        pointer-events: none;
+        user-select: none;
+        line-height: 1;
+        will-change: transform;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+        transition: opacity 0.3s linear;
+      }
+      .hero-meta {
+        display: flex;
+        gap: 3rem;
+        margin-top: 3.5rem;
+        flex-wrap: wrap;
+      }
+      .hero-meta div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .hero-meta .label {
+        font-size: 0.72rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .hero-meta .value {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        color: var(--fg);
+      }
+      .scroll-cue {
+        position: absolute;
+        bottom: 4vh;
+        left: 6vw;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .scroll-cue .line {
+        width: 40px;
+        height: 1px;
+        background: var(--muted);
+      }
+
+      /* ===== definição / bloco de texto largo ===== */
+      .definition-wrap {
+        max-width: 1100px;
+      }
+      .definition-wrap h2 {
+        color: var(--fg);
+      }
+      .doc-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+        font-size: 0.85rem;
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(217, 164, 65, 0.4);
+        padding-bottom: 2px;
+      }
+      .doc-link:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      /* ===== lista tipo "linhas" (anatomia, sites) ===== */
+      .types-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        margin-top: 3rem;
+        border-top: 1px solid var(--line);
+      }
+      .type-row {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid var(--line);
+        align-items: baseline;
+      }
+      .type-row .tag {
+        font-family: var(--font-display);
+        color: var(--accent);
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+      .type-row .tag.loc {
+        font-size: 0.82rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        line-height: 1.3;
+      }
+      .type-row .name {
+        font-family: var(--font-display);
+        font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+        color: var(--fg);
+        margin-bottom: 0.35rem;
+        font-weight: 700;
+      }
+      .type-row p {
+        margin: 0;
+        max-width: 62ch;
+        font-size: clamp(0.92rem, 1.2vw, 1.05rem);
+      }
+      .type-row .site-url {
+        display: inline-block;
+        margin-top: 0.7rem;
+        font-size: 0.82rem;
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(217, 164, 65, 0.4);
+      }
+      .type-row .site-url:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      /* ===== grade de cartões (fornecedor, argumentos) ===== */
+      .importance-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem 3rem;
+        margin-top: 3rem;
+      }
+      @media (max-width: 760px) {
+        .importance-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .importance-card h3 {
+        color: var(--fg);
+        margin-bottom: 0.6rem;
+      }
+      .importance-card .idx {
+        color: var(--accent);
+        font-family: var(--font-display);
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+        display: block;
+        font-weight: 700;
+      }
+      .importance-card p {
+        font-size: clamp(0.92rem, 1.2vw, 1.05rem);
+      }
+      .callout {
+        margin-top: 2.6rem;
+        padding: 1.3rem 1.6rem;
+        border-left: 2px solid var(--accent);
+        background: var(--bg);
+        max-width: 780px;
+      }
+      .callout p {
+        font-size: 0.92rem;
+        max-width: none;
+      }
+
+      /* ============================================================
+     CHAVE DE ACESSO — segmentos marcados + legenda
+     ============================================================ */
+      .key-wrap {
+        margin-top: 3rem;
+      }
+      .key-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem 0.5rem;
+      }
+      .key-chip {
+        position: relative;
+        padding: 0.75rem 0.9rem 0.6rem;
+        border-radius: 10px;
+        border: 1px solid rgba(217, 164, 65, 0.45);
+        background: rgba(217, 164, 65, 0.08);
+        font-family: var(--font-display);
+        font-variant-numeric: tabular-nums;
+        font-size: clamp(0.95rem, 1.9vw, 1.55rem);
+        font-weight: 700;
+        color: var(--fg);
+        letter-spacing: 0.03em;
+      }
+      .key-chip .idx {
+        position: absolute;
+        top: -0.9rem;
+        left: 0.75rem;
+        font-family: var(--font-body);
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        color: var(--accent);
+        background: var(--bg-alt);
+        padding: 0 0.3rem;
+      }
+      .key-legend {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem 2.2rem;
+        margin-top: 3rem;
+      }
+      .key-legend-item {
+        border-top: 1px solid var(--line);
+        padding-top: 0.85rem;
+      }
+      .key-legend-item .n {
+        font-family: var(--font-display);
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 0.9rem;
+        margin-right: 0.35rem;
+      }
+      .key-legend-item h4 {
+        font-family: var(--font-display);
+        font-size: 0.94rem;
+        color: var(--fg);
+        display: inline;
+      }
+      .key-legend-item .val {
+        display: block;
+        font-family: var(--font-display);
+        color: var(--accent);
+        font-size: 0.82rem;
+        margin: 0.3rem 0 0.35rem;
+        letter-spacing: 0.02em;
+      }
+      .key-legend-item p {
+        font-size: 0.78rem;
+        max-width: 34ch;
+        margin: 0;
+        line-height: 1.45;
+        color: var(--muted);
+      }
+      @media (max-width: 900px) {
+        .key-legend {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .key-legend {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ===== bloco de citação (dados adicionais) ===== */
+      .quote-box {
+        margin-top: 2rem;
+        padding: 1.5rem 1.7rem;
+        border-left: 2px solid var(--accent);
+        background: var(--bg);
+        max-width: 760px;
+      }
+      .quote-box p {
+        font-family: var(--font-display);
+        font-style: italic;
+        color: var(--fg);
+        font-size: clamp(0.9rem, 1.3vw, 1.02rem);
+        max-width: none;
+        line-height: 1.6;
+      }
+      .quote-box .src {
+        display: block;
+        margin-top: 0.9rem;
+        font-family: var(--font-body);
+        font-style: normal;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .comp-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem 2.5rem;
+        margin-top: 2.2rem;
+        max-width: 900px;
+      }
+      .comp-list li {
+        list-style: none;
+        font-size: 0.92rem;
+        color: var(--muted);
+        padding-left: 1.2rem;
+        position: relative;
+        line-height: 1.5;
+      }
+      .comp-list li::before {
+        content: '—';
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+      }
+      @media (max-width: 700px) {
+        .comp-list {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ===== seções centralizadas (fechamento / CTA) ===== */
+      .cta-section {
+        align-items: center;
+        text-align: center;
+      }
+      .cta-section h2 {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      @media (hover: none), (pointer: coarse) {
+        .cursor-dot {
+          display: none;
+        }
+      }
+      @media (min-width: 1025px) {
+        section {
+          padding: 8vh 8vw;
+        }
+      }
+
+      /* ============================================================
+     MODO APRESENTAÇÃO (SLIDES) — só em telas de computador
+     ============================================================ */
+      body.slides-mode,
+      body.slides-mode main {
+        height: 100vh;
+        overflow: hidden;
+      }
+      body.slides-mode html {
+        scroll-behavior: auto;
+      }
+
+      body.slides-mode section {
+        position: fixed;
+        inset: 0;
+        height: 100vh;
+        width: 100vw;
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.75s var(--ease),
+          transform 0.75s var(--ease);
+        pointer-events: none;
+        z-index: 1;
+      }
+      body.slides-mode section.slide-active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        z-index: 3;
+      }
+      body.slides-mode section.slide-exit-prev {
+        opacity: 0;
+        transform: translateY(-28px);
+        z-index: 2;
+      }
+      body.slides-mode section.slide-exit-next {
+        opacity: 0;
+        transform: translateY(28px);
+        z-index: 2;
+      }
+
+      .deck-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--line);
+        z-index: 10000;
+        display: none;
+      }
+      body.slides-mode .deck-progress {
+        display: block;
+      }
+      .deck-progress-fill {
+        height: 100%;
+        width: 0%;
+        background: var(--accent);
+        transition: width 0.6s var(--ease);
+      }
+
+      .slide-nav {
+        position: fixed;
+        bottom: 4vh;
+        right: 6vw;
+        z-index: 10000;
+        display: none;
+        align-items: center;
+        gap: 1.3rem;
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      body.slides-mode .slide-nav {
+        display: flex;
+      }
+      .slide-counter {
+        color: var(--fg);
+        font-variant-numeric: tabular-nums;
+      }
+      .slide-arrow {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--fg);
+        font-size: 1.2rem;
+        line-height: 1;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          transform 0.3s var(--ease),
+          background 0.3s var(--ease),
+          border-color 0.3s var(--ease),
+          opacity 0.3s var(--ease);
+      }
+      .slide-arrow:hover:not(:disabled) {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--bg);
+      }
+      .slide-arrow:disabled {
+        opacity: 0.25;
+        cursor: default;
+      }
+
+      body.slides-mode .scroll-cue {
+        cursor: pointer;
+      }
+
+      /* no modo apresentação, seções densas usam a tela toda com scroll interno */
+      body.slides-mode section.dense-slide {
+        overflow-y: auto;
+        align-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <div class="deck-progress" id="deckProgress">
+      <div class="deck-progress-fill" id="deckProgressFill"></div>
+    </div>
+    <div class="slide-nav" id="slideNav">
+      <button
+        class="slide-arrow"
+        id="slidePrev"
+        type="button"
+        aria-label="Slide anterior"
+      >
+        ‹
+      </button>
+      <span class="slide-counter" id="slideCounter">01 / 01</span>
+      <button
+        class="slide-arrow"
+        id="slideNext"
+        type="button"
+        aria-label="Próximo slide"
+      >
+        ›
+      </button>
+    </div>
+
+    <main>
+      <!-- ===== HERO ===== -->
+      <section id="hero" style="overflow: hidden">
+        <div class="hero-bg-num" id="heroNum">DANFE</div>
+        <div class="hero-content" id="heroContent">
+          <span class="eyebrow">Documento fiscal</span>
+          <h1 class="split-text" data-split>DANFE: o retrato em papel da nota fiscal eletrônica.</h1>
+          <p
+            style="
+              margin-top: 1.6rem;
+              font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+            "
+          >
+            É o documento que sai da impressora, acompanha o caminhão e é
+            conferido no recebimento — a versão legível de um arquivo XML que,
+            sozinho, ninguém consegue ler.
+          </p>
+          <div class="hero-meta">
+            <div>
+              <span class="label">Significado</span
+              ><span class="value">Documento Auxiliar da NF-e</span>
+            </div>
+            <div>
+              <span class="label">Uso</span
+              ><span class="value">Acompanha a mercadoria</span>
+            </div>
+            <div>
+              <span class="label">Função</span
+              ><span class="value">Conferência no recebimento</span>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-cue">
+          <div class="line"></div>
+          <span class="scroll-cue-text">Role para entender</span>
+        </div>
+      </section>
+
+      <!-- ===== DEFINIÇÃO ===== -->
+      <section style="background: var(--bg-alt)">
+        <div class="definition-wrap">
+          <span class="eyebrow reveal">01 · O conceito</span>
+          <h2 class="reveal">
+            DANFE não é a nota fiscal —
+            <span class="highlight">é a representação gráfica</span> dela.
+          </h2>
+          <p class="reveal" style="margin-top: 2.2rem; --d: 0.15s">
+            A Nota Fiscal Eletrônica (NF-e) existe, oficialmente, como um
+            arquivo XML assinado digitalmente e autorizado pela Sefaz.
+            Ninguém guarda XML na gaveta nem entrega XML pro motorista. A
+            DANFE — Documento Auxiliar da Nota Fiscal Eletrônica — é o papel
+            que traduz esse XML em algo que qualquer pessoa consegue ler,
+            conferir e assinar no ato do recebimento.
+          </p>
+          <p class="reveal" style="margin-top: 1.2rem; --d: 0.22s">
+            Ela não tem valor fiscal por conta própria: o que vale legalmente
+            é a NF-e autorizada. A DANFE só existe para acompanhar o
+            transporte da mercadoria e permitir a conferência visual — e a
+            ponte entre os dois documentos é a chave de acesso, os 44 números
+            impressos e virados em código de barras no topo da folha.
+          </p>
+          <a
+            class="doc-link reveal"
+            style="--d: 0.3s"
+            href="assets/13260819234190000644550010000049531000720480.pdf"
+            target="_blank"
+            rel="noopener"
+          >
+            Ver a DANFE de exemplo usada nesta página (PDF) ↗
+          </a>
+        </div>
+        <div class="hairline"></div>
+      </section>
+
+      <!-- ===== ANATOMIA DA NOTA — METADE SUPERIOR ===== -->
+      <section>
+        <span class="eyebrow reveal">02 · Como ler a folha (topo)</span>
+        <h2 class="reveal">
+          Cada canto da DANFE tem uma função —
+          <span class="highlight">sempre a mesma</span>, nota após nota.
+        </h2>
+        <div class="types-grid">
+          <div class="type-row reveal" style="--d: 0s">
+            <span class="tag loc">Topo</span>
+            <div>
+              <div class="name">Canhoto (recibo de entrega)</div>
+              <p>
+                A tira destacável no alto da folha, com os dados de quem
+                recebeu e a data do recebimento. É ela que fica assinada com
+                quem entrega a carga, como comprovante para o motorista.
+              </p>
+            </div>
+          </div>
+          <div class="type-row reveal" style="--d: 0.08s">
+            <span class="tag loc">Esquerda</span>
+            <div>
+              <div class="name">Identificação do emitente</div>
+              <p>
+                Nome, endereço e CNPJ de quem emitiu a nota, logo abaixo do
+                canhoto — o primeiro lugar a olhar para saber quem vendeu ou
+                transferiu a mercadoria.
+              </p>
+            </div>
+          </div>
+          <div class="type-row reveal" style="--d: 0.16s">
+            <span class="tag loc">Direita</span>
+            <div>
+              <div class="name">Quadro DANFE</div>
+              <p>
+                O selo "DANFE" com o tipo de operação (0-Entrada / 1-Saída) e,
+                repetidos aqui, o Número, a Série e a Folha da nota — os
+                mesmos valores que aparecem no canhoto.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ANATOMIA DA NOTA — METADE INFERIOR ===== -->
+      <section style="background: var(--bg-alt)">
+        <span class="eyebrow reveal">03 · Como ler a folha (corpo)</span>
+        <h2 class="reveal">
+          Da metade da folha pra baixo, a operação
+          <span class="highlight">vira números.</span>
+        </h2>
+        <div class="types-grid">
+          <div class="type-row reveal" style="--d: 0s">
+            <span class="tag loc">Centro</span>
+            <div>
+              <div class="name">Chave de acesso e natureza da operação</div>
+              <p>
+                Logo abaixo do quadro DANFE: o código de barras, os 44
+                dígitos da chave de acesso, a frase que explica o motivo da
+                nota e o protocolo de autorização da Sefaz.
+              </p>
+            </div>
+          </div>
+          <div class="type-row reveal" style="--d: 0.08s">
+            <span class="tag loc">Meio</span>
+            <div>
+              <div class="name">Destinatário / remetente</div>
+              <p>
+                Quem recebe a mercadoria: nome, CNPJ/CPF, endereço, município
+                e inscrição estadual — o espelho dos dados do emitente, do
+                outro lado da operação.
+              </p>
+            </div>
+          </div>
+          <div class="type-row reveal" style="--d: 0.16s">
+            <span class="tag loc">Corpo</span>
+            <div>
+              <div class="name">
+                Cálculo do imposto, transportador e produtos
+              </div>
+              <p>
+                A faixa central traz os totais de ICMS, IPI e da nota; abaixo,
+                quem transportou a carga (placa, peso, volumes) e, por fim, a
+                tabela com cada produto, <a href="../ncm.html">NCM</a>,
+                <a href="../cfop.html">CFOP</a> e valores.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== FORNECEDOR ===== -->
+      <section>
+        <span class="eyebrow reveal">04 · Quem vendeu</span>
+        <h2 class="reveal">
+          Todo dado do fornecedor está a
+          <span class="highlight">um olhar de distância</span>, no bloco do
+          emitente.
+        </h2>
+        <div class="importance-grid">
+          <div class="importance-card reveal" style="--d: 0s">
+            <span class="idx">01</span>
+            <h3>CNPJ</h3>
+            <p>
+              No bloco "Identificação do emitente", sempre com máscara — no
+              exemplo, 19.234.190/0006-44. É o identificador oficial da
+              empresa perante a Receita Federal.
+            </p>
+          </div>
+          <div class="importance-card reveal" style="--d: 0.08s">
+            <span class="idx">02</span>
+            <h3>Inscrição estadual</h3>
+            <p>
+              Logo abaixo do CNPJ: o registro da empresa junto à Sefaz do seu
+              estado — no exemplo, 054486394, vinculado ao Amazonas.
+            </p>
+          </div>
+          <div class="importance-card reveal" style="--d: 0.16s">
+            <span class="idx">03</span>
+            <h3>Endereço completo</h3>
+            <p>
+              Rua, número, bairro, CEP, município e UF do estabelecimento
+              emitente — no exemplo, Rua Rio Carauari, 100, São José
+              Operário, Manaus-AM.
+            </p>
+          </div>
+          <div class="importance-card reveal" style="--d: 0.24s">
+            <span class="idx">04</span>
+            <h3>Natureza da operação e protocolo</h3>
+            <p>
+              Um pouco abaixo, a frase que explica o motivo da nota — venda,
+              transferência, devolução — e o protocolo de autorização, prova
+              de que a Sefaz validou o documento.
+            </p>
+          </div>
+        </div>
+        <div class="callout reveal" style="--d: 0.3s">
+          <p>
+            <strong style="color: var(--fg)">Curiosidade do exemplo:</strong>
+            emitente (19.234.190/0006-44) e destinatário
+            (19.234.190/0007-25) compartilham a mesma raiz de CNPJ — só o
+            sufixo de filial muda. É uma transferência entre estabelecimentos
+            da própria empresa, e por isso o ICMS da nota aparece zerado.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===== CHAVE DE ACESSO ===== -->
+      <section style="background: var(--bg-alt)">
+        <span class="eyebrow reveal">05 · Curiosidade</span>
+        <h2 class="reveal">
+          Os 44 números da chave de acesso
+          <span class="highlight">não são aleatórios</span> — cada grupo
+          conta uma parte da história da nota.
+        </h2>
+        <p class="reveal" style="margin-top: 1.6rem; --d: 0.1s">
+          Impressa em blocos de 4 para facilitar a leitura, a chave abaixo é
+          na verdade a soma de 9 campos com significados diferentes. Cada
+          bloco marcado corresponde a um item da legenda:
+        </p>
+        <div class="key-wrap">
+          <div class="key-strip reveal" style="--d: 0.16s">
+            <div class="key-chip"><span class="idx">1</span>13</div>
+            <div class="key-chip"><span class="idx">2</span>2608</div>
+            <div class="key-chip"><span class="idx">3</span>19234190000644</div>
+            <div class="key-chip"><span class="idx">4</span>55</div>
+            <div class="key-chip"><span class="idx">5</span>001</div>
+            <div class="key-chip"><span class="idx">6</span>000004953</div>
+            <div class="key-chip"><span class="idx">7</span>1</div>
+            <div class="key-chip"><span class="idx">8</span>00072048</div>
+            <div class="key-chip"><span class="idx">9</span>0</div>
+          </div>
+          <div class="key-legend">
+            <div class="key-legend-item reveal" style="--d: 0.2s">
+              <span class="n">1</span><h4>UF do emitente</h4>
+              <span class="val">13</span>
+              <p>Código IBGE do estado emissor. 13 = Amazonas.</p>
+            </div>
+            <div class="key-legend-item reveal" style="--d: 0.23s">
+              <span class="n">2</span><h4>Ano e mês (AAMM)</h4>
+              <span class="val">2608 → 08/2026</span>
+              <p>Ano e mês de emissão da nota, dois dígitos cada.</p>
+            </div>
+            <div class="key-legend-item reveal" style="--d: 0.26s">
+              <span class="n">3</span><h4>CNPJ do emitente</h4>
+              <span class="val">19.234.190/0006-44</span>
+              <p>CNPJ de quem emitiu a nota, sem pontuação na chave.</p>
+            </div>
+            <div class="key-legend-item reveal" style="--d: 0.29s">
+              <span class="n">4</span><h4>Modelo do documento</h4>
+              <span class="val">55</span>
+              <p>55 = NF-e (mercadorias). 65 seria uma NFC-e.</p>
+            </div>
+            <div class="key-legend-item reveal" style="--d: 0.32s">
+              <span class="n">5</span><h4>Série</h4>
+              <span class="val">001</span>
+              <p>Série de numeração escolhida pela empresa emitente.</p>
+            </div>
+            <div class="key-legend-item reveal" style="--d: 0.35s">
+              <span class="n">6</span><h4>Número da NF-e</h4>
+              <span class="val">000.004.953</span>
+              <p>Número sequencial da nota dentro da série.</p>
+            </div>
+            <div class="key-legend-item reveal" style="--d: 0.38s">
+              <span class="n">7</span><h4>Forma de emissão</h4>
+              <span class="val">1 = normal</span>
+              <p>Como a nota foi emitida. 1 = online; 9 seria contingência.</p>
+            </div>
+            <div class="key-legend-item reveal" style="--d: 0.41s">
+              <span class="n">8</span><h4>Código numérico</h4>
+              <span class="val">00072048</span>
+              <p>Número aleatório gerado para evitar chaves duplicadas.</p>
+            </div>
+            <div class="key-legend-item reveal" style="--d: 0.44s">
+              <span class="n">9</span><h4>Dígito verificador</h4>
+              <span class="val">0</span>
+              <p>Calculado por módulo 11 sobre os outros 43 números.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== DADOS ADICIONAIS ===== -->
+      <section>
+        <span class="eyebrow reveal">06 · Informações complementares</span>
+        <h2 class="reveal">
+          O campo de texto livre no rodapé costuma esconder
+          <span class="highlight">a informação mais importante.</span>
+        </h2>
+        <p class="reveal" style="margin-top: 1.6rem; --d: 0.1s">
+          Nem toda exceção fiscal cabe nos campos padronizados da nota. Para
+          isso existe "Dados Adicionais / Informações Complementares" — um
+          campo de texto livre que o próprio emitente preenche, e que costuma
+          ser a parte mais lida por quem confere a nota manualmente.
+        </p>
+        <div class="quote-box reveal" style="--d: 0.18s">
+          <p>
+            "Inf. Contribuinte: ISENTO DE ICMS CONF. DECRETO 1.090-R
+            25/10/2002. BASE CÁLCULO ICMS RED. EM 60% CONF. RICMS DECRETO
+            1.090-R 25/10/2002. Email do Destinatário: (…)"
+          </p>
+          <span class="src"
+            >Texto real extraído da DANFE de exemplo desta página</span
+          >
+        </div>
+        <ul class="comp-list reveal" style="--d: 0.26s">
+          <li>Base legal de isenções, reduções e benefícios fiscais</li>
+          <li>Referências a pedidos de compra, contratos ou convênios</li>
+          <li>Contatos extras (e-mail, telefone) fora dos campos fixos</li>
+          <li>Observações operacionais — urgência, instruções de entrega</li>
+        </ul>
+      </section>
+
+      <!-- ===== SITES PARA DANFE EXPRESSA ===== -->
+      <section style="background: var(--bg-alt)">
+        <span class="eyebrow reveal">07 · Na prática</span>
+        <h2 class="reveal">
+          Perdeu o PDF? Portais reemitem a DANFE
+          <span class="highlight">a partir da chave de acesso.</span>
+        </h2>
+        <p class="reveal" style="margin-top: 1.4rem; --d: 0.08s">
+          Esses portais consultam o mesmo XML autorizado pela Sefaz — a chave
+          de 44 dígitos é a senha que destrava o documento. Sem ela, não há
+          como buscar a nota.
+        </p>
+        <div class="types-grid">
+          <div class="type-row reveal" style="--d: 0.14s">
+            <span class="tag">01</span>
+            <div>
+              <div class="name">Meu Danfe</div>
+              <p>
+                Cole a chave de acesso e baixe o PDF na hora, sem cadastro —
+                o mais usado no dia a dia por quem recebe mercadoria sem o
+                documento em mãos.
+              </p>
+              <a
+                class="site-url"
+                href="https://meudanfe.com.br/"
+                target="_blank"
+                rel="noopener"
+                >meudanfe.com.br ↗</a
+              >
+            </div>
+          </div>
+          <div class="type-row reveal" style="--d: 0.2s">
+            <span class="tag">02</span>
+            <div>
+              <div class="name">FSist</div>
+              <p>
+                Além de reemitir a DANFE pela chave, mantém um consultor de
+                CNPJ e outras ferramentas fiscais gratuitas no mesmo site.
+              </p>
+              <a
+                class="site-url"
+                href="https://www.fsist.com.br/"
+                target="_blank"
+                rel="noopener"
+                >fsist.com.br ↗</a
+              >
+            </div>
+          </div>
+          <div class="type-row reveal" style="--d: 0.26s">
+            <span class="tag">03</span>
+            <div>
+              <div class="name">Danfe Online</div>
+              <p>
+                Alternativa direta, focada só na busca por chave de acesso —
+                ideal quando você só precisa do PDF rápido para conferência.
+              </p>
+              <a
+                class="site-url"
+                href="https://www.danfeonline.com.br/"
+                target="_blank"
+                rel="noopener"
+                >danfeonline.com.br ↗</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CTA / SÍNTESE FINAL ===== -->
+      <section class="cta-section">
+        <span class="eyebrow reveal">Em resumo</span>
+        <h2 class="reveal split-text" data-split>Representação impressa da nota fiscal eletrônica.</h2>
+        <div class="reveal" style="margin-top: 2.4rem; --d: 0.15s">
+          <a
+            class="magnetic-btn"
+            id="ctaBtn"
+            href="https://www.nfe.fazenda.gov.br/portal"
+            target="_blank"
+            rel="noopener"
+            >Consultar a chave no portal oficial</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <script>
+      ;(function () {
+        'use strict'
+
+        // ============================================================
+        // SPLIT TEXT — quebra em palavras com span.inner para stagger
+        // ============================================================
+        document.querySelectorAll('[data-split]').forEach(function (el) {
+          var text = el.textContent
+          el.textContent = ''
+          text.split(' ').forEach(function (word, i) {
+            var wrap = document.createElement('span')
+            wrap.className = 'split-word'
+            var inner = document.createElement('span')
+            inner.className = 'inner'
+            inner.textContent = word
+            inner.style.setProperty('--i', i)
+            wrap.appendChild(inner)
+            el.appendChild(wrap)
+            el.appendChild(document.createTextNode(' '))
+          })
+        })
+
+        // ============================================================
+        // REVEAL ON SCROLL — IntersectionObserver
+        // ============================================================
+        var revealTargets = document.querySelectorAll('.reveal, .split-text')
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('visible')
+                  io.unobserve(entry.target)
+                }
+              })
+            },
+            { threshold: 0.25 }
+          )
+          revealTargets.forEach(function (el) {
+            io.observe(el)
+          })
+        } else {
+          revealTargets.forEach(function (el) {
+            el.classList.add('visible')
+          })
+        }
+
+        // ============================================================
+        // HERO PARALLAX — número de fundo + fade do conteúdo no scroll
+        // ============================================================
+        var heroNum = document.getElementById('heroNum')
+        var heroContent = document.getElementById('heroContent')
+        var hero = document.getElementById('hero')
+        var ticking = false
+
+        function updateHero() {
+          if (document.body.classList.contains('slides-mode')) {
+            ticking = false
+            return
+          }
+          var heroHeight = hero.offsetHeight || window.innerHeight
+          var scrollY = window.scrollY || window.pageYOffset
+          var progress = Math.min(Math.max(scrollY / heroHeight, 0), 1)
+          heroNum.style.transform = 'translateY(' + progress * 15 + '%)'
+          heroContent.style.opacity = String(1 - Math.min(progress / 0.8, 1))
+          ticking = false
+        }
+
+        function onScroll() {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateHero()
+            })
+            ticking = true
+          }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true })
+        window.addEventListener('resize', onScroll)
+        updateHero()
+
+        // ============================================================
+        // CURSOR CUSTOMIZADO + BOTÃO MAGNÉTICO — só desktop com mouse fino
+        // ============================================================
+        var isDesktop = window.matchMedia(
+          '(hover: hover) and (pointer: fine) and (min-width: 900px)'
+        ).matches
+        if (isDesktop) {
+          var dot = document.getElementById('cursorDot')
+          var targetX = -100,
+            targetY = -100,
+            curX = -100,
+            curY = -100
+
+          window.addEventListener('pointermove', function (e) {
+            targetX = e.clientX - 7
+            targetY = e.clientY - 7
+          })
+
+          function animateCursor() {
+            curX += (targetX - curX) * 0.18
+            curY += (targetY - curY) * 0.18
+            dot.style.transform = 'translate(' + curX + 'px,' + curY + 'px)'
+            window.requestAnimationFrame(animateCursor)
+          }
+          animateCursor()
+
+          document.querySelectorAll('.magnetic-btn').forEach(function (btn) {
+            btn.addEventListener('pointermove', function (e) {
+              var rect = btn.getBoundingClientRect()
+              var relX = e.clientX - rect.left - rect.width / 2
+              var relY = e.clientY - rect.top - rect.height / 2
+              btn.style.transform =
+                'translate(' + relX * 0.35 + 'px,' + relY * 0.35 + 'px)'
+            })
+            btn.addEventListener('pointerleave', function () {
+              btn.style.transform = 'translate(0,0)'
+            })
+          })
+
+          // ============================================================
+          // MODO APRESENTAÇÃO (SLIDES) — clique/teclado avança, sem scroll.
+          // ============================================================
+          var slides = Array.prototype.slice.call(
+            document.querySelectorAll('main > section')
+          )
+          var totalSlides = slides.length
+
+          if (totalSlides > 1) {
+            document.body.classList.add('slides-mode')
+
+            var current = 0
+            var deckProgressFill = document.getElementById('deckProgressFill')
+            var slideCounter = document.getElementById('slideCounter')
+            var prevBtn = document.getElementById('slidePrev')
+            var nextBtn = document.getElementById('slideNext')
+            var scrollCueText = document.querySelector('.scroll-cue-text')
+
+            function pad(n) {
+              return n < 10 ? '0' + n : String(n)
+            }
+
+            function activateSlide(section) {
+              section
+                .querySelectorAll('.reveal, .split-text')
+                .forEach(function (el) {
+                  el.classList.add('visible')
+                })
+            }
+            function deactivateSlide(section) {
+              section
+                .querySelectorAll('.reveal, .split-text')
+                .forEach(function (el) {
+                  el.classList.remove('visible')
+                })
+            }
+
+            function updateDeckUI() {
+              if (deckProgressFill)
+                deckProgressFill.style.width =
+                  ((current + 1) / totalSlides) * 100 + '%'
+              if (slideCounter)
+                slideCounter.textContent =
+                  pad(current + 1) + ' / ' + pad(totalSlides)
+              if (prevBtn) prevBtn.disabled = current === 0
+              if (nextBtn) nextBtn.disabled = current === totalSlides - 1
+            }
+
+            function goTo(index) {
+              index = Math.max(0, Math.min(totalSlides - 1, index))
+              if (index === current) return
+              var direction = index > current ? 1 : -1
+              var oldSlide = slides[current]
+              var newSlide = slides[index]
+
+              oldSlide.classList.remove('slide-active')
+              oldSlide.classList.add(
+                direction > 0 ? 'slide-exit-next' : 'slide-exit-prev'
+              )
+              deactivateSlide(oldSlide)
+
+              newSlide.classList.remove('slide-exit-prev', 'slide-exit-next')
+              newSlide.classList.add('slide-active')
+
+              current = index
+              updateDeckUI()
+              window.requestAnimationFrame(function () {
+                activateSlide(newSlide)
+              })
+
+              window.setTimeout(function () {
+                oldSlide.classList.remove('slide-exit-prev', 'slide-exit-next')
+              }, 800)
+            }
+
+            function goNext() {
+              goTo(current + 1)
+            }
+            function goPrev() {
+              goTo(current - 1)
+            }
+
+            slides[0].classList.add('slide-active')
+            activateSlide(slides[0])
+            updateDeckUI()
+            if (scrollCueText)
+              scrollCueText.textContent = 'Clique para continuar'
+
+            if (prevBtn)
+              prevBtn.addEventListener('click', function (e) {
+                e.stopPropagation()
+                goPrev()
+              })
+            if (nextBtn)
+              nextBtn.addEventListener('click', function (e) {
+                e.stopPropagation()
+                goNext()
+              })
+
+            document.addEventListener('click', function (e) {
+              if (
+                e.target.closest(
+                  '.slide-nav, .magnetic-btn, a, button, input, textarea, select'
+                )
+              )
+                return
+              goNext()
+            })
+
+            document.addEventListener('keydown', function (e) {
+              if (
+                e.key === 'ArrowRight' ||
+                e.key === 'ArrowDown' ||
+                e.key === 'PageDown' ||
+                e.key === ' '
+              ) {
+                e.preventDefault()
+                goNext()
+              } else if (
+                e.key === 'ArrowLeft' ||
+                e.key === 'ArrowUp' ||
+                e.key === 'PageUp'
+              ) {
+                e.preventDefault()
+                goPrev()
+              } else if (e.key === 'Home') {
+                e.preventDefault()
+                goTo(0)
+              } else if (e.key === 'End') {
+                e.preventDefault()
+                goTo(totalSlides - 1)
+              }
+            })
+          }
+        }
+      })()
+    </script>
+  </body>
+</html>
