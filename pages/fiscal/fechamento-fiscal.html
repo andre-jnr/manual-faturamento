@@ -616,7 +616,77 @@
           </button>
         </div>
 
+        <div class="copy-box" id="copyBox">
+          <span class="copy-text">
+            faturamento.andrejr@frigorificoamazonas.com
+          </span>
+          <button class="copy-button" onclick="copiarTexto(this)">
+            📋 Copiar
+          </button>
+        </div>
+
         <p>Envie pelo e-mail e para o WhatsApp para Janaina e André.</p>
+
+        <h2 id="exportando-dados">Exportando e importando dados</h2>
+
+        <p>
+          A plataforma já salva automaticamente os dados que você alimentou no
+          <code>localStorage</code>. Isso significa que eles permanecem salvos
+          mesmo depois que você fechar o navegador ou reiniciar o computador.
+        </p>
+
+        <p>
+          Caso queira manter um backup de todas as alterações realizadas, você
+          pode clicar em <strong>Exportar Dados</strong>.
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/exportar-dados.png"
+            alt="Botão Exportar Dados na plataforma de conciliação"
+          />
+        </div>
+
+        <p>
+          Ele gera um arquivo <strong>JSON</strong> contendo todos os dados das
+          notas fiscais, tanto as informações obtidas da <strong>SEFAZ</strong>
+          quanto os dados do sistema e as informações que você alimentou.
+        </p>
+
+        <blockquote>
+          <strong>JSON</strong> é um formato simples para organizar e armazenar
+          dados de forma estruturada. Com esse arquivo, fica mais fácil
+          <strong>transportar, compartilhar e importar informações</strong> de
+          um lugar para outro.
+        </blockquote>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/exemplo-json.png"
+            alt="Exemplo de arquivo JSON exportado pela plataforma"
+          />
+        </div>
+
+        <p>
+          Para utilizar os dados exportados anteriormente, basta clicar em
+          <strong>Importar Dados</strong>.
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/importar-dados.png"
+            alt="Botão Importar Dados na plataforma de conciliação"
+          />
+        </div>
+
+        <p>Assim, você pode continuar de onde parou.</p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/integracao-fiscal/dados-importados.png"
+            alt="Dados restaurados na plataforma após a importação"
+          />
+        </div>
       </article>
 
       <aside>
@@ -638,6 +708,9 @@
           </li>
           <li>
             <a href="#salvando-o-arquivo-em-excel">Salvando arquivo em Excel</a>
+          </li>
+          <li>
+            <a href="#exportando-dados">Exportando e importando dados</a>
           </li>
         </ul>
       </aside>
