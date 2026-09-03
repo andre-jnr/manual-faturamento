@@ -3,9 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Guia prático de faturamento do Frigorífico Amazonas: entradas, saídas e situações fiscais."
+    />
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
     <title>Manual de faturamento</title>
+
+    <!-- Aplicado antes do render para evitar flash de tema errado -->
+    <script src="scripts/theme.js"></script>
   </head>
   <body>
     <!-- Toggle claro/escuro -->
@@ -16,256 +23,457 @@
       </button>
     </div>
 
-    <header>
-      <h1>
-        <img src="imgs/icon-NFC-e.png" alt="icon-nota-fiscal" />
-        Manual de faturamento - Frigorífico Amazonas
-      </h1>
-      <p>
+    <header class="hero">
+      <p class="kicker">Frigorífico Amazonas · Uso interno</p>
+      <h1>Manual de <em>Faturamento</em></h1>
+      <p class="lead">
         Guia prático para entender entradas, saídas e situações fiscais no
         faturamento da empresa.
       </p>
     </header>
 
+    <div class="search-wrap">
+      <div class="search" role="search">
+        <svg
+          class="ico"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+        <input
+          id="search"
+          type="search"
+          autocomplete="off"
+          placeholder="Pesquisar por temas ou palavras-chave…"
+          aria-label="Pesquisar artigos"
+        />
+        <kbd>/</kbd>
+        <button id="searchBtn" type="button">Pesquisar</button>
+      </div>
+    </div>
+
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por categoria">
+      <button class="chip is-active" data-cat="all">Tudo</button>
+      <button class="chip" data-cat="integracao">Integração</button>
+      <button class="chip" data-cat="matematica">Matemática</button>
+      <button class="chip" data-cat="fiscal">Fiscal</button>
+      <button class="chip" data-cat="entradas">Entradas</button>
+      <button class="chip" data-cat="saidas">Saídas</button>
+    </div>
+
+    <p class="count" id="count" aria-live="polite"></p>
+
     <main>
-      <section>
-        <h2>👋 Integração</h2>
+      <section class="section" data-cat="integracao">
+        <div class="section-head">
+          <h2><span class="emoji">👋</span> Integração</h2>
+          <span class="section-meta" data-total="2" data-label="artigos">2 artigos</span>
+        </div>
 
         <div class="grid">
-          <a href="pages/integracao/integracao/index.html" class="card">
-            <img
-              src="imgs/banners/integracao/integracao.png"
-              alt="integracao"
-            />
-            <div class="card-content">
-              <h3>Intregação</h3>
-              <p>
-                Apresentação de boas-vindas, conhecendo a nossa história,
-                estrutura e os valores que fazem parte da nossa trejetória.
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/integracao/integracao/index.html"
+            data-cat="integracao"
+            data-cat-label="Integração"
+            data-keywords="boas-vindas historia estrutura valores empresa cultura trajetoria apresentacao"
+          >
+            <span class="card-top">
+              <span class="card-cat">Integração</span>
+              <span class="card-index">01</span>
+            </span>
+            <h3>Integração</h3>
+            <p>
+              Apresentação de boas-vindas, conhecendo a nossa história, estrutura
+              e os valores que fazem parte da nossa trajetória.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/integracao/faturamento.html" class="card">
-            <img
-              src="imgs/banners/integracao/faturamento.png"
-              alt="integracao"
-            />
-            <div class="card-content">
-              <h3>Faturamento</h3>
-              <p>
-                Entenda o que é e qual a importancia do setor de faturamento na
-                empresa
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/integracao/faturamento.html"
+            data-cat="integracao"
+            data-cat-label="Integração"
+            data-keywords="setor importancia papel visao geral departamento"
+          >
+            <span class="card-top">
+              <span class="card-cat">Integração</span>
+              <span class="card-index">02</span>
+            </span>
+            <h3>Faturamento</h3>
+            <p>
+              Entenda o que é e qual a importância do setor de faturamento na
+              empresa.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
         </div>
       </section>
 
-      <section>
-        <h2>🧮 Integração matemática</h2>
+      <section class="section" data-cat="matematica">
+        <div class="section-head">
+          <h2><span class="emoji">🧮</span> Integração matemática</h2>
+          <span class="section-meta" data-total="2" data-label="artigos">2 artigos</span>
+        </div>
 
         <div class="grid">
-          <a href="pages/matematica/porcentagem.html" class="card">
-            <img
-              src="imgs/banners/matematica/porcentagem.png"
-              alt="porcentagem"
-            />
-            <div class="card-content">
-              <h3>Porcentagem</h3>
-              <p>
-                O que é porcentagem e como aplicá-la em cálculos do dia a dia.
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/matematica/porcentagem.html"
+            data-cat="matematica"
+            data-cat-label="Matemática"
+            data-keywords="percentual calculo matematica por cento fracao"
+          >
+            <span class="card-top">
+              <span class="card-cat">Matemática</span>
+              <span class="card-index">03</span>
+            </span>
+            <h3>Porcentagem</h3>
+            <p>O que é porcentagem e como aplicá-la em cálculos do dia a dia.</p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/matematica/margem_markup.html" class="card">
-            <img
-              src="imgs/banners/matematica/margem_markup.png"
-              alt="margem x markup"
-            />
-            <div class="card-content">
-              <h3>Margem X Markup</h3>
-              <p>Saiba o que é e a diferença entre margem e markup.</p>
-            </div>
+          <a
+            class="card"
+            href="pages/matematica/margem_markup.html"
+            data-cat="matematica"
+            data-cat-label="Matemática"
+            data-keywords="precificacao lucro custo preco de venda remarcacao"
+          >
+            <span class="card-top">
+              <span class="card-cat">Matemática</span>
+              <span class="card-index">04</span>
+            </span>
+            <h3>Margem X Markup</h3>
+            <p>Saiba o que é e a diferença entre margem e markup.</p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
         </div>
       </section>
 
-      <section>
-        <h2>⚖️ Integração fiscal</h2>
+      <section class="section" data-cat="fiscal">
+        <div class="section-head">
+          <h2><span class="emoji">⚖️</span> Integração fiscal</h2>
+          <span class="section-meta" data-total="8" data-label="artigos">8 artigos</span>
+        </div>
+
         <div class="grid">
-          <a href="pages/fiscal/notas-fiscais.html" class="card">
-            <img
-              src="imgs/banners/fiscal/notas-fiscal.png"
-              alt="o que é nota fiscal"
-            />
-            <div class="card-content">
-              <h3>Nota fiscal</h3>
-              <p>Entenda o que é uma Nota Fiscal Eletrônica</p>
-            </div>
+          <a
+            class="card"
+            href="pages/fiscal/notas-fiscais.html"
+            data-cat="fiscal"
+            data-cat-label="Fiscal"
+            data-keywords="nf-e nfe nota fiscal eletronica documento fiscal sefaz danfe"
+          >
+            <span class="card-top">
+              <span class="card-cat">Fiscal</span>
+              <span class="card-index">05</span>
+            </span>
+            <h3>Nota fiscal</h3>
+            <p>Entenda o que é uma Nota Fiscal Eletrônica.</p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/fiscal/cfop.html" class="card">
-            <img
-              src="imgs/banners/fiscal/cfop.png"
-              alt="CFOP (código de operações e prestações)"
-            />
-            <div class="card-content">
-              <h3>CFOP</h3>
-              <p>
-                Toda movimetação de mercadoria precisa dizer ao Fisco o que
-                aconteceu. CFOP é o código que indica que tipo de operação a
-                nota fiscal se trata.
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/fiscal/cfop.html"
+            data-cat="fiscal"
+            data-cat-label="Fiscal"
+            data-keywords="cfop codigo fiscal de operacoes e prestacoes movimentacao mercadoria fisco operacao"
+          >
+            <span class="card-top">
+              <span class="card-cat">Fiscal</span>
+              <span class="card-index">06</span>
+            </span>
+            <h3>CFOP</h3>
+            <p>
+              Toda movimentação de mercadoria precisa dizer ao Fisco o que
+              aconteceu. CFOP é o código que indica que tipo de operação a nota
+              fiscal se trata.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/fiscal/cst.html" class="card">
-            <img
-              src="imgs/banners/fiscal/cst.png"
-              alt="CST (Código de Situação Tribuária)"
-            />
-            <div class="card-content">
-              <h3>CST</h3>
-              <p>
-                Se o CFOP conta qual operação aconteceu, o CST ajuda a indicar
-                como essa operação é tratada tributariamente.
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/fiscal/cst.html"
+            data-cat="fiscal"
+            data-cat-label="Fiscal"
+            data-keywords="cst codigo de situacao tributaria icms tributacao imposto"
+          >
+            <span class="card-top">
+              <span class="card-cat">Fiscal</span>
+              <span class="card-index">07</span>
+            </span>
+            <h3>CST</h3>
+            <p>
+              Se o CFOP conta qual operação aconteceu, o CST ajuda a indicar como
+              essa operação é tratada tributariamente.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/fiscal/ncm.html" class="card">
-            <img
-              src="imgs/banners/fiscal/ncm.png"
-              alt="NCM (Nomenclatura Comum do Mercosul)"
-            />
-            <div class="card-content">
-              <h3>NCM</h3>
-              <p>
-                Toda nota fiscal traz um número de 8 dígitos que classifica o
-                produto perante o Fisco, e é ele quem decide quanto de imposto
-                será pago.
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/fiscal/ncm.html"
+            data-cat="fiscal"
+            data-cat-label="Fiscal"
+            data-keywords="ncm nomenclatura comum do mercosul classificacao fiscal imposto oito digitos"
+          >
+            <span class="card-top">
+              <span class="card-cat">Fiscal</span>
+              <span class="card-index">08</span>
+            </span>
+            <h3>NCM</h3>
+            <p>
+              Toda nota fiscal traz um número de 8 dígitos que classifica o
+              produto perante o Fisco, e é ele quem decide quanto de imposto será
+              pago.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/fiscal/danfe/danfe.html" class="card">
-            <img
-              src="imgs/banners/fiscal/danfe.png"
-              alt="DANFE (Documento Auxiliar de NFe)"
-            />
-            <div class="card-content">
-              <h3>DANFE</h3>
-              <p>Entenda o que é uma DANFE</p>
-            </div>
+          <a
+            class="card"
+            href="pages/fiscal/danfe/danfe.html"
+            data-cat="fiscal"
+            data-cat-label="Fiscal"
+            data-keywords="danfe documento auxiliar da nfe impressao chave de acesso"
+          >
+            <span class="card-top">
+              <span class="card-cat">Fiscal</span>
+              <span class="card-index">09</span>
+            </span>
+            <h3>DANFE</h3>
+            <p>Entenda o que é uma DANFE.</p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/fiscal/desagreagação.html" class="card">
-            <img src="imgs/banners/desagregação.png" alt="desagregação" />
-            <div class="card-content">
-              <h3>Desagregação</h3>
-              <p>
-                O que é desagregação: transformando matéria-prima em produto
-                para venda.
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/fiscal/desagreagação.html"
+            data-cat="fiscal"
+            data-cat-label="Fiscal"
+            data-keywords="desagregacao materia-prima producao industrializacao corte transformacao"
+          >
+            <span class="card-top">
+              <span class="card-cat">Fiscal</span>
+              <span class="card-index">10</span>
+            </span>
+            <h3>Desagregação</h3>
+            <p>
+              O que é desagregação: transformando matéria-prima em produto para
+              venda.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/fiscal/fechamento-fiscal.html" class="card">
-            <img
-              src="imgs/pages/integracao-fiscal/tela-inicial-relatorio-fiscal.png"
-              alt="fechamento-fiscal"
-            />
-            <div class="card-content">
-              <h3>Relatório Fiscal</h3>
-              <p>
-                Artigo de como elaborar o relatório de fechamento de notas
-                fiscal
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/fiscal/fechamento-fiscal.html"
+            data-cat="fiscal"
+            data-cat-label="Fiscal"
+            data-keywords="relatorio fiscal fechamento conciliacao sefaz csv notas nao lancadas rejeicao"
+          >
+            <span class="card-top">
+              <span class="card-cat">Fiscal</span>
+              <span class="card-index">11</span>
+            </span>
+            <h3>Relatório Fiscal</h3>
+            <p>
+              Artigo de como elaborar o relatório de fechamento de notas fiscais.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/fiscal/fechamento-nfs.html" class="card">
-            <img
-              src="imgs/pages/NFS-e/fechamento-nfs.png"
-              alt="fechamento-nfs-e"
-            />
-            <div class="card-content">
-              <h3>Fechamento de NFS-e</h3>
-              <p>
-                Artigo de como elaborar o relatório de fechamento de notas
-                fiscal de serviço
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/fiscal/fechamento-nfs.html"
+            data-cat="fiscal"
+            data-cat-label="Fiscal"
+            data-keywords="nfs-e nota fiscal de servico iss prefeitura fechamento servico"
+          >
+            <span class="card-top">
+              <span class="card-cat">Fiscal</span>
+              <span class="card-index">12</span>
+            </span>
+            <h3>Fechamento de NFS-e</h3>
+            <p>
+              Artigo de como elaborar o relatório de fechamento de notas fiscais
+              de serviço.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
         </div>
       </section>
 
-      <section>
-        <h2>📄🏃‍♀️ Faturamento (entradas)</h2>
+      <section class="section" data-cat="entradas">
+        <div class="section-head">
+          <h2><span class="emoji">📥</span> Faturamento (entradas)</h2>
+          <span class="section-meta" data-total="4" data-label="artigos">4 artigos</span>
+        </div>
+
         <div class="grid">
-          <a href="pages/entradas/entrada-em-NFe.html" class="card">
-            <img src="imgs/banners/nota-fiscal.png" alt="Nota de compra" />
-            <div class="card-content">
-              <h3>Lançamento de Nota de Compra</h3>
-              <p>Passo a passo para lançar notas fiscais de entradas</p>
-            </div>
+          <a
+            class="card"
+            href="pages/entradas/entrada-em-NFe.html"
+            data-cat="entradas"
+            data-cat-label="Entradas"
+            data-keywords="nf-e nfe nota de compra entrada de produto fornecedor lancamento"
+          >
+            <span class="card-top">
+              <span class="card-cat">Entradas</span>
+              <span class="card-index">13</span>
+            </span>
+            <h3>Lançamento de Nota de Compra</h3>
+            <p>Passo a passo para lançar notas fiscais de entradas.</p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/entradas/NFe-uso-consumo.html" class="card">
-            <img
-              src="imgs/banners/entradas/uso-ou-consumo.png"
-              alt="Nota de uso ou consumo"
-            />
-            <div class="card-content">
-              <h3>Lançamento de Nota de uso ou consumo</h3>
-              <p>
-                Passo a passo para lançar notas fiscais de entradas de
-                mercadoria de uso ou consumo
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/entradas/NFe-uso-consumo.html"
+            data-cat="entradas"
+            data-cat-label="Entradas"
+            data-keywords="uso e consumo material imobilizado nota de entrada lancamento"
+          >
+            <span class="card-top">
+              <span class="card-cat">Entradas</span>
+              <span class="card-index">14</span>
+            </span>
+            <h3>Lançamento de Nota de uso ou consumo</h3>
+            <p>
+              Passo a passo para lançar notas fiscais de entradas de mercadoria
+              de uso ou consumo.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/entradas/energia.html" class="card">
-            <img
-              src="imgs/banners/entradas/energia.png"
-              alt="Nota de energia elétrica"
-            />
-            <div class="card-content">
-              <h3>Lançamento de Nota de energia elétrica</h3>
-              <p>Passo a passo para lançar notas fiscais de energia elétrica</p>
-            </div>
+          <a
+            class="card"
+            href="pages/entradas/energia.html"
+            data-cat="entradas"
+            data-cat-label="Entradas"
+            data-keywords="energia eletrica conta de luz concessionaria amazonas energia lancamento"
+          >
+            <span class="card-top">
+              <span class="card-cat">Entradas</span>
+              <span class="card-index">15</span>
+            </span>
+            <h3>Lançamento de Nota de energia elétrica</h3>
+            <p>Passo a passo para lançar notas fiscais de energia elétrica.</p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
 
-          <a href="pages/entradas/cte.html" class="card">
-            <img src="imgs/banners/entradas/cte.png" alt="lançamento de CT-e" />
-            <div class="card-content">
-              <h3>Lançamento de CT-e (frete)</h3>
-              <p>Passo a passo para lançar frete</p>
-            </div>
+          <a
+            class="card"
+            href="pages/entradas/cte.html"
+            data-cat="entradas"
+            data-cat-label="Entradas"
+            data-keywords="ct-e cte conhecimento de transporte frete transportadora lancamento"
+          >
+            <span class="card-top">
+              <span class="card-cat">Entradas</span>
+              <span class="card-index">16</span>
+            </span>
+            <h3>Lançamento de CT-e (frete)</h3>
+            <p>Passo a passo para lançar frete.</p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
         </div>
       </section>
 
-      <section>
-        <h2>📄🏃‍♀️‍➡️ Faturamento (saídas)</h2>
+      <section class="section" data-cat="saidas">
+        <div class="section-head">
+          <h2><span class="emoji">📤</span> Faturamento (saídas)</h2>
+          <span class="section-meta" data-total="1" data-label="artigo">1 artigo</span>
+        </div>
+
         <div class="grid">
-          <a href="pages/saidas/NFe-transf.html" class="card">
-            <img
-              src="imgs/banners/nota-transf.png"
-              alt="Nota de transferência"
-            />
-            <div class="card-content">
-              <h3>Nota de transferência</h3>
-              <p>
-                Passo a passo para transmitir uma nota de transferência para
-                outra loja
-              </p>
-            </div>
+          <a
+            class="card"
+            href="pages/saidas/NFe-transf.html"
+            data-cat="saidas"
+            data-cat-label="Saídas"
+            data-keywords="nota de transferencia saida entre lojas filial transmissao"
+          >
+            <span class="card-top">
+              <span class="card-cat">Saídas</span>
+              <span class="card-index">17</span>
+            </span>
+            <h3>Nota de transferência</h3>
+            <p>
+              Passo a passo para transmitir uma nota de transferência para outra
+              loja.
+            </p>
+            <span class="card-go">
+              Ler artigo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
           </a>
         </div>
       </section>
+
+      <p class="empty" id="empty" hidden>
+        <strong>Nenhum artigo encontrado</strong>
+        Tente outro termo ou limpe os filtros.
+      </p>
     </main>
 
     <footer>
@@ -274,51 +482,127 @@
 
     <script>
       ;(function () {
-        const STORAGE_KEY = 'manual-faturamento-theme'
-        const html = document.documentElement
-        const toggle = document.getElementById('themeToggle')
-        const icon = document.getElementById('themeIcon')
-        const label = document.getElementById('themeLabel')
+        const search = document.getElementById('search')
+        const btn = document.getElementById('searchBtn')
+        const chips = Array.from(document.querySelectorAll('.chip'))
+        const cards = Array.from(document.querySelectorAll('.card'))
+        const sections = Array.from(document.querySelectorAll('.section'))
+        const countEl = document.getElementById('count')
+        const emptyEl = document.getElementById('empty')
+        let activeCat = 'all'
 
-        // Detecta preferência salva ou do sistema
-        function getInitialTheme() {
-          const saved = localStorage.getItem(STORAGE_KEY)
-          if (saved) return saved
-          return window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light'
+        const norm = (s) =>
+          s
+            .normalize('NFD')
+            .replace(/[̀-ͯ]/g, '')
+            .toLowerCase()
+        const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+        cards.forEach((card) => {
+          const h = card.querySelector('h3')
+          const p = card.querySelector('p')
+          h.dataset.text = h.textContent.trim()
+          p.dataset.text = p.textContent.trim()
+          card.dataset.haystack = norm(
+            [
+              h.dataset.text,
+              p.dataset.text,
+              card.dataset.keywords || '',
+              card.dataset.catLabel || '',
+            ].join(' ')
+          )
+        })
+
+        function highlight(el, terms) {
+          const text = el.dataset.text
+          if (!terms.length) {
+            el.textContent = text
+            return
+          }
+          const re = new RegExp('(' + terms.map(esc).join('|') + ')', 'gi')
+          el.innerHTML = text.replace(re, '<mark>$1</mark>')
         }
 
-        function applyTheme(theme) {
-          if (theme === 'dark') {
-            html.setAttribute('data-theme', 'dark')
-            icon.textContent = '☀️'
-            label.textContent = 'Claro'
+        function apply() {
+          const raw = search.value.trim()
+          const terms = raw.split(/\s+/).filter(Boolean)
+          const normTerms = terms.map(norm)
+          let visible = 0
+
+          cards.forEach((card) => {
+            const okCat = activeCat === 'all' || card.dataset.cat === activeCat
+            const okText =
+              !normTerms.length ||
+              normTerms.every((t) => card.dataset.haystack.includes(t))
+            const show = okCat && okText
+            card.hidden = !show
+            if (show) {
+              visible++
+              highlight(card.querySelector('h3'), terms)
+              highlight(card.querySelector('p'), terms)
+            }
+          })
+
+          sections.forEach((sec) => {
+            const shown = sec.querySelectorAll('.card:not([hidden])').length
+            sec.hidden = shown === 0
+            const meta = sec.querySelector('.section-meta')
+            const total = +meta.dataset.total
+            meta.textContent =
+              shown === total
+                ? total + ' ' + meta.dataset.label
+                : shown + ' de ' + total
+          })
+
+          emptyEl.hidden = visible !== 0
+
+          if (raw || activeCat !== 'all') {
+            countEl.textContent =
+              visible === 1
+                ? '1 artigo encontrado'
+                : visible + ' artigos encontrados'
           } else {
-            html.removeAttribute('data-theme')
-            icon.textContent = '🌙'
-            label.textContent = 'Escuro'
+            countEl.textContent = cards.length + ' artigos no manual'
           }
         }
 
-        let current = getInitialTheme()
-        applyTheme(current)
-
-        toggle.addEventListener('click', function () {
-          current = current === 'dark' ? 'light' : 'dark'
-          applyTheme(current)
-          localStorage.setItem(STORAGE_KEY, current)
+        search.addEventListener('input', apply)
+        search.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') btn.click()
+          if (e.key === 'Escape') {
+            search.value = ''
+            apply()
+          }
+        })
+        btn.addEventListener('click', () => {
+          apply()
+          document
+            .querySelector('main')
+            .scrollIntoView({ behavior: 'smooth', block: 'start' })
         })
 
-        // Sincroniza se o usuário mudar o tema do sistema enquanto a página está aberta
-        window
-          .matchMedia('(prefers-color-scheme: dark)')
-          .addEventListener('change', function (e) {
-            if (!localStorage.getItem(STORAGE_KEY)) {
-              current = e.matches ? 'dark' : 'light'
-              applyTheme(current)
-            }
+        chips.forEach((chip) => {
+          chip.addEventListener('click', () => {
+            chips.forEach((c) => c.classList.remove('is-active'))
+            chip.classList.add('is-active')
+            activeCat = chip.dataset.cat
+            apply()
           })
+        })
+
+        document.addEventListener('keydown', (e) => {
+          const tag = (document.activeElement && document.activeElement.tagName) || ''
+          if (
+            e.key === '/' &&
+            document.activeElement !== search &&
+            !/^(input|textarea|select)$/i.test(tag)
+          ) {
+            e.preventDefault()
+            search.focus()
+          }
+        })
+
+        apply()
       })()
     </script>
   </body>
