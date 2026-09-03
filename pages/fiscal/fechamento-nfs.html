@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Relatório de fechamento de nota de serviço | Manual de Faturamento
+    </title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/pages.css" />
+    <link
+      rel="shortcut icon"
+      href="../../imgs/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <!-- Aplicado antes do render para evitar flash de tema errado -->
+    <script src="../../scripts/theme.js"></script>
+  </head>
+  <body>
+    <!-- Toggle claro/escuro -->
+    <div class="theme-toggle-wrapper">
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <span class="icon" id="themeIcon">🌙</span>
+        <span id="themeLabel">Escuro</span>
+      </button>
+    </div>
+
+    <header>
+      <div class="breadcrumb">
+        <a href="../../">Início</a> › Manual › Relatório de fechamento de nota
+        de serviço
+      </div>
+
+      <h1>Relatório de fechamento de nota de serviço</h1>
+
+      <p>
+        Esse artigo tem como objetivo ensinar a manipular a plataforma de
+        fechamento de notas de serviço emitidas contra o nosso CNPJ.
+      </p>
+    </header>
+
+    <main>
+      <article>
+        <hr />
+
+        <p>
+          Para acessar a plataforma:
+          <a
+            href="https://andre-jnr.github.io/fechamento-fiscal/conciliacao-servicos.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Clique aqui</a
+          >
+        </p>
+
+        <div class="image-box">
+          <img
+            src="../../imgs/pages/NFS-e/fechamento-nfs.png"
+            alt="Tela da plataforma de fechamento de notas de serviço"
+          />
+        </div>
+
+        <h2 id="como-utilizar">Como utilizar</h2>
+
+        <h3 id="baixe-os-xmls-das-notas-de-servico">
+          Baixe os XMLs das notas de serviço
+        </h3>
+
+        <p>
+          Acesse qualquer plataforma que disponibilize os XMLs das notas
+          emitidas contra o seu CNPJ.
+        </p>
+
+        <p>Como exemplo vamos usar o qive (antigo arquivei).</p>
+
+        <ol>
+          <li>
+            Acesse o
+            <a
+              href="https://app.arquivei.com.br/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Qive (arquivei)</a
+            >.
+          </li>
+          <li>Faça login.</li>
+          <li>
+            Puxe o menu lateral caso esteja recolhido.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903150950.png"
+                alt="Menu lateral recolhido do sistema"
+              />
+            </div>
+          </li>
+          <li>
+            Clique em NFS-e.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903151108.png"
+                alt="Opção NFS-e no menu"
+              />
+            </div>
+          </li>
+          <li>
+            Filtre apenas pela sua filial.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903151205.png"
+                alt="Filtro por filial"
+              />
+            </div>
+          </li>
+          <li>
+            Clique para filtrar período personalizado.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903151316.png"
+                alt="Filtro de período personalizado"
+              />
+            </div>
+          </li>
+          <li>
+            Alimente conforme o período do fechamento.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903151928.png"
+                alt="Preenchimento do período do fechamento"
+              />
+            </div>
+          </li>
+          <li>
+            Role até o fim da página e marque para exibir 100 linhas (para
+            conseguir exportar tudo).
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903152136.png"
+                alt="Opção para exibir 100 linhas por página"
+              />
+            </div>
+          </li>
+          <li>
+            Role até o cabeçalho da tabela e marque todos.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903152517.png"
+                alt="Marcar todos os itens da tabela"
+              />
+            </div>
+          </li>
+          <li>
+            Clique para baixar XMLs em zip.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903152616.png"
+                alt="Botão para baixar XMLs em zip"
+              />
+            </div>
+          </li>
+        </ol>
+
+        <h3 id="baixe-as-entradas-em-notas-de-servico-do-sistema">
+          Baixe as entradas em notas de serviço do sistema
+        </h3>
+
+        <p>Acesse o sistema da sua loja:</p>
+
+        <ul>
+          <li>
+            <a
+              href="http://serverprq10/Moura/Login"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Parque Dez</a
+            >
+          </li>
+          <li>
+            <a
+              href="http://server_pn/Moura/Principal"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Ponta Negra</a
+            >
+          </li>
+          <li>
+            <a
+              href="http://serverad/Moura/Login"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Morada do Sol</a
+            >
+          </li>
+          <li>
+            <a
+              href="http://186.233.224.137/Moura_Monte"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Monte das Oliveiras</a
+            >
+          </li>
+        </ul>
+
+        <div class="alert">⚠️ <strong>Atenção:</strong> Use o sistema Web!</div>
+
+        <p>Aqui está no jeito mais rápido: pesquisando.</p>
+
+        <p>Mas você pode conferir esse mesmo relatório em:</p>
+
+        <ol>
+          <li>Compras</li>
+          <li>Compras</li>
+          <li>Entrada de produto</li>
+          <li>Relação de compras no período</li>
+        </ol>
+
+        <blockquote>
+          Pule o passo 1, caso já tenha seguido os passos acima para acessar a
+          <code>Relação de compras no período</code>
+        </blockquote>
+
+        <ol>
+          <li>
+            Clique no botão de pesquisa e digite:
+            <code>relação de compras no período</code>
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/bota-pesquisar.png"
+                alt="Botão de pesquisa do sistema"
+              />
+            </div>
+          </li>
+          <li>
+            Coloque o período desejado.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-periodo.png"
+                alt="Campo de seleção do período de compras"
+              />
+            </div>
+            <blockquote>
+              <strong>Dica:</strong> Ao realizar o fechamento de um determinado
+              mês, considere também os primeiros dias do mês seguinte.
+              <br /><br />
+              Por exemplo, se o fechamento for referente a
+              <strong>julho</strong> e estiver sendo realizado no dia
+              <strong>05/08/2026</strong>, utilize o período de
+              <strong>01/07/2026 a 05/08/2026</strong>. Isso é importante porque
+              podem ter sido lançadas, nos primeiros dias de agosto,
+              <strong>notas fiscais referentes ao mês de julho</strong>.
+            </blockquote>
+          </li>
+          <li>
+            Marque o depósito como <code>--Todos--</code>.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-deposito-todos.png"
+                alt="Seleção de depósito como Todos"
+              />
+            </div>
+          </li>
+          <li>
+            O tipo de entrada coloque serviço.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/NFS-e/Pasted image 20260903154859.png"
+                alt="Tipo de entrada selecionado como serviço"
+              />
+            </div>
+          </li>
+          <li>
+            Role a tela para baixo e clique em <code>Resumida</code>.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-resumida.png"
+                alt="Opção de relatório Resumida"
+              />
+            </div>
+          </li>
+          <li>
+            Clique em gerar
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-gerar.png"
+                alt="Botão gerar relatório"
+              />
+            </div>
+          </li>
+          <li>
+            Gere o arquivo em Excel.
+            <div class="image-box">
+              <img
+                src="../../imgs/pages/integracao-fiscal/compras-excel.png"
+                alt="Opção de gerar arquivo em Excel"
+              />
+            </div>
+          </li>
+        </ol>
+
+        <blockquote>
+          Nesse relatório também gerar os serviços de frete, que serão
+          classificados como "sistema s/ nfs-e"
+        </blockquote>
+      </article>
+
+      <aside>
+        <h3>Sumário</h3>
+
+        <ul>
+          <li>
+            <a href="#como-utilizar">Como utilizar</a>
+            <ul>
+              <li>
+                <a href="#baixe-os-xmls-das-notas-de-servico"
+                  >Baixe os XMLs das notas de serviço</a
+                >
+              </li>
+              <li>
+                <a href="#baixe-as-entradas-em-notas-de-servico-do-sistema"
+                  >Baixe as entradas em notas de serviço do sistema</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </aside>
+    </main>
+
+    <footer>
+      Manual de Faturamento • Relatório de fechamento de nota de serviço • ©
+      André Júnior
+    </footer>
+
+    <div id="image-modal" class="image-modal">
+      <span class="close-modal">&times;</span>
+      <img id="modal-img" alt="" />
+    </div>
+
+    <script src="../../scripts/modal.js"></script>
+  </body>
+</html>
